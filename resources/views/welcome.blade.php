@@ -114,10 +114,13 @@
         }
     </style>
 </head>
+@extends('layouts.app')
 
+@section('content')
 <body class="bg-white text-gray-800">
     <!-- Hero Section -->
-    <section class="relative bg-cover bg-center h-screen" style="background-image: url('{{ asset('images/hotel.jpg') }}')">
+    
+    <section class="relative bg-cover bg-center h-[600px]" style="background-image: url('{{ asset('images/hotel.jpg') }}')">
         <div class="absolute inset-0 gradient-overlay"></div>
         <div class="relative z-10 flex flex-col justify-center items-center h-full text-center text-white px-4">
             <h1 class="hero-title text-4xl md:text-5xl lg:text-6xl font-bold mb-4 max-w-3xl leading-tight">
@@ -251,14 +254,14 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- City 1 - Medan -->
+                <!-- City 1 - jakarta -->
                 <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden">
                     <div class="relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1597076888157-2b24ef306341?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
-                             alt="Medan" class="city-image w-full h-48 object-cover">
+                        <img src="{{ asset('images/jakarta.jpg') }}" 
+                             alt="jakarta" class="city-image w-full h-48 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                         <div class="absolute bottom-4 left-4 text-white">
-                            <h3 class="text-xl font-bold">Medan</h3>
+                            <h3 class="text-xl font-bold">Jakarta</h3>
                         </div>
                     </div>
                     <div class="p-6">
@@ -275,11 +278,11 @@
                 <!-- City 2 - Padang -->
                 <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden">
                     <div class="relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1622623548007-b1d19e17b617?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
-                             alt="Padang" class="city-image w-full h-48 object-cover">
+                        <img src="{{ asset('images/Bandung.jpg') }}" 
+                             alt="bandung" class="city-image w-full h-48 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                         <div class="absolute bottom-4 left-4 text-white">
-                            <h3 class="text-xl font-bold">Padang</h3>
+                            <h3 class="text-xl font-bold">Bandung</h3>
                         </div>
                     </div>
                     <div class="p-6">
@@ -296,7 +299,7 @@
                 <!-- City 3 - Palembang -->
                 <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden">
                     <div class="relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1620202008105-9f8e0a04b0d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                    <img src="{{ asset('images/palembang.jpg') }}" 
                              alt="Palembang" class="city-image w-full h-48 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                         <div class="absolute bottom-4 left-4 text-white">
@@ -317,7 +320,7 @@
                 <!-- City 4 - Surabaya -->
                 <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden">
                     <div class="relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1588666309994-3d90ac4f44b9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                    <img src="{{ asset('images/surabaya.jpg') }}" 
                              alt="Surabaya" class="city-image w-full h-48 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                         <div class="absolute bottom-4 left-4 text-white">
@@ -375,44 +378,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-blue-900 text-white py-12">
-        <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-                <h3 class="text-xl font-bold mb-4 hero-title">Luxury Allure</h3>
-                <p class="text-blue-200">Pengalaman menginap terbaik dengan pelayanan premium dan fasilitas lengkap.</p>
-            </div>
-            <div>
-                <h4 class="font-semibold mb-4">Tautan Cepat</h4>
-                <ul class="space-y-2">
-                    <li><a href="#" class="text-blue-200 hover:text-white transition">Tentang Kami</a></li>
-                    <li><a href="#" class="text-blue-200 hover:text-white transition">Kamar & Suite</a></li>
-                    <li><a href="#" class="text-blue-200 hover:text-white transition">Promo</a></li>
-                    <li><a href="#" class="text-blue-200 hover:text-white transition">Kontak</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-semibold mb-4">Layanan</h4>
-                <ul class="space-y-2">
-                    <li><a href="#" class="text-blue-200 hover:text-white transition">Spa & Wellness</a></li>
-                    <li><a href="#" class="text-blue-200 hover:text-white transition">Restoran</a></li>
-                    <li><a href="#" class="text-blue-200 hover:text-white transition">Meeting Room</a></li>
-                    <li><a href="#" class="text-blue-200 hover:text-white transition">Transportasi</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-semibold mb-4">Kontak</h4>
-                <ul class="space-y-2">
-                    <li class="flex items-center"><i class="fas fa-map-marker-alt mr-3 text-blue-300"></i> <span class="text-blue-200">Jl. Contoh No. 123, Jakarta</span></li>
-                    <li class="flex items-center"><i class="fas fa-phone mr-3 text-blue-300"></i> <span class="text-blue-200">+62 21 1234 5678</span></li>
-                    <li class="flex items-center"><i class="fas fa-envelope mr-3 text-blue-300"></i> <span class="text-blue-200">info@luxuryallure.com</span></li>
-                </ul>
-            </div>
-        </div>
-        <div class="max-w-6xl mx-auto px-4 mt-8 pt-8 border-t border-blue-800 text-center text-blue-300">
-            <p>&copy; 2023 Luxury Allure. All rights reserved.</p>
-        </div>
-    </footer>
+    @endsection
 </body>
 
 </html>
