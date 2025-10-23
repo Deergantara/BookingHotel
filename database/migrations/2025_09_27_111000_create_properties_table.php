@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('hotel_id')->constrained('hotels')->onDelete('cascade');
 
             // Informasi umum properti
-            $table->string('foto')->nullable(); // nama file / path gambar hotel
+            $table->json('foto')->nullable(); // untuk multiple foto // atau tetap string jika 1 foto saja
             $table->string('name')->nullable(); // nama properti / cabang hotel
             $table->string('address')->nullable();
             $table->string('city')->nullable(); // kota tempat hotel berada

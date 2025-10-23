@@ -21,8 +21,7 @@ class PropertySeeder extends Seeder
             'bintang' => 4,
             'jumlah_kamar' => 20,
             'kapasitas_tamu' => 40,
-            'foto' => 'hotel.jpg', // pastikan file ini ada di public/images
-            
+            'foto' => ['hotel.jpg', 'hotel2.jpg'], // ✅ Laravel auto-encode
         ]);
 
         // Cabang kedua
@@ -37,7 +36,7 @@ class PropertySeeder extends Seeder
             'bintang' => 5,
             'jumlah_kamar' => 30,
             'kapasitas_tamu' => 60,
-            'foto' => 'pulau.jpg', // pastikan file ini juga ada di public/images
+            'foto' => ['hotel.jpg', 'hotel2.jpg'], // ✅ Laravel auto-encode
         ]);
     }
 }

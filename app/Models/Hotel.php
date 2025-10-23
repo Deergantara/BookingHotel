@@ -27,8 +27,8 @@ class Hotel extends Model
         return $this->hasMany(User::class);
     }
 
-    // relasi ke bookings
-    public function bookings()
+    // relasi ke Bookings
+    public function Bookings()
     {
         return $this->hasMany(Booking::class);
     }

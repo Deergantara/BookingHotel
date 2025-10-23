@@ -2,46 +2,44 @@
 
 namespace App\Providers\Filament;
 
+use App\Http\Middleware\EnsureUserIsResepsionis; // ✅ ini yang bena
 use Filament\Http\Middleware\Authenticate;
-use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-class AdminPanelProvider extends PanelProvider
+class ResepsionisPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->default()
-            ->id('admin')
-            ->path('admin')
+            ->id('resepsionis')
+            ->path('resepsionis')
             ->login()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Blue,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverResources(in: app_path('Filament/Resepsionis/Resources'), for: 'App\\Filament\\Resepsionis\\Resources')
+            ->discoverPages(in: app_path('Filament/Resepsionis/Pages'), for: 'App\\Filament\\Resepsionis\\Pages')
             ->pages([
-                Pages\Dashboard::class,
-                \App\Filament\Owner\Pages\OwnerSystemDashboard::class, // ← Tambahkan
-            ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+                \App\Filament\Resepsionis\Pages\Dashboard::class, // ✅ panggil dashboard resepsionis kamu
+            ])            
+            ->discoverWidgets(in: app_path('Filament/Resepsionis/Widgets'), for: 'App\\Filament\\Resepsionis\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                // Widgets khusus resepsionis
             ])
             ->middleware([
+                EnsureUserIsResepsionis::class,
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
@@ -54,6 +52,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+                EnsureUserIsResepsionis::class, // ← TAMBAHKAN
+            ])
+            ->authGuard('web');
     }
 }

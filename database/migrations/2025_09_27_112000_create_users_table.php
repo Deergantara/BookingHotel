@@ -25,7 +25,8 @@ return new class extends Migration
                 'owner system', 
                 'admin hotel', 
                 'admin property', 
-                'owner hotel'
+                'owner hotel',
+                'resepsionis'
             ])->default('user');
 
             $table->foreignId('hotel_id')->nullable()->constrained('hotels')->nullOnDelete();

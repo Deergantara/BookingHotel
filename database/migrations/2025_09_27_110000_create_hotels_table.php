@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('hotels', function (Blueprint $table) {
             $table->id();
             $table->string('nama');   // nama hotel
-            $table->binary('tdup')->nullable();
+            $table->string('tdup')->nullable();
             $table->bigInteger('npwp'); // NPWP hotel
             $table->enum('status', ['pending', 'verified', 'rejected'])->default('pending');
             $table->timestamps();;

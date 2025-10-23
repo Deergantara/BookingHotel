@@ -38,8 +38,8 @@ class Kamar extends Model
         return $query->where('status', 'tersedia');
     }
 
-    // relasi ke bookings
-    public function bookings()
+    // relasi ke Bookings
+    public function Bookings()
     {
         return $this->hasMany(Booking::class, 'kamar_id');
     }

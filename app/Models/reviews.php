@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class reviews extends Model
+class Reviews extends Model
 {
     use HasFactory;
 
@@ -26,7 +27,7 @@ class reviews extends Model
         return $this->belongsTo(Property::class);
     }
 
-    public function bookings()
+    public function Bookings()
     {
         return $this->hasMany(Booking::class, 'review_id');
     }

@@ -18,6 +18,14 @@ class Property extends Model
         'bintang',
     ];
 
+    protected $casts = [
+        'foto' => 'array', // Cast foto jadi array
+        'is_active' => 'boolean',
+        'bintang' => 'decimal:1',
+        'available_from' => 'date',
+        'available_to' => 'date',
+    ];
+
     public function hotel()
     {
         return $this->belongsTo(Hotel::class);
@@ -30,7 +38,7 @@ class Property extends Model
     }
 
     // relasi ke Bookings
-    public function bookings()
+    public function Bookings()
     {
         return $this->hasMany(Booking::class);
     }

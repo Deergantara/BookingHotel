@@ -79,9 +79,7 @@
                     <a href="#" class="text-sm hover:underline flex items-center">
                         <i class="fas fa-bed mr-1"></i> Hotel
                     </a>
-                    <a href="#" class="text-sm hover:underline flex items-center">
-                        <i class="fas fa-plane mr-1"></i> Pesawat
-                    </a>
+
                     <a href="#" class="text-sm hover:underline flex items-center">
                         <i class="fas fa-train mr-1"></i> Kereta
                     </a>

@@ -15,7 +15,7 @@ Route::get('/', function () {
 Route::get('/search', [PropertiesController::class, 'search'])->name('property.search');
 Route::get('/property/{id}', [PropertiesController::class, 'show'])->name('property.show');
 
-Route::post('/booking/create', [BookingController::class, 'store'])->name('booking.create');
+Route::post('/Booking/create', [BookingController::class, 'store'])->name('Booking.create');
 
 // Auth routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

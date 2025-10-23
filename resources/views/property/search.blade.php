@@ -673,7 +673,7 @@
               <a href="{{ route('property.show', $property->id) }}" class="view-btn">
                 <i class="fas fa-eye"></i> Lihat Detail
               </a>
-              <a href="{{ route('booking.create', ['property_id' => $property->id]) }}" class="book-btn">
+              <a href="{{ route('Booking.create', ['property_id' => $property->id]) }}" class="book-btn">
                 <i class="fas fa-calendar-check"></i> Pesan Sekarang
               </a>
             </div>

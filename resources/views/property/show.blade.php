@@ -300,7 +300,7 @@
         }
 
         /* ===== BOOKING FORM ===== */
-        .booking-form-container {
+        .Booking-form-container {
             background: white;
             border-radius: var(--radius);
             padding: 30px;
@@ -309,7 +309,7 @@
             top: 100px;
         }
 
-        .booking-form h3 {
+        .Booking-form h3 {
             font-size: 22px;
             margin-bottom: 20px;
             color: var(--text);
@@ -495,7 +495,7 @@
                 grid-template-columns: 1fr;
             }
             
-            .booking-form-container {
+            .Booking-form-container {
                 position: static;
             }
         }
@@ -675,10 +675,10 @@
             </div>
 
             <!-- BOOKING FORM -->
-            <div class="booking-form-container">
-                <div class="booking-form">
+            <div class="Booking-form-container">
+                <div class="Booking-form">
                     <h3>Pesan Sekarang</h3>
-                    <form action="{{ route('booking.create') }}" method="POST">
+                    <form action="{{ route('Booking.create') }}" method="POST">
                         @csrf
                         <input type="hidden" name="property_id" value="{{ $property->id }}">
                         <input type="hidden" name="hotel_id" value="{{ $property->hotel_id }}">
@@ -752,7 +752,7 @@
                             @endif
 
                             <!-- BOOKING BUTTON -->
-                            <form action="{{ route('booking.create') }}" method="GET">
+                            <form action="{{ route('Booking.create') }}" method="GET">
                                 <input type="hidden" name="tipe_kamar_id" value="{{ $tipe->id }}">
                                 <input type="hidden" name="property_id" value="{{ $property->id }}">
                                 <button type="submit" class="room-book-btn">

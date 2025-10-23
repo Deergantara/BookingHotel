@@ -46,11 +46,41 @@ class User extends Authenticatable
         return $this->belongsTo(Property::class);
     }
 
-    // relasi ke bookings
-    public function bookings()
+    // relasi ke Bookings
+    public function Bookings()
     {
         return $this->hasMany(Booking::class);
     }
+
+        // Helper method untuk cek role
+        public function isResepsionis(): bool
+        {
+            return $this->role === 'resepsionis';
+        }
+    
+        public function isAdminSystem(): bool
+        {
+            return $this->role === 'admin system';
+        }
+    
+        public function isOwnerHotel(): bool
+        {
+            return $this->role === 'owner hotel';
+        }
+
+        public function isAdminProperty(): bool
+        {
+            return $this->role === 'admin property';
+        }
+
+        public function isAdminHotel(): bool
+        {
+            return $this->role === 'admin hotel';
+        }
+        public function isOwnerSystem(): bool
+        {
+            return $this->role === 'owner system';
+        }
 
     /**
      * The attributes that should be hidden for serialization.
