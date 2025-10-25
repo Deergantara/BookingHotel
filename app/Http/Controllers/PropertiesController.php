@@ -8,63 +8,67 @@ use Illuminate\Http\Request;
 
 class PropertiesController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $properties = Property::with(['hotel', 'tipeKamars'])
+            ->where('is_active', true)
+            ->paginate(12);
+
+        return view('properties.index', compact('properties'));
+    }
+
     /**
      * Halaman search dengan filter
      */
+    /**
+     * Search properties
+     */
     public function search(Request $request)
     {
-        // Ambil input dari form
-        $search = $request->input('search');
-        $minPrice = $request->input('min_price');
-        $maxPrice = $request->input('max_price');
-        $roomTypeId = $request->input('room_type');
-        $facilities = $request->input('facilities', []); // array fasilitas
+        $validated = $request->validate([
+            'city' => 'nullable|string',
+            'checkin' => 'nullable|date',
+            'checkout' => 'nullable|date|after:checkin',
+            'rooms' => 'nullable|integer|min:1',
+            'guests' => 'nullable|integer|min:1',
+        ]);
 
-        // Query utama
-        $query = Property::query();
+        $query = Property::with(['hotel', 'tipeKamars'])
+            ->where('is_active', true);
 
-        // Pencarian fleksibel
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('city', 'like', "%{$search}%")
-                    ->orWhere('area', 'like', "%{$search}%")
-                    ->orWhere('address', 'like', "%{$search}%");
+        // Filter by city
+        if ($request->filled('city')) {
+            $query->where('city', 'LIKE', '%' . $request->city . '%');
+        }
+
+        // Filter by capacity
+        if ($request->filled('guests')) {
+            $query->where('kapasitas_tamu', '>=', $request->guests);
+        }
+
+        // Filter by available rooms
+        if ($request->filled('rooms')) {
+            $query->whereHas('tipeKamars', function($q) use ($request) {
+                $q->where('stok_kamar', '>=', $request->rooms);
             });
         }
 
-        // Filter harga berdasarkan tipe kamar
-        if ($minPrice || $maxPrice) {
-            $query->whereHas('tipe_kamars', function ($q) use ($minPrice, $maxPrice) {
-                if ($minPrice)
-                    $q->where('harga', '>=', $minPrice);
-                if ($maxPrice)
-                    $q->where('harga', '<=', $maxPrice);
-            });
-        }
+        $properties = $query->paginate(12);
 
-        // Filter tipe kamar
-        if ($roomTypeId) {
-            $query->whereHas('tipe_kamars', function ($q) use ($roomTypeId) {
-                $q->where('id', $roomTypeId);
-            });
-        }
-
-        // Filter fasilitas property
-        if (!empty($facilities)) {
-            $query->where(function ($q) use ($facilities) {
-                foreach ($facilities as $f) {
-                    $q->orWhere('fasilitas', 'like', "%{$f}%");
-                }
-            });
-        }
-
-        // Ambil hasil akhir
-        $properties = $query->get();
-
-        // Data tambahan untuk sidebar filter
-        $facilities = ['WiFi', 'AC', 'Kolam Renang', 'Sarapan', 'Parkir']; // contoh daftar fasilitas
-        $roomTypes = TipeKamar::all(); // ambil semua tipe kamar
+        // Save search data to session
+        session([
+            'search_data' => [
+                'city' => $request->city,
+                'checkin' => $request->checkin ?? now()->format('Y-m-d'),
+                'checkout' => $request->checkout ?? now()->addDay()->format('Y-m-d'),
+                'rooms' => $request->rooms ?? 1,
+                'guests' => $request->guests ?? 2,
+            ]
+        ]);
 
         return view('property.search', compact('properties', 'search', 'roomTypes', 'facilities'));
     }
@@ -72,13 +76,45 @@ class PropertiesController extends Controller
     /**
      * Halaman detail property
      */
-    public function show($id)
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
     {
-        $property = Property::with('tipe_kamars.kamars')->findOrFail($id); 
-        // include relasi kamar agar bisa menampilkan status masing-masing kamar
-        $tipeKamars = $property->tipe_kamars;
+        // Load property dengan semua relasi yang diperlukan
+        $property = Property::with([
+            'hotel',
+            'tipeKamars' => function($query) {
+                $query->where('stok_kamar', '>', 0)
+                      ->orderBy('harga', 'asc');
+            },
+            'tipeKamars.kamars' => function($query) {
+                $query->where('status', 'tersedia');
+            },
+            'reviews.user'
+        ])->findOrFail($id);
 
-        return view('property.show', compact('property', 'tipeKamars'));
+        // Hitung statistik
+        $averageRating = $property->reviews()->avg('star') ?? 0;
+        $totalReviews = $property->reviews()->count();
+        $minPrice = $property->tipeKamars()->min('harga') ?? 0;
+
+        // Ambil data pencarian dari session atau default
+        $searchData = session('search_data', [
+            'city' => $property->city,
+            'checkin' => now()->format('Y-m-d'),
+            'checkout' => now()->addDay()->format('Y-m-d'),
+            'rooms' => 1,
+            'guests' => 2,
+        ]);
+
+        return view('properties.show', compact(
+            'property',
+            'averageRating',
+            'totalReviews',
+            'minPrice',
+            'searchData'
+        ));
     }
 
 }
