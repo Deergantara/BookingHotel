@@ -23,7 +23,7 @@ return new class extends Migration
                 'user', 
                 'admin system', 
                 'owner system', 
-                'admin hotel', 
+                'admin hotel',  
                 'admin property', 
                 'owner hotel',
                 'resepsionis'

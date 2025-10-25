@@ -52,6 +52,11 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class);
     }
 
+        public function isCustomer(): bool
+        {
+            return $this->role === 'user';
+        }
+
         // Helper method untuk cek role
         public function isResepsionis(): bool
         {
@@ -82,6 +87,19 @@ class User extends Authenticatable
             return $this->role === 'owner system';
         }
 
+                public function getFormattedRoleAttribute(): string
+        {
+            return match($this->role) {
+                'admin system' => 'Admin System',
+                'owner system' => 'Owner System',
+                'admin hotel' => 'Admin Hotel',
+                'owner hotel' => 'Owner Hotel', 
+                'admin property' => 'Admin Property',
+                'resepsionis' => 'Resepsionis',
+                'user' => 'Customer',
+                default => ucfirst($this->role)
+            };
+        }
     /**
      * The attributes that should be hidden for serialization.
      *

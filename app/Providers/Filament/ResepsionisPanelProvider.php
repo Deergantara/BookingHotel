@@ -2,10 +2,12 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\ProfileResource;
 use App\Http\Middleware\EnsureUserIsResepsionis; // ✅ ini yang bena
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\UserMenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -17,6 +19,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Illuminate\Support\Facades\Auth;
 
 class ResepsionisPanelProvider extends PanelProvider
 {
@@ -38,6 +41,14 @@ class ResepsionisPanelProvider extends PanelProvider
             ->widgets([
                 // Widgets khusus resepsionis
             ])
+
+            ->userMenuItems([
+                'profile' => UserMenuItem::make()
+                    ->label('Edit Profile')
+                    ->url(fn (): string => ProfileResource::getUrl('edit', ['record' => Auth::id()]))
+                    ->icon('heroicon-o-user'),
+            ])
+
             ->middleware([
                 EnsureUserIsResepsionis::class,
                 EncryptCookies::class,
