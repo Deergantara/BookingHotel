@@ -6,6 +6,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PropertiesController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\KamarController;
 
 // Halaman utama
 Route::get('/', function () {
@@ -15,7 +16,12 @@ Route::get('/', function () {
 Route::get('/search', [PropertiesController::class, 'search'])->name('property.search');
 Route::get('/property/{id}', [PropertiesController::class, 'show'])->name('property.show');
 
-Route::post('/Booking/create', [BookingController::class, 'store'])->name('Booking.create');
+Route::get('/pilih-kamar/{id}', [KamarController::class, 'pilihKamar'])->name('pilih.kamar');
+Route::get('/pesan-sekarang', [KamarController::class, 'pesanSekarang'])->name('pesan.sekarang');
+
+// ✅ TAMBAHKAN ROUTE BOOKING INI
+Route::get('/booking/create', [BookingController::class, 'create'])->name('booking.create');
+Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store');
 
 // Auth routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

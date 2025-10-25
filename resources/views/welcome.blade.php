@@ -9,7 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
-        
+
         :root {
             --primary: #0a0a0a;
             --secondary: #1a1a1a;
@@ -19,57 +19,57 @@
             --text-dark: #333333;
             --text-light: #f5f5f5;
         }
-        
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--light);
             color: var(--text-dark);
         }
-        
+
         .hero-title {
             font-family: 'Playfair Display', serif;
         }
-        
+
         .gradient-overlay {
             background: linear-gradient(135deg, rgba(10, 10, 10, 0.85) 0%, rgba(26, 26, 26, 0.75) 100%);
         }
-        
+
         .city-card {
             transition: all 0.3s ease;
             overflow: hidden;
             border: 1px solid #e5e5e5;
         }
-        
+
         .city-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
             border-color: var(--accent);
         }
-        
+
         .city-image {
             transition: transform 0.5s ease;
         }
-        
+
         .city-card:hover .city-image {
             transform: scale(1.05);
         }
-        
+
         .facility-icon {
             transition: all 0.3s ease;
         }
-        
+
         .facility-item:hover .facility-icon {
             transform: scale(1.1);
             background-color: var(--accent) !important;
             color: var(--primary) !important;
         }
-        
+
         .promo-section {
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
             position: relative;
             overflow: hidden;
         }
-        
+
         .promo-section::before {
             content: '';
             position: absolute;
@@ -80,7 +80,7 @@
             background: url('https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80') center/cover no-repeat;
             opacity: 0.1;
         }
-        
+
         .promo-btn {
             background: linear-gradient(135deg, #d4af37 0%, #f7ef8a 100%);
             color: #0a0a0a;
@@ -89,7 +89,7 @@
             overflow: hidden;
             font-weight: 700;
         }
-        
+
         .promo-btn::before {
             content: '';
             position: absolute;
@@ -100,45 +100,45 @@
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             transition: left 0.5s ease;
         }
-        
+
         .promo-btn:hover::before {
             left: 100%;
         }
-        
+
         .promo-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
         }
-        
+
         .text-gold {
             color: #d4af37;
         }
-        
+
         .plus-icon {
             transition: transform 0.3s ease;
         }
-        
+
         .promo-btn:hover .plus-icon {
             transform: rotate(90deg);
         }
-        
+
         .search-btn {
             background: linear-gradient(135deg, #d4af37 0%, #f7ef8a 100%);
             color: #0a0a0a;
             transition: all 0.3s ease;
             font-weight: 600;
         }
-        
+
         .search-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
-        
+
         .section-title {
             position: relative;
             display: inline-block;
         }
-        
+
         .section-title::after {
             content: '';
             position: absolute;
@@ -148,19 +148,19 @@
             height: 3px;
             background: linear-gradient(90deg, #d4af37, #f7ef8a);
         }
-        
+
         .accent-border {
             border-color: #d4af37;
         }
-        
+
         .accent-bg {
             background-color: #d4af37;
         }
-        
+
         .dark-bg {
             background-color: #0a0a0a;
         }
-        
+
         .medium-bg {
             background-color: #1a1a1a;
         }
@@ -187,7 +187,7 @@
                     <input type="text" name="search" placeholder="Cari berdasarkan kota, hotel, atau daerah..."
                         class="w-full px-4 py-3 border-0 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500">
                 </div>
-                
+
                 <div class="flex flex-col md:flex-row gap-4 w-full md:w-auto">
                     <div>
                         <label class="block text-xs text-gray-500 mb-1">Check-in</label>
@@ -211,7 +211,7 @@
                 </div>
             </form>
         </div>
-        
+
         <!-- Scroll indicator -->
         <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
             <div class="animate-bounce">
@@ -264,31 +264,31 @@
                         <span class="text-gold">Indah Dimulai</span><br>
                         dari Sini
                     </h2>
-                    
+
                     <a href="#" class="promo-btn inline-flex items-center px-8 py-4 rounded-lg font-bold text-lg shadow-lg">
                         <span class="plus-icon mr-3 text-xl">+</span>
                         PESAN KAMAR
                     </a>
                 </div>
-                
+
                 <div class="md:w-1/2 grid grid-cols-2 gap-4">
                     <div class="space-y-4">
                         <div class="rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:scale-105">
-                            <img src="https://images.unsplash.com/photo-1582582621959-48d27397dc69?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80" 
+                            <img src="https://images.unsplash.com/photo-1582582621959-48d27397dc69?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80"
                                  alt="Luxury Suite" class="w-full h-48 object-cover">
                         </div>
                         <div class="rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:scale-105">
-                            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
                                  alt="Hotel Bathroom" class="w-full h-32 object-cover">
                         </div>
                     </div>
                     <div class="space-y-4 mt-8">
                         <div class="rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:scale-105">
-                            <img src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                            <img src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
                                  alt="Hotel Lobby" class="w-full h-32 object-cover">
                         </div>
                         <div class="rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:scale-105">
-                            <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                            <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
                                  alt="Hotel Pool" class="w-full h-48 object-cover">
                         </div>
                     </div>
@@ -304,12 +304,12 @@
                 <h2 class="section-title text-3xl md:text-4xl font-bold mb-4 text-gray-900 hero-title">Explore Indonesia</h2>
                 <p class="text-gray-600 max-w-2xl mx-auto">Temukan pengalaman menginap terbaik di berbagai kota menarik di Indonesia</p>
             </div>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- City 1 - jakarta -->
                 <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden">
                     <div class="relative overflow-hidden">
-                        <img src="{{ asset('images/jakarta.jpg') }}" 
+                        <img src="{{ asset('images/jakarta.jpg') }}"
                              alt="jakarta" class="city-image w-full h-48 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                         <div class="absolute bottom-4 left-4 text-white">
@@ -326,11 +326,11 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- City 2 - Bandung -->
                 <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden">
                     <div class="relative overflow-hidden">
-                        <img src="{{ asset('images/Bandung.jpg') }}" 
+                        <img src="{{ asset('images/Bandung.jpg') }}"
                              alt="bandung" class="city-image w-full h-48 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                         <div class="absolute bottom-4 left-4 text-white">
@@ -347,11 +347,11 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- City 3 - Palembang -->
                 <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden">
                     <div class="relative overflow-hidden">
-                    <img src="{{ asset('images/palembang.jpg') }}" 
+                    <img src="{{ asset('images/palembang.jpg') }}"
                              alt="Palembang" class="city-image w-full h-48 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                         <div class="absolute bottom-4 left-4 text-white">
@@ -368,11 +368,11 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- City 4 - Surabaya -->
                 <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden">
                     <div class="relative overflow-hidden">
-                    <img src="{{ asset('images/surabaya.jpg') }}" 
+                    <img src="{{ asset('images/surabaya.jpg') }}"
                              alt="Surabaya" class="city-image w-full h-48 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                         <div class="absolute bottom-4 left-4 text-white">
@@ -390,7 +390,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="text-center mt-12">
                 <a href="#" class="inline-flex items-center px-6 py-3 border border-gold text-gold hover:bg-yellow-50 rounded-lg transition-all duration-300 font-semibold">
                     Lihat Semua Kota <i class="fas fa-chevron-down ml-2"></i>

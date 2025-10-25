@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama');   // nama hotel
             $table->string('tdup')->nullable();
-            $table->bigInteger('npwp'); // NPWP hotel
+            $table->string('npwp'); // NPWP hotel
             $table->enum('status', ['pending', 'verified', 'rejected'])->default('pending');
             $table->timestamps();;
         });

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
 
             $table->string('midtrans_order_id');
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('price', 12, 2);
             $table->string('payment_type')->nullable();
             $table->dateTime('transaction_time')->nullable();
-            
+
             $table->enum('transaction_status', ['pending','settlement','cancel','expire','deny'])->default('pending');
 
             $table->dateTime('paid_at')->nullable();
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment');
+        Schema::dropIfExists('payments');
     }
 };

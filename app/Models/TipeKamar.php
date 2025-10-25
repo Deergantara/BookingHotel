@@ -43,4 +43,9 @@ class TipeKamar extends Model
     {
         return $this->hasMany(Kamar::class, 'tipe_kamar_id');
     }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'kamar_id');
+    }
 }

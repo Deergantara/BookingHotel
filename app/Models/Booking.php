@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory; 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
@@ -38,10 +38,11 @@ class Booking extends Model
         return $this->belongsTo(Property::class);
     }
 
-    public function kamar()
+    public function tipeKamar()
     {
-        return $this->belongsTo(Kamar::class);
+        return $this->belongsTo(TipeKamar::class, 'kamar_id');
     }
+
 
     public function payment()
     {
@@ -57,5 +58,4 @@ class Booking extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
-    
 }

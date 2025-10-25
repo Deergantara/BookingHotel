@@ -60,10 +60,10 @@ class UserSeeder extends Seeder
 
         // === USERS YANG TERKAIT HOTEL/PROPERTY ===
         // Hanya dibuat jika sudah ada Hotel & Property
-        
+
         // Cek apakah ada Hotel
         $hotel = Hotel::first();
-        
+
         if ($hotel) {
             // 4. Owner Hotel
             User::create([
@@ -92,7 +92,7 @@ class UserSeeder extends Seeder
 
         // Cek apakah ada Property
         $property = Property::first();
-        
+
         if ($property) {
             // 6. Admin Property
             User::create([

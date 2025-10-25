@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('payment', function (Blueprint $table) {
+        Schema::table('payments', function (Blueprint $table) {
             $table->decimal('tax', 12, 2)->default(0)->after('price'); // Pajak
             $table->decimal('total', 12, 2)->default(0)->after('tax'); // Total (price + tax)
         });
@@ -16,7 +16,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::table('payment', function (Blueprint $table) {
+        Schema::table('payments', function (Blueprint $table) {
             $table->dropColumn(['tax', 'total']);
         });
     }

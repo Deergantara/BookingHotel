@@ -2,31 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Booking;
+use App\Models\TipeKamar;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
     public function store(Request $request)
     {
         $request->validate([
-            'property_id' => 'required|exists:properties,id',
-            'kamar_id' => 'required|exists:kamar,id',
+            'tipe_kamar_id' => 'required|exists:tipe_kamars,id',
             'checkin_date' => 'required|date',
-            'checkout_date' => 'required|date|after_or_equal:checkin_date',
+            'checkout_date' => 'required|date|after:checkin_date',
         ]);
 
-        Booking::create([
-            'hotel_id' => $request->hotel_id,
-            'user_id' => auth()->id(), // jika user login
-            'property_id' => $request->property_id,
-            'kamar_id' => $request->kamar_id,
+        $tipeKamar = TipeKamar::findOrFail($request->tipe_kamar_id);
+
+        $booking = Booking::create([
+            'user_id' => Auth::id(),
+            'property_id' => $tipeKamar->property_id,
+            'kamar_id' => $tipeKamar->id,
+            'status' => 'pending',
             'checkin_date' => $request->checkin_date,
             'checkout_date' => $request->checkout_date,
-            'status' => 'pending',
         ]);
 
-        return redirect()->back()->with('success', 'Booking berhasil dibuat!');
+        return redirect()->route('booking.store', $booking->id)
+                         ->with('success', 'Kamar berhasil dipesan!');
     }
 }
-

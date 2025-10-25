@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking - {{ $property->name }} - Luxury Allure</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #0a0a0a;
+            --primary-light: #1a1a1a;
+            --accent: #d4af37;
+            --accent-light: #f7ef8a;
+            --secondary: #f8f9fa;
+            --text: #202124;
+            --text-light: #5f6368;
+            --border: #e5e7eb;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+            border-bottom: 1px solid #333;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo i {
+            font-size: 20px;
+            color: var(--primary);
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+            color: var(--accent);
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .main-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* ===== BOOKING CARD ===== */
+        .booking-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .booking-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .booking-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
+        }
+
+        .property-name {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-family: 'Playfair Display', serif;
+            color: var(--accent);
+        }
+
+        .property-location {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #d1d5db;
+            font-size: 16px;
+        }
+
+        .property-location i {
+            color: var(--accent);
+        }
+
+        /* ===== BOOKING FORM ===== */
+        .booking-form {
+            padding: 40px;
+        }
+
+        .form-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .section-title i {
+            color: var(--accent);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text);
+            font-size: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+            color: var(--text);
+        }
+
+        .form-control:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .date-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent);
+            pointer-events: none;
+        }
+
+        /* ===== ROOM OPTIONS ===== */
+        .room-options {
+            display: grid;
+            gap: 16px;
+        }
+
+        .room-option {
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .room-option:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+        }
+
+        .room-option.selected {
+            border-color: var(--accent);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .room-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .room-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .room-price {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .room-facilities {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .room-capacity {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .room-capacity i {
+            color: var(--accent);
+        }
+
+        /* ===== SUBMIT BUTTON ===== */
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            color: var(--primary);
+            border: none;
+            padding: 18px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* ===== PRICE SUMMARY ===== */
+        .price-summary {
+            background: rgba(212, 175, 55, 0.05);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 24px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .price-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--accent);
+        }
+
+        .price-label {
+            color: var(--text-light);
+        }
+
+        .price-value {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .header {
+                padding: 16px 20px;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .main-container {
+                margin: 20px auto;
+            }
+
+            .booking-form {
+                padding: 24px;
+            }
+
+            .date-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .room-header {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .property-name {
+                font-size: 24px;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .booking-card {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* ===== CUSTOM RADIO STYLING ===== */
+        input[type="radio"] {
+            display: none;
+        }
+
+        .room-option {
+            position: relative;
+        }
+
+        .room-option::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .room-option.selected::before {
+            border-color: var(--accent);
+            background: var(--accent);
+        }
+
+        .room-option.selected::after {
+            content: '';
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+            <h1>Luxury Allure</h1>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-container">
+        <div class="booking-card">
+            <!-- BOOKING HEADER -->
+            <div class="booking-header">
+                <h2 class="property-name">{{ $property->name }}</h2>
+                <div class="property-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>{{ $property->address }}, {{ $property->city }}</span>
+                </div>
+            </div>
+
+            <!-- BOOKING FORM -->
+            <form action="{{ route('booking.store') }}" method="POST" class="booking-form">
+                @csrf
+                <input type="hidden" name="property_id" value="{{ $property->id }}">
+
+                <!-- ROOM TYPE SELECTION -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-bed"></i>
+                        Pilih Tipe Kamar
+                    </h3>
+                    <div class="room-options" id="roomOptions">
+                        @foreach($property->tipe_kamars as $tipe)
+                            <label class="room-option">
+                                <input type="radio" name="tipe_kamar_id" value="{{ $tipe->id }}" required
+                                       data-price="{{ $tipe->harga }}"
+                                       {{ $loop->first ? 'checked' : '' }}>
+                                <div class="room-header">
+                                    <div>
+                                        <div class="room-name">{{ $tipe->nama_tipe }}</div>
+                                        <div class="room-facilities">{{ $tipe->fasilitas_kamar ?? 'Fasilitas standar' }}</div>
+                                        <div class="room-capacity">
+                                            <i class="fas fa-users"></i>
+                                            <span>Maksimal {{ $tipe->kapasitas ?? 2 }} tamu</span>
+                                        </div>
+                                    </div>
+                                    <div class="room-price">Rp {{ number_format($tipe->harga, 0, ',', '.') }}/malam</div>
+                                </div>
+                            </label>
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- DATES & GUESTS -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-calendar-alt"></i>
+                        Detail Pemesanan
+                    </h3>
+
+                    <div class="date-inputs">
+                        <div class="form-group">
+                            <label class="form-label">Check-in</label>
+                            <div class="input-with-icon">
+                                <input type="date" name="checkin_date" value="{{ $checkin }}"
+                                       class="form-control" required min="{{ date('Y-m-d') }}">
+                                <i class="fas fa-calendar-day input-icon"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Check-out</label>
+                            <div class="input-with-icon">
+                                <input type="date" name="checkout_date" value="{{ $checkout }}"
+                                       class="form-control" required>
+                                <i class="fas fa-calendar-day input-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Jumlah Tamu</label>
+                        <div class="input-with-icon">
+                            <input type="number" name="guests" value="{{ $guests }}"
+                                   class="form-control" min="1" max="10" required>
+                            <i class="fas fa-user-friends input-icon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRICE SUMMARY -->
+                <div class="price-summary">
+                    <div class="price-row">
+                        <span class="price-label">Harga per malam</span>
+                        <span class="price-value" id="pricePerNight">Rp 0</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="price-label">Jumlah malam</span>
+                        <span class="price-value" id="nightsCount">0 malam</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="price-label">Total</span>
+                        <span class="price-value" id="totalPrice">Rp 0</span>
+                    </div>
+                </div>
+
+                <!-- SUBMIT BUTTON -->
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-lock"></i>
+                    Lanjutkan ke Pembayaran
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const roomOptions = document.querySelectorAll('input[name="tipe_kamar_id"]');
+            const checkinInput = document.querySelector('input[name="checkin_date"]');
+            const checkoutInput = document.querySelector('input[name="checkout_date"]');
+            const pricePerNightEl = document.getElementById('pricePerNight');
+            const nightsCountEl = document.getElementById('nightsCount');
+            const totalPriceEl = document.getElementById('totalPrice');
+
+            // Room selection styling
+            roomOptions.forEach(option => {
+                option.addEventListener('change', function() {
+                    // Remove selected class from all options
+                    document.querySelectorAll('.room-option').forEach(room => {
+                        room.classList.remove('selected');
+                    });
+
+                    // Add selected class to current option
+                    this.closest('.room-option').classList.add('selected');
+
+                    updatePriceSummary();
+                });
+
+                // Initialize selected state
+                if (option.checked) {
+                    option.closest('.room-option').classList.add('selected');
+                }
+            });
+
+            // Date validation and price calculation
+            checkinInput.addEventListener('change', function() {
+                checkoutInput.min = this.value;
+                if (checkoutInput.value && checkoutInput.value < this.value) {
+                    checkoutInput.value = '';
+                }
+                updatePriceSummary();
+            });
+
+            checkoutInput.addEventListener('change', updatePriceSummary);
+
+            function updatePriceSummary() {
+                const selectedRoom = document.querySelector('input[name="tipe_kamar_id"]:checked');
+                const checkin = new Date(checkinInput.value);
+                const checkout = new Date(checkoutInput.value);
+
+                if (selectedRoom && checkinInput.value && checkoutInput.value && checkout > checkin) {
+                    const pricePerNight = parseInt(selectedRoom.getAttribute('data-price'));
+                    const nights = Math.ceil((checkout - checkin) / (1000 * 60 * 60 * 24));
+                    const totalPrice = pricePerNight * nights;
+
+                    pricePerNightEl.textContent = `Rp ${pricePerNight.toLocaleString('id-ID')}`;
+                    nightsCountEl.textContent = `${nights} malam`;
+                    totalPriceEl.textContent = `Rp ${totalPrice.toLocaleString('id-ID')}`;
+                } else {
+                    pricePerNightEl.textContent = 'Rp 0';
+                    nightsCountEl.textContent = '0 malam';
+                    totalPriceEl.textContent = 'Rp 0';
+                }
+            }
+
+            // Initialize price summary
+            updatePriceSummary();
+
+            // Set minimum dates
+            const today = new Date().toISOString().split('T')[0];
+            checkinInput.min = today;
+            if (checkoutInput.value && checkoutInput.value < today) {
+                checkoutInput.value = '';
+            }
+        });
+    </script>
+</body>
+</html>

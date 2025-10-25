@@ -16,9 +16,10 @@ return new class extends Migration
 
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('property_id')->nullable()->constrained('properties')->nullOnDelete();
-            $table->foreignId('kamar_id')->nullable()->constrained()->onDelete('set null');
-            $table->foreignId('payment_id')->nullable()->constrained('payment')->nullOnDelete();
+            $table->foreignId('kamar_id')->nullable()->constrained('tipe_kamars')->nullOnDelete();
+            $table->foreignId('payment_id')->nullable()->constrained('payments')->nullOnDelete();
             $table->foreignId('review_id')->nullable()->constrained('reviews')->nullOnDelete();
+
 
             $table->date('checkin_date')->nullable();
             $table->date('checkout_date')->nullable();
