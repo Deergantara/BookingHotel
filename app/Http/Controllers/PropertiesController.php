@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Property;
-use App\Models\TipeKamar;
 use Illuminate\Http\Request;
 
 class PropertiesController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      */
@@ -22,8 +20,50 @@ class PropertiesController extends Controller
     }
 
     /**
-     * Halaman search dengan filter
+     * Display the specified resource.
      */
+    public function show(string $id)
+    {
+        // Load property dengan semua relasi yang diperlukan
+        $property = Property::with([
+            'hotel',
+            'tipeKamars' => function($query) {
+                $query->where('stok_kamar', '>', 0)
+                      ->orderBy('harga', 'asc');
+            },
+            'tipeKamars.kamars' => function($query) {
+                $query->where('status', 'tersedia');
+            },
+            'reviews.user'
+        ])->findOrFail($id);
+
+        // Ambil tipe kamars
+        $tipeKamars = $property->tipeKamars;
+
+        // Hitung statistik
+        $averageRating = $property->reviews()->avg('star') ?? 0;
+        $totalReviews = $property->reviews()->count();
+        $minPrice = $tipeKamars->min('harga') ?? 0;
+
+        // Ambil data pencarian dari session atau default
+        $searchData = session('search_data', [
+            'city' => $property->city,
+            'checkin' => now()->format('Y-m-d'),
+            'checkout' => now()->addDay()->format('Y-m-d'),
+            'rooms' => 1,
+            'guests' => 2,
+        ]);
+
+        return view('property.show', compact(
+            'property',
+            'tipeKamars',
+            'averageRating',
+            'totalReviews',
+            'minPrice',
+            'searchData'
+        ));
+    }
+
     /**
      * Search properties
      */
@@ -70,51 +110,6 @@ class PropertiesController extends Controller
             ]
         ]);
 
-        return view('property.search', compact('properties', 'search', 'roomTypes', 'facilities'));
+        return view('property.search', compact('properties'));
     }
-
-    /**
-     * Halaman detail property
-     */
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        // Load property dengan semua relasi yang diperlukan
-        $property = Property::with([
-            'hotel',
-            'tipeKamars' => function($query) {
-                $query->where('stok_kamar', '>', 0)
-                      ->orderBy('harga', 'asc');
-            },
-            'tipeKamars.kamars' => function($query) {
-                $query->where('status', 'tersedia');
-            },
-            'reviews.user'
-        ])->findOrFail($id);
-
-        // Hitung statistik
-        $averageRating = $property->reviews()->avg('star') ?? 0;
-        $totalReviews = $property->reviews()->count();
-        $minPrice = $property->tipeKamars()->min('harga') ?? 0;
-
-        // Ambil data pencarian dari session atau default
-        $searchData = session('search_data', [
-            'city' => $property->city,
-            'checkin' => now()->format('Y-m-d'),
-            'checkout' => now()->addDay()->format('Y-m-d'),
-            'rooms' => 1,
-            'guests' => 2,
-        ]);
-
-        return view('properties.show', compact(
-            'property',
-            'averageRating',
-            'totalReviews',
-            'minPrice',
-            'searchData'
-        ));
-    }
-
 }

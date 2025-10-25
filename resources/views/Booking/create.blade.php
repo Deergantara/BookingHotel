@@ -6,6 +6,7 @@
     <title>Booking - {{ $property->name }} - Luxury Allure</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #0a0a0a;
@@ -38,12 +39,15 @@
         .header {
             background: var(--primary);
             color: white;
-            padding: 20px 40px;
+            padding: 16px 40px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             box-shadow: var(--shadow);
             border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .logo {
@@ -77,7 +81,7 @@
 
         /* ===== MAIN CONTAINER ===== */
         .main-container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 40px auto;
             padding: 0 20px;
         }
@@ -89,6 +93,7 @@
             box-shadow: var(--shadow);
             overflow: hidden;
             border: 1px solid var(--border);
+            margin-bottom: 30px;
         }
 
         .booking-header {
@@ -137,6 +142,13 @@
 
         .form-section {
             margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
         }
 
         .section-title {
@@ -147,16 +159,15 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--accent);
         }
 
         .section-title i {
             color: var(--accent);
+            width: 20px;
         }
 
         .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .form-label {
@@ -164,15 +175,15 @@
             margin-bottom: 8px;
             font-weight: 600;
             color: var(--text);
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .form-control {
             width: 100%;
-            padding: 14px 16px;
+            padding: 12px 16px;
             border: 2px solid var(--border);
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 15px;
             transition: all 0.3s ease;
             background: white;
             color: var(--text);
@@ -220,17 +231,18 @@
 
         .room-option {
             border: 2px solid var(--border);
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
             background: white;
+            position: relative;
         }
 
         .room-option:hover {
             border-color: var(--accent);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.15);
         }
 
         .room-option.selected {
@@ -261,7 +273,7 @@
         .room-facilities {
             color: var(--text-light);
             font-size: 14px;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             line-height: 1.5;
         }
 
@@ -277,120 +289,25 @@
             color: var(--accent);
         }
 
-        /* ===== SUBMIT BUTTON ===== */
-        .submit-btn {
-            width: 100%;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
-            color: var(--primary);
-            border: none;
-            padding: 18px;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .room-features {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
         }
 
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        /* ===== PRICE SUMMARY ===== */
-        .price-summary {
-            background: rgba(212, 175, 55, 0.05);
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 24px;
-            border-left: 4px solid var(--accent);
-        }
-
-        .price-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .price-row:last-child {
-            border-bottom: none;
-            font-weight: 700;
-            font-size: 18px;
+        .feature-tag {
+            background: rgba(212, 175, 55, 0.1);
             color: var(--accent);
-        }
-
-        .price-label {
-            color: var(--text-light);
-        }
-
-        .price-value {
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        /* ===== RESPONSIVE DESIGN ===== */
-        @media (max-width: 768px) {
-            .header {
-                padding: 16px 20px;
-                flex-direction: column;
-                gap: 16px;
-            }
-
-            .main-container {
-                margin: 20px auto;
-            }
-
-            .booking-form {
-                padding: 24px;
-            }
-
-            .date-inputs {
-                grid-template-columns: 1fr;
-            }
-
-            .room-header {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .property-name {
-                font-size: 24px;
-            }
-        }
-
-        /* ===== ANIMATIONS ===== */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .booking-card {
-            animation: fadeIn 0.6s ease-out;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
         }
 
         /* ===== CUSTOM RADIO STYLING ===== */
         input[type="radio"] {
             display: none;
-        }
-
-        .room-option {
-            position: relative;
         }
 
         .room-option::before {
@@ -420,6 +337,210 @@
             background: white;
             border-radius: 50%;
         }
+
+        /* ===== PRICE SUMMARY ===== */
+        .price-summary {
+            background: rgba(212, 175, 55, 0.05);
+            border-radius: 10px;
+            padding: 24px;
+            margin-top: 24px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .price-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .price-title i {
+            color: var(--accent);
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .price-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--accent);
+            margin-top: 8px;
+            padding-top: 12px;
+            border-top: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .price-label {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .price-value {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* ===== SUBMIT BUTTON ===== */
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            color: var(--primary);
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* ===== BREADCRUMB ===== */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .breadcrumb a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary);
+        }
+
+        .breadcrumb-separator {
+            color: var(--border);
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .header {
+                padding: 16px 20px;
+            }
+
+            .main-container {
+                margin: 20px auto;
+                padding: 0 16px;
+            }
+
+            .booking-form {
+                padding: 24px;
+            }
+
+            .date-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .room-header {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .property-name {
+                font-size: 24px;
+            }
+
+            .room-option::before {
+                top: 15px;
+                right: 15px;
+            }
+
+            .room-option.selected::after {
+                top: 20px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .booking-header {
+                padding: 20px;
+            }
+
+            .booking-form {
+                padding: 20px;
+            }
+
+            .form-section {
+                margin-bottom: 24px;
+                padding-bottom: 20px;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .booking-card {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .room-option {
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        /* ===== LOADING STATES ===== */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .submit-btn.loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .submit-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -435,6 +556,15 @@
 
     <!-- MAIN CONTENT -->
     <div class="main-container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="{{ route('property.search') }}">Cari Hotel</a>
+            <span class="breadcrumb-separator">/</span>
+            <a href="{{ route('property.show', $property->id) }}">{{ $property->name }}</a>
+            <span class="breadcrumb-separator">/</span>
+            <span>Booking</span>
+        </div>
+
         <div class="booking-card">
             <!-- BOOKING HEADER -->
             <div class="booking-header">
@@ -446,7 +576,7 @@
             </div>
 
             <!-- BOOKING FORM -->
-            <form action="{{ route('booking.store') }}" method="POST" class="booking-form">
+            <form action="{{ route('booking.store') }}" method="POST" class="booking-form" id="bookingForm">
                 @csrf
                 <input type="hidden" name="property_id" value="{{ $property->id }}">
 
@@ -463,13 +593,28 @@
                                        data-price="{{ $tipe->harga }}"
                                        {{ $loop->first ? 'checked' : '' }}>
                                 <div class="room-header">
-                                    <div>
+                                    <div class="room-info">
                                         <div class="room-name">{{ $tipe->nama_tipe }}</div>
                                         <div class="room-facilities">{{ $tipe->fasilitas_kamar ?? 'Fasilitas standar' }}</div>
                                         <div class="room-capacity">
                                             <i class="fas fa-users"></i>
                                             <span>Maksimal {{ $tipe->kapasitas ?? 2 }} tamu</span>
                                         </div>
+                                        @if($tipe->fasilitas_kamar)
+                                            <div class="room-features">
+                                                @php
+                                                    $features = is_array($tipe->fasilitas_kamar) 
+                                                        ? $tipe->fasilitas_kamar 
+                                                        : explode(',', $tipe->fasilitas_kamar);
+                                                @endphp
+                                                @foreach(array_slice($features, 0, 3) as $feature)
+                                                    <span class="feature-tag">{{ trim($feature) }}</span>
+                                                @endforeach
+                                                @if(count($features) > 3)
+                                                    <span class="feature-tag">+{{ count($features) - 3 }} lainnya</span>
+                                                @endif
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="room-price">Rp {{ number_format($tipe->harga, 0, ',', '.') }}/malam</div>
                                 </div>
@@ -490,7 +635,8 @@
                             <label class="form-label">Check-in</label>
                             <div class="input-with-icon">
                                 <input type="date" name="checkin_date" value="{{ $checkin }}"
-                                       class="form-control" required min="{{ date('Y-m-d') }}">
+                                       class="form-control" required min="{{ date('Y-m-d') }}"
+                                       id="checkinDate">
                                 <i class="fas fa-calendar-day input-icon"></i>
                             </div>
                         </div>
@@ -499,7 +645,7 @@
                             <label class="form-label">Check-out</label>
                             <div class="input-with-icon">
                                 <input type="date" name="checkout_date" value="{{ $checkout }}"
-                                       class="form-control" required>
+                                       class="form-control" required id="checkoutDate">
                                 <i class="fas fa-calendar-day input-icon"></i>
                             </div>
                         </div>
@@ -508,8 +654,13 @@
                     <div class="form-group">
                         <label class="form-label">Jumlah Tamu</label>
                         <div class="input-with-icon">
-                            <input type="number" name="guests" value="{{ $guests }}"
-                                   class="form-control" min="1" max="10" required>
+                            <select name="guests" class="form-control form-select" required>
+                                @for($i = 1; $i <= 10; $i++)
+                                    <option value="{{ $i }}" {{ $guests == $i ? 'selected' : '' }}>
+                                        {{ $i }} Tamu
+                                    </option>
+                                @endfor
+                            </select>
                             <i class="fas fa-user-friends input-icon"></i>
                         </div>
                     </div>
@@ -517,6 +668,10 @@
 
                 <!-- PRICE SUMMARY -->
                 <div class="price-summary">
+                    <div class="price-title">
+                        <i class="fas fa-receipt"></i>
+                        Ringkasan Biaya
+                    </div>
                     <div class="price-row">
                         <span class="price-label">Harga per malam</span>
                         <span class="price-value" id="pricePerNight">Rp 0</span>
@@ -526,13 +681,13 @@
                         <span class="price-value" id="nightsCount">0 malam</span>
                     </div>
                     <div class="price-row">
-                        <span class="price-label">Total</span>
+                        <span class="price-label">Total Pembayaran</span>
                         <span class="price-value" id="totalPrice">Rp 0</span>
                     </div>
                 </div>
 
                 <!-- SUBMIT BUTTON -->
-                <button type="submit" class="submit-btn">
+                <button type="submit" class="submit-btn" id="submitBtn">
                     <i class="fas fa-lock"></i>
                     Lanjutkan ke Pembayaran
                 </button>
@@ -543,11 +698,13 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const roomOptions = document.querySelectorAll('input[name="tipe_kamar_id"]');
-            const checkinInput = document.querySelector('input[name="checkin_date"]');
-            const checkoutInput = document.querySelector('input[name="checkout_date"]');
+            const checkinInput = document.getElementById('checkinDate');
+            const checkoutInput = document.getElementById('checkoutDate');
             const pricePerNightEl = document.getElementById('pricePerNight');
             const nightsCountEl = document.getElementById('nightsCount');
             const totalPriceEl = document.getElementById('totalPrice');
+            const bookingForm = document.getElementById('bookingForm');
+            const submitBtn = document.getElementById('submitBtn');
 
             // Room selection styling
             roomOptions.forEach(option => {
@@ -559,7 +716,6 @@
 
                     // Add selected class to current option
                     this.closest('.room-option').classList.add('selected');
-
                     updatePriceSummary();
                 });
 
@@ -571,7 +727,10 @@
 
             // Date validation and price calculation
             checkinInput.addEventListener('change', function() {
-                checkoutInput.min = this.value;
+                const minCheckout = new Date(this.value);
+                minCheckout.setDate(minCheckout.getDate() + 1);
+                checkoutInput.min = minCheckout.toISOString().split('T')[0];
+                
                 if (checkoutInput.value && checkoutInput.value < this.value) {
                     checkoutInput.value = '';
                 }
@@ -600,15 +759,32 @@
                 }
             }
 
-            // Initialize price summary
-            updatePriceSummary();
+            // Form submission
+            bookingForm.addEventListener('submit', function(e) {
+                const selectedRoom = document.querySelector('input[name="tipe_kamar_id"]:checked');
+                if (!selectedRoom) {
+                    e.preventDefault();
+                    alert('Silakan pilih tipe kamar terlebih dahulu!');
+                    return;
+                }
 
-            // Set minimum dates
+                // Show loading state
+                submitBtn.classList.add('loading');
+                submitBtn.disabled = true;
+            });
+
+            // Initialize
             const today = new Date().toISOString().split('T')[0];
             checkinInput.min = today;
-            if (checkoutInput.value && checkoutInput.value < today) {
-                checkoutInput.value = '';
+            
+            if (checkoutInput.value) {
+                const checkoutDate = new Date(checkoutInput.value);
+                const minCheckout = new Date(checkinInput.value);
+                minCheckout.setDate(minCheckout.getDate() + 1);
+                checkoutInput.min = minCheckout.toISOString().split('T')[0];
             }
+
+            updatePriceSummary();
         });
     </script>
 </body>

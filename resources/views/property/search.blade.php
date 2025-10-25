@@ -6,6 +6,7 @@
   <title>Hasil Pencarian Hotel - Luxury Allure</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -726,63 +727,71 @@
       </div>
 
       @forelse($properties as $property)
-    <div class="property-card">
+      <div class="property-card">
         @php
-            // ========== 1. HANDLE FOTO ==========
-            $fotoPath = 'images/default-hotel.jpg';
-            if (!empty($property->foto)) {
-                if (is_array($property->foto) && count($property->foto) > 0) {
-                    $fotoPath = 'storage/' . $property->foto[0];
-                } elseif (is_string($property->foto)) {
-                    $fotoPath = 'storage/' . $property->foto;
-                }
-            }
+          // Handle foto property
+          $fotoPath = 'images/default-hotel.jpg';
+          if (!empty($property->foto)) {
+              if (is_array($property->foto) && count($property->foto) > 0) {
+                  $fotoPath = 'storage/' . $property->foto[0];
+              } elseif (is_string($property->foto)) {
+                  $fotoPath = 'storage/' . $property->foto;
+              }
+          }
 
-            // ========== 2. AMBIL HARGA TERENDAH ==========
-            $lowestPrice = \App\Models\TipeKamar::where('property_id', $property->id)
-                ->orderBy('harga', 'asc')
-                ->value('harga') ?? 250000;
+          // Ambil harga terendah
+          $lowestPrice = \App\Models\TipeKamar::where('property_id', $property->id)
+              ->orderBy('harga', 'asc')
+              ->value('harga') ?? 250000;
 
-            // ========== 3. AMBIL RATING RATA-RATA ========== ✅ TAMBAHKAN INI
-            $rating = \App\Models\Review::where('property_id', $property->id)
-                ->avg('star') ?? 5.0; // Default 5.0 jika belum ada review
+          // Ambil rating rata-rata
+          $rating = \App\Models\Review::where('property_id', $property->id)
+              ->avg('star') ?? 5.0;
         @endphp
 
-        {{-- Foto --}}
         <img src="{{ asset($fotoPath) }}" alt="{{ $property->name }}" class="property-image">
-
-        {{-- Info property --}}
-        <div class="property-info">
-            <h3>{{ $property->name }}</h3>
-            <p>{{ $property->city }}, {{ $property->area }}</p>
-
-            {{-- Rating --}}
-            <div class="rating">
-                <span class="rating-value">{{ number_format($rating, 1) }}</span>
-                <span>⭐</span>
+        
+        <div class="property-content">
+          <div class="property-header">
+            <h3 class="property-name">{{ $property->name }}</h3>
+            <div class="property-location">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>{{ $property->city }}, {{ $property->area }}</span>
             </div>
-
-            <span>• {{ $property->kapasitas_tamu ?? 2 }} tamu</span>
-        </div>
-
-        {{-- Harga --}}
-        <div class="property-price">
+            <div class="property-rating">
+              <div class="rating-stars">
+                @for($i = 1; $i <= 5; $i++)
+                  <i class="fas fa-star{{ $i <= round($rating) ? '' : '-half-alt' }}"></i>
+                @endfor
+              </div>
+              <span class="rating-value">{{ number_format($rating, 1) }}</span>
+            </div>
+            <div class="property-location">
+              <i class="fas fa-user"></i>
+              <span>{{ $property->kapasitas_tamu ?? 2 }} tamu</span>
+            </div>
+          </div>
+          
+          <div class="property-price">
             Rp {{ number_format($lowestPrice, 0, ',', '.') }} / malam
-        </div>
-
-        {{-- Actions --}}
-        <div class="property-actions">
+          </div>
+          
+          <div class="property-actions">
             <a href="{{ route('property.show', $property->id) }}" class="view-btn">
-                <i class="fas fa-eye"></i> Lihat Detail
+              <i class="fas fa-eye"></i> Lihat Detail
             </a>
             <a href="{{ route('booking.create', ['property_id' => $property->id]) }}" class="book-btn">
-                <i class="fas fa-calendar-check"></i> Pesan Sekarang
+              <i class="fas fa-calendar-check"></i> Pesan Sekarang
             </a>
+          </div>
         </div>
-    </div>
-@empty
-    <p class="text-center">Tidak ada properti yang ditemukan.</p>
-@endforelse
+      </div>
+      @empty
+      <div class="no-result">
+        <i class="fas fa-search"></i>
+        <p>Tidak ada properti yang ditemukan.</p>
+      </div>
+      @endforelse
     </div>
   </div>
 

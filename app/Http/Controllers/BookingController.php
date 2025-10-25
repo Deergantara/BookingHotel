@@ -9,6 +9,27 @@ use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
+    // Menampilkan form booking
+    public function create(Request $request)
+{
+    $propertyId = $request->query('property_id');
+    $property = \App\Models\Property::find($propertyId);
+
+    if (!$property) {
+        abort(404, 'Property not found');
+    }
+
+    // Nilai default (bisa kamu ubah sesuai kebutuhan)
+    $checkin = now()->format('Y-m-d');
+    $checkout = now()->addDay()->format('Y-m-d');
+    $guests = 1; // default 1 tamu
+
+    return view('booking.create', compact('property', 'checkin', 'checkout', 'guests'));
+}
+
+
+
+
     public function store(Request $request)
     {
         $request->validate([

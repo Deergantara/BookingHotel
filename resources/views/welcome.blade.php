@@ -182,34 +182,100 @@
 
             <!-- Form Pencarian -->
             <form action="{{ route('property.search') }}" method="GET"
-                class="bg-white rounded-xl shadow-2xl flex flex-col md:flex-row items-center gap-4 px-6 py-4 w-full max-w-4xl">
-                <div class="flex-1 w-full">
-                    <input type="text" name="search" placeholder="Cari berdasarkan kota, hotel, atau daerah..."
-                        class="w-full px-4 py-3 border-0 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+    class="bg-white rounded-xl shadow-2xl px-6 py-6 w-full max-w-4xl">
+    
+    <div class="flex flex-col md:flex-row items-center gap-4 mb-4">
+        <!-- Search Input -->
+        <div class="flex-1 w-full">
+            <input type="text" name="search" placeholder="Cari berdasarkan kota, hotel, atau daerah..."
+                class="w-full px-4 py-3 border-0 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+        </div>
+
+        <!-- Check-in -->
+        <div>
+            <label class="block text-xs text-gray-500 mb-1">Check-in</label>
+            <input type="date" name="checkin" id="checkin" 
+                class="px-4 py-3 border-0 rounded-lg text-gray-700 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+        </div>
+
+        <!-- Check-out -->
+        <div>
+            <label class="block text-xs text-gray-500 mb-1">Check-out</label>
+            <input type="date" name="checkout" id="checkout"
+                class="px-4 py-3 border-0 rounded-lg text-gray-700 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+        </div>
+
+        <!-- Tamu & Kamar Dropdown -->
+        <div class="relative">
+            <label class="block text-xs text-gray-500 mb-1">Tamu & Kamar</label>
+            <button type="button" id="guestToggle"
+                class="px-4 py-3 border-0 rounded-lg text-gray-700 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-500 w-full text-left flex justify-between items-center">
+                <span id="guestSummary">1 Kamar, 2 Tamu</span>
+                <i class="fas fa-chevron-down text-sm"></i>
+            </button>
+
+            <!-- Dropdown Panel -->
+            <div id="guestPanel" 
+                class="hidden absolute top-full mt-2 bg-white border border-gray-200 rounded-lg shadow-2xl p-4 w-80 z-50 right-0">
+                
+                <!-- Room List Container -->
+                <div id="roomsContainer" class="space-y-4 mb-4">
+                    <!-- Room 1 (Default) -->
+                    <div class="room-item border-b border-gray-200 pb-4" data-room="1">
+                        <div class="flex justify-between items-center mb-3">
+                            <h4 class="font-semibold text-gray-800">Kamar 1</h4>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Tamu</span>
+                            <div class="flex items-center gap-3">
+                                <button type="button" onclick="changeGuests(1, -1)" 
+                                    class="w-8 h-8 rounded border border-gray-300 hover:border-yellow-500 flex items-center justify-center">
+                                    <i class="fas fa-minus text-xs text-black"></i>
+                                </button>
+                                <span id="guestCount-1" class="w-8 text-center font-semibold text-black">2</span>
+                                <button type="button" onclick="changeGuests(1, 1)"
+                                    class="w-8 h-8 rounded border border-gray-300 hover:border-yellow-500 flex items-center justify-center">
+                                    <i class="fas fa-plus text-xs text-black"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="flex flex-col md:flex-row gap-4 w-full md:w-auto">
-                    <div>
-                        <label class="block text-xs text-gray-500 mb-1">Check-in</label>
-                        <input type="date" name="checkin" class="px-4 py-3 border-0 rounded-lg text-gray-700 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-500 mb-1">Check-out</label>
-                        <input type="date" name="checkout" class="px-4 py-3 border-0 rounded-lg text-gray-700 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-500 mb-1">Tamu & Kamar</label>
-                        <select name="guests" class="px-4 py-3 border-0 rounded-lg text-gray-700 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-500 w-full">
-                            <option value="1">1 Kamar, 1 - 4 Tamu</option>
-                            <option value="2">2 Kamar, 2 - 8 Tamu</option>
-                            <option value="3">3 Kamar, 3 - 12 Tamu</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="search-btn text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 self-end md:self-auto mt-2 md:mt-0">
-                        CARI
+                <!-- Action Buttons -->
+                <div class="flex gap-2 pt-2 border-t border-gray-200">
+                    <button type="button" id="addRoomBtn" onclick="addRoom()"
+                        class="flex-1 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 text-sm font-medium transition">
+                        <i class="fas fa-plus mr-1"></i> Tambahkan Kamar
+                    </button>
+                    <button type="button" id="removeRoomBtn" onclick="removeRoom()"
+                        class="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 text-sm font-medium transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled>
+                        <i class="fas fa-trash mr-1"></i> Hapus Kamar
                     </button>
                 </div>
-            </form>
+
+                <!-- Apply Button -->
+                <button type="button" onclick="applyGuestSelection()"
+                    class="w-full mt-3 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 font-medium transition">
+                    Terapkan
+                </button>
+            </div>
+        </div>
+
+        <!-- Search Button -->
+        <button type="submit" 
+            class="search-btn text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 self-end md:self-auto mt-2 md:mt-0">
+            CARI
+        </button>
+    </div>
+
+    <!-- Hidden Inputs for Form Submission -->
+    <input type="hidden" name="total_rooms" id="totalRooms" value="1">
+    <input type="hidden" name="total_guests" id="totalGuests" value="2">
+    <input type="hidden" name="rooms_data" id="roomsData" value='[{"room":1,"guests":2}]'>
+</form>
         </div>
 
         <!-- Scroll indicator -->
@@ -485,6 +551,150 @@
             </div>
         </div>
     </footer>
+
+    <script>
+let roomCount = 1;
+let roomsData = {
+    1: { guests: 2 }
+};
+
+// Toggle guest panel
+document.getElementById('guestToggle').addEventListener('click', function(e) {
+    e.preventDefault();
+    const panel = document.getElementById('guestPanel');
+    panel.classList.toggle('hidden');
+});
+
+// Close panel when clicking outside
+document.addEventListener('click', function(e) {
+    const toggle = document.getElementById('guestToggle');
+    const panel = document.getElementById('guestPanel');
+    
+    if (!toggle.contains(e.target) && !panel.contains(e.target)) {
+        panel.classList.add('hidden');
+    }
+});
+
+// Change guest count for a room
+function changeGuests(roomNumber, change) {
+    const currentGuests = roomsData[roomNumber].guests;
+    const newGuests = currentGuests + change;
+    
+    // Min 1, Max 10 guests per room
+    if (newGuests >= 1 && newGuests <= 10) {
+        roomsData[roomNumber].guests = newGuests;
+        document.getElementById(`guestCount-${roomNumber}`).textContent = newGuests;
+        updateSummary();
+    }
+}
+
+// Add new room
+function addRoom() {
+    // Max 5 rooms
+    if (roomCount >= 5) {
+        alert('Maksimal 5 kamar');
+        return;
+    }
+    
+    roomCount++;
+    roomsData[roomCount] = { guests: 1 };
+    
+    const roomHTML = `
+        <div class="room-item border-b border-gray-200 pb-4" data-room="${roomCount}">
+            <div class="flex justify-between items-center mb-3">
+                <h4 class="font-semibold text-gray-800">Kamar ${roomCount}</h4>
+            </div>
+            
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600">Tamu</span>
+                <div class="flex items-center gap-3">
+                    <button type="button" onclick="changeGuests(${roomCount}, -1)" 
+                        class="w-8 h-8 rounded border border-gray-300 hover:border-yellow-500 flex items-center justify-center">
+                        <i class="fas fa-minus text-xs text-black"></i>
+                    </button>
+                    <span id="guestCount-${roomCount}" class="w-8 text-center font-semibold text-black">1</span>
+                    <button type="button" onclick="changeGuests(${roomCount}, 1)"
+                        class="w-8 h-8 rounded border border-gray-300 hover:border-yellow-500 flex items-center justify-center">
+                        <i class="fas fa-plus text-xs text-black"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('roomsContainer').insertAdjacentHTML('beforeend', roomHTML);
+    
+    // Enable remove button if more than 1 room
+    document.getElementById('removeRoomBtn').disabled = false;
+    
+    updateSummary();
+}
+
+// Remove last room
+function removeRoom() {
+    if (roomCount <= 1) return; // Kamar 1 tidak bisa dihapus
+    
+    // Remove from DOM
+    const rooms = document.querySelectorAll('.room-item');
+    rooms[rooms.length - 1].remove();
+    
+    // Remove from data
+    delete roomsData[roomCount];
+    roomCount--;
+    
+    // Disable remove button if only 1 room left
+    if (roomCount === 1) {
+        document.getElementById('removeRoomBtn').disabled = true;
+    }
+    
+    updateSummary();
+}
+
+// Update summary text
+function updateSummary() {
+    let totalGuests = 0;
+    for (let room in roomsData) {
+        totalGuests += roomsData[room].guests;
+    }
+    
+    const summary = `${roomCount} Kamar, ${totalGuests} Tamu`;
+    document.getElementById('guestSummary').textContent = summary;
+}
+
+// Apply selection and close panel
+function applyGuestSelection() {
+    let totalGuests = 0;
+    for (let room in roomsData) {
+        totalGuests += roomsData[room].guests;
+    }
+    
+    // Update hidden inputs
+    document.getElementById('totalRooms').value = roomCount;
+    document.getElementById('totalGuests').value = totalGuests;
+    document.getElementById('roomsData').value = JSON.stringify(
+        Object.keys(roomsData).map(room => ({
+            room: parseInt(room),
+            guests: roomsData[room].guests
+        }))
+    );
+    
+    // Close panel
+    document.getElementById('guestPanel').classList.add('hidden');
+}
+
+// Set min dates for check-in and check-out
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('checkin').setAttribute('min', today);
+document.getElementById('checkout').setAttribute('min', today);
+
+// Update checkout min date when checkin changes
+document.getElementById('checkin').addEventListener('change', function() {
+    const checkinDate = new Date(this.value);
+    checkinDate.setDate(checkinDate.getDate() + 1);
+    const minCheckout = checkinDate.toISOString().split('T')[0];
+    document.getElementById('checkout').setAttribute('min', minCheckout);
+});
+</script>
 </body>
 
 </html>

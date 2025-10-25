@@ -18,7 +18,7 @@
             --text-light: #5f6368;
             --border: #e5e7eb;
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --radius: 12px;
+            --radius: 8px;
         }
 
         * {
@@ -32,13 +32,11 @@
             line-height: 1.6;
             color: var(--text);
             background-color: #f8fafc;
-        }
-
-        /* ===== HEADER ===== */
+        }/* ===== HEADER ===== */
         header {
             background: var(--primary);
             color: white;
-            padding: 16px 40px;
+            padding: 12px 24px;
             box-shadow: var(--shadow);
             position: sticky;
             top: 0;
@@ -46,121 +44,121 @@
             border-bottom: 1px solid #333;
         }
 
-        .header-top {
+        .header-container {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 15px;
+            gap: 24px;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+            flex-shrink: 0;
         }
 
         .logo-icon {
             background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .logo i {
-            font-size: 20px;
+            font-size: 18px;
             color: var(--primary);
         }
 
         .logo h1 {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
             margin: 0;
             color: var(--accent);
             font-family: 'Playfair Display', serif;
+            white-space: nowrap;
         }
 
-        /* ===== HEADER SEARCH FORM ===== */
         .header-search-form {
-            background: white;
-            border-radius: var(--radius);
-            padding: 20px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
+            flex: 1;
+            max-width: 800px;
         }
 
         .search-form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
             align-items: end;
         }
 
         .search-form-item {
-            margin-bottom: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
 
         .search-form-item label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: var(--text);
-            font-size: 14px;
+            font-size: 12px;
+            color: #ccc;
+            font-weight: 500;
+            white-space: nowrap;
         }
 
         .search-form-input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border);
+            padding: 10px 12px;
+            border: 1px solid #444;
             border-radius: 6px;
-            font-size: 15px;
+            font-size: 14px;
+            background: var(--primary-light);
+            color: white;
             transition: all 0.3s ease;
-            background: white;
-            color: var(--text);
         }
 
         .search-form-input:focus {
             border-color: var(--accent);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
         }
 
         .search-action {
             display: flex;
             align-items: end;
+            height: 100%;
         }
 
         .search-btn {
             background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
             color: var(--primary);
             border: none;
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            font-size: 14px;
             width: 100%;
             justify-content: center;
+            height: 41px;
         }
 
         .search-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
         }
 
-        /* ===== MAIN CONTENT ===== */
         .main-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 30px 20px;
         }
 
-        /* ===== PHOTO GALLERY ===== */
         .photo-section {
             margin-bottom: 40px;
         }
@@ -201,18 +199,11 @@
             box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
         }
 
-        /* ===== PROPERTY DETAILS ===== */
         .details-container {
             display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 30px;
             margin-bottom: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .details-container {
-                grid-template-columns: 1fr;
-            }
         }
 
         .property-info {
@@ -345,7 +336,6 @@
             font-weight: 500;
         }
 
-        /* ===== FACILITIES ===== */
         .facilities-section {
             margin: 24px 0;
         }
@@ -390,8 +380,7 @@
             width: 20px;
         }
 
-        /* ===== BOOKING FORM ===== */
-        .Booking-form-container {
+        .booking-form-container {
             background: white;
             border-radius: var(--radius);
             padding: 30px;
@@ -401,7 +390,7 @@
             border: 1px solid var(--border);
         }
 
-        .Booking-form h3 {
+        .booking-form h3 {
             font-size: 22px;
             margin-bottom: 20px;
             color: var(--primary);
@@ -411,7 +400,7 @@
             gap: 10px;
         }
 
-        .Booking-form h3 i {
+        .booking-form h3 i {
             color: var(--accent);
         }
 
@@ -426,26 +415,12 @@
             color: var(--text);
         }
 
-        .form-control {
-            width: 100%;
-            padding: 14px 16px;
+        .search-summary-value {
+            padding: 12px;
+            background: rgba(212, 175, 55, 0.05);
+            border-radius: 6px;
             border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .form-control:focus {
-            border-color: var(--accent);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
-        }
-
-        .date-inputs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            font-weight: 500;
         }
 
         .book-btn {
@@ -466,9 +441,14 @@
             gap: 8px;
         }
 
-        .book-btn:hover {
+        .book-btn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(212, 175, 55, 0.3);
+        }
+
+        .book-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .policies-box {
@@ -488,7 +468,6 @@
             font-weight: 600;
         }
 
-        /* ===== ROOM TYPES ===== */
         .room-section {
             background: white;
             border-radius: var(--radius);
@@ -586,22 +565,22 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .status-available {
+        .status-tersedia {
             color: #16a34a;
             font-weight: 600;
         }
 
-        .status-booked {
+        .status-dipesan {
             color: #d97706;
             font-weight: 600;
         }
 
-        .status-occupied {
+        .status-ditempati {
             color: #dc2626;
             font-weight: 600;
         }
 
-        .status-maintenance {
+        .status-perbaikan {
             color: #6b7280;
             font-weight: 600;
         }
@@ -628,13 +607,12 @@
             box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
         }
 
-        /* ===== RESPONSIVE DESIGN ===== */
         @media (max-width: 992px) {
             .details-container {
                 grid-template-columns: 1fr;
             }
 
-            .Booking-form-container {
+            .booking-form-container {
                 position: static;
             }
         }
@@ -666,23 +644,6 @@
             .room-grid {
                 grid-template-columns: 1fr;
             }
-
-            .date-inputs {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ===== UTILITY CLASSES ===== */
-        .text-center {
-            text-align: center;
-        }
-
-        .mb-20 {
-            margin-bottom: 20px;
-        }
-
-        .mt-20 {
-            margin-top: 20px;
         }
 
         @media (max-width: 640px) {
@@ -698,103 +659,114 @@
 </head>
 
 <body>
-    <!-- HEADER WITH INTEGRATED SEARCH -->
     <header>
-        <div class="header-top">
+        <div class="header-container">
             <div class="logo">
                 <div class="logo-icon">
                     <i class="fas fa-crown"></i>
                 </div>
                 <h1>Luxury Allure</h1>
             </div>
-        </div>
 
-        <!-- INTEGRATED SEARCH FORM -->
         <div class="header-search-form">
-            <form id="headerSearchForm" action="{{ route('property.search') }}" method="GET">
-                <div class="search-form-grid">
-                    <div class="search-form-item">
-                        <label>Check-in</label>
-                        <input type="date" name="checkin" class="search-form-input"
-                               value="{{ request('checkin', \Carbon\Carbon::now()->format('Y-m-d')) }}"
-                               id="headerCheckin">
+                <form action="{{ route('property.search') }}" method="GET">
+                    <div class="search-form-grid">
+                        <div class="search-form-item">
+                            <label>Check-in</label>
+                            <input type="date" name="checkin" class="search-form-input "
+                                   value="{{ $searchData['checkin'] ?? now()->format('Y-m-d') }}"
+                                   id="headerCheckin">
+                        </div>
+                        <div class="search-form-item">
+                            <label>Check-out</label>
+                            <input type="date" name="checkout" class="search-form-input"
+                                   value="{{ $searchData['checkout'] ?? now()->addDay()->format('Y-m-d') }}"
+                                   id="headerCheckout">
+                        </div>
+                        <div class="search-form-item">
+                            <label>Jumlah Tamu</label>
+                            <select name="guests" class="search-form-input" id="headerTamu">
+                                @for($i = 1; $i <= 10; $i++)
+                                    <option value="{{ $i }}" {{ ($searchData['guests'] ?? 2) == $i ? 'selected' : '' }}>
+                                        {{ $i }} Tamu
+                                    </option>
+                                @endfor
+                            </select>
+                        </div>
+                        <div class="search-form-item">
+                            <label>Jumlah Kamar</label>
+                            <select name="rooms" class="search-form-input" id="headerKamar">
+                                @for($i = 1; $i <= 5; $i++)
+                                    <option value="{{ $i }}" {{ ($searchData['rooms'] ?? 1) == $i ? 'selected' : '' }}>
+                                        {{ $i }} Kamar
+                                    </option>
+                                @endfor
+                            </select>
+                        </div>
+                        <div class="search-action">
+                            <button type="submit" class="search-btn">
+                                <i class="fas fa-search"></i> Cari
+                            </button>
+                        </div>
                     </div>
-                    <div class="search-form-item">
-                        <label>Check-out</label>
-                        <input type="date" name="checkout" class="search-form-input"
-                               value="{{ request('checkout', \Carbon\Carbon::now()->addDays(1)->format('Y-m-d')) }}"
-                               id="headerCheckout">
-                    </div>
-                    <div class="search-form-item">
-                        <label>Jumlah Tamu</label>
-                        <select name="tamu" class="search-form-input" id="headerTamu">
-                            @for($i = 1; $i <= 10; $i++)
-                                <option value="{{ $i }}" {{ request('tamu', '1') == $i ? 'selected' : '' }}>
-                                    {{ $i }} Tamu
-                                </option>
-                            @endfor
-                        </select>
-                    </div>
-                    <div class="search-form-item">
-                        <label>Jumlah Kamar</label>
-                        <select name="kamar" class="search-form-input" id="headerKamar">
-                            @for($i = 1; $i <= 5; $i++)
-                                <option value="{{ $i }}" {{ request('kamar', '1') == $i ? 'selected' : '' }}>
-                                    {{ $i }} Kamar
-                                </option>
-                            @endfor
-                        </select>
-                    </div>
-                    <div class="search-action">
-                        <button type="submit" class="search-btn">
-                            <i class="fas fa-search"></i> Cari
-                        </button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
     <div class="main-container">
         <!-- PHOTO GALLERY -->
         <div class="photo-section">
             @php
-                $image = is_array($property->foto) ? $property->foto[0] : $property->foto;
-                $imagePath = public_path('images/' . $image);
+                $photos = [];
+                if ($property->foto) {
+                    if (is_string($property->foto)) {
+                        $decoded = json_decode($property->foto, true);
+                        if ($decoded && is_array($decoded)) {
+                            $photos = $decoded;
+                        }
+                    } elseif (is_array($property->foto)) {
+                        $photos = $property->foto;
+                    }
+                }
+                $photos = array_filter($photos);
+                $mainPhoto = count($photos) > 0 ? $photos[0] : null;
             @endphp
 
-            @if ($image && file_exists($imagePath))
-                <img src="{{ asset('images/' . $image) }}" alt="{{ $property->name }}" class="main-photo"
-                    id="mainPhoto">
+            @if($mainPhoto)
+                <img src="{{ asset('storage/' . $mainPhoto) }}" 
+                     alt="{{ $property->name }}" 
+                     class="main-photo" 
+                     id="mainPhoto"
+                     onerror="this.src='https://via.placeholder.com/800x400?text=Hotel+Image'">
             @else
-                <img src="{{ asset('images/default-hotel.jpg') }}" alt="Hotel Default" class="main-photo"
-                    id="mainPhoto">
+                <img src="https://via.placeholder.com/800x400?text=No+Image" 
+                     alt="No Image" 
+                     class="main-photo" 
+                     id="mainPhoto">
             @endif
 
             <div class="photo-thumbnails">
-                @if (is_array($property->foto))
-                    @foreach ($property->foto as $index => $foto)
-                        <img src="{{ asset('images/' . $foto) }}" alt="Thumbnail {{ $index + 1 }}"
-                            class="thumbnail {{ $index === 0 ? 'active' : '' }}"
-                            data-full="{{ asset('images/' . $foto) }}">
+                @if(count($photos) > 0)
+                    @foreach(array_slice($photos, 0, 4) as $index => $foto)
+                        <img src="{{ asset('storage/' . $foto) }}" 
+                             alt="Thumbnail {{ $index + 1 }}"
+                             class="thumbnail {{ $index === 0 ? 'active' : '' }}"
+                             data-full="{{ asset('storage/' . $foto) }}"
+                             onerror="this.src='https://via.placeholder.com/120x80?text=Image'">
                     @endforeach
                 @else
-                    <img src="{{ asset('images/' . $property->foto) }}" alt="Thumbnail" class="thumbnail active"
-                        data-full="{{ asset('images/' . $property->foto) }}">
+                    @for($i = 0; $i < 4; $i++)
+                        <img src="https://via.placeholder.com/120x80?text=Image+{{ $i+1 }}" 
+                             alt="Placeholder {{ $i+1 }}"
+                             class="thumbnail {{ $i === 0 ? 'active' : '' }}"
+                             data-full="https://via.placeholder.com/800x400?text=Image+{{ $i+1 }}">
+                    @endfor
                 @endif
-
-                <!-- Fallback thumbnails -->
-                @for ($i = 0; $i < 3; $i++)
-                    <img src="{{ asset('images/default-hotel.jpg') }}" alt="Thumbnail {{ $i + 2 }}"
-                        class="thumbnail" data-full="{{ asset('images/default-hotel.jpg') }}">
-                @endfor
             </div>
         </div>
 
-        <!-- PROPERTY DETAILS AND BOOKING FORM -->
         <div class="details-container">
-            <!-- PROPERTY INFO -->
             <div class="property-info">
                 <div class="property-header">
                     <div class="property-title">
@@ -809,11 +781,11 @@
                             @php
                                 $rating = $property->bintang ?? 4.5;
                                 $fullStars = floor($rating);
-                                $hasHalfStar = $rating - $fullStars >= 0.5;
+                                $hasHalfStar = ($rating - $fullStars) >= 0.5;
                             @endphp
 
-                            @for ($i = 1; $i <= 5; $i++)
-                                @if ($i <= $fullStars)
+                            @for($i = 1; $i <= 5; $i++)
+                                @if($i <= $fullStars)
                                     <i class="fas fa-star"></i>
                                 @elseif($i == $fullStars + 1 && $hasHalfStar)
                                     <i class="fas fa-star-half-alt"></i>
@@ -833,7 +805,7 @@
                         </div>
                         <div class="detail-text">
                             <h4>Area</h4>
-                            <p>{{ $property->area }}</p>
+                            <p>{{ $property->area ?? 'N/A' }}</p>
                         </div>
                     </div>
                     <div class="detail-item">
@@ -842,7 +814,7 @@
                         </div>
                         <div class="detail-text">
                             <h4>Kontak</h4>
-                            <p>{{ $property->contact }}</p>
+                            <p>{{ $property->contact ?? 'N/A' }}</p>
                         </div>
                     </div>
                     <div class="detail-item">
@@ -851,7 +823,7 @@
                         </div>
                         <div class="detail-text">
                             <h4>Jumlah Kamar</h4>
-                            <p>{{ $property->jumlah_kamar }}</p>
+                            <p>{{ $property->jumlah_kamar ?? 0 }}</p>
                         </div>
                     </div>
                     <div class="detail-item">
@@ -860,29 +832,44 @@
                         </div>
                         <div class="detail-text">
                             <h4>Kapasitas Tamu</h4>
-                            <p>{{ $property->kapasitas_tamu }}</p>
+                            <p>{{ $property->kapasitas_tamu ?? 0 }}</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="price-tag">
                     <div class="price-label">Harga mulai dari</div>
-                    <div class="price-amount">Rp {{ number_format($property->harga ?? 200000, 0, ',', '.') }}</div>
+                    <div class="price-amount">Rp {{ number_format($minPrice ?? 200000, 0, ',', '.') }}</div>
                     <div class="price-note">per malam</div>
                 </div>
 
-                <!-- FACILITIES -->
                 <div class="facilities-section">
                     <h3 class="section-title"><i class="fas fa-concierge-bell"></i> Fasilitas</h3>
                     <div class="facilities-grid">
-                        @if ($property->fasilitas)
-                            @foreach (explode(',', $property->fasilitas) as $facility)
-                                @if (trim($facility) !== '')
-                                    <div class="facility-item">
-                                        <i class="fas fa-check"></i>
-                                        <span>{{ trim($facility) }}</span>
-                                    </div>
-                                @endif
+                        @php
+                            $fasilitas = [];
+                            if ($property->fasilitas) {
+                                if (is_string($property->fasilitas)) {
+                                    $decoded = json_decode($property->fasilitas, true);
+                                    if ($decoded) {
+                                        $fasilitas = $decoded;
+                                    } else {
+                                        $fasilitas = explode(',', $property->fasilitas);
+                                    }
+                                } elseif (is_array($property->fasilitas)) {
+                                    $fasilitas = $property->fasilitas;
+                                }
+                            }
+                            $fasilitas = array_map('trim', $fasilitas);
+                            $fasilitas = array_filter($fasilitas);
+                        @endphp
+
+                        @if(count($fasilitas) > 0)
+                            @foreach($fasilitas as $facility)
+                                <div class="facility-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>{{ $facility }}</span>
+                                </div>
                             @endforeach
                         @else
                             <div class="facility-item">
@@ -894,41 +881,43 @@
                 </div>
             </div>
 
-            <!-- BOOKING FORM -->
-            <div class="Booking-form-container">
-                <form id="bookingForm" action="{{ route('booking.store') }}" method="POST">
+            <div class="booking-form-container">
+                <form id="bookingForm" class="booking-form" action="{{ route('booking.store') }}" method="POST">
                     @csrf
+                    <input type="hidden" name="property_id" value="{{ $property->id }}">
                     <input type="hidden" name="tipe_kamar_id" id="selectedTipeKamarId">
-                    <input type="hidden" name="checkin_date" id="hiddenCheckin" value="{{ request('checkin', \Carbon\Carbon::now()->format('Y-m-d')) }}">
-                    <input type="hidden" name="checkout_date" id="hiddenCheckout" value="{{ request('checkout', \Carbon\Carbon::now()->addDays(1)->format('Y-m-d')) }}">
-                    <input type="hidden" name="jumlah_tamu" id="hiddenTamu" value="{{ request('tamu', '1') }}">
-                    <input type="hidden" name="jumlah_kamar" id="hiddenKamar" value="{{ request('kamar', '1') }}">
+                    <input type="hidden" name="checkin" value="{{ $searchData['checkin'] ?? now()->format('Y-m-d') }}">
+                    <input type="hidden" name="checkout" value="{{ $searchData['checkout'] ?? now()->addDay()->format('Y-m-d') }}">
+                    <input type="hidden" name="guests" value="{{ $searchData['guests'] ?? 2 }}">
+                    <input type="hidden" name="rooms" value="{{ $searchData['rooms'] ?? 1 }}">
 
                     <h3><i class="fas fa-calendar-check"></i> Form Pemesanan</h3>
 
                     <div class="form-group">
                         <label>Check-in:</label>
                         <div class="search-summary-value">
-                            {{ \Carbon\Carbon::parse(request('checkin', \Carbon\Carbon::now()->format('Y-m-d')))->format('d/m/Y') }}
+                            {{ \Carbon\Carbon::parse($searchData['checkin'] ?? now())->format('d/m/Y') }}
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label>Check-out:</label>
                         <div class="search-summary-value">
-                            {{ \Carbon\Carbon::parse(request('checkout', \Carbon\Carbon::now()->addDays(1)->format('Y-m-d')))->format('d/m/Y') }}
+                            {{ \Carbon\Carbon::parse($searchData['checkout'] ?? now()->addDay())->format('d/m/Y') }}
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label>Jumlah Tamu & Kamar:</label>
                         <div class="search-summary-value">
-                            {{ request('tamu', '1') }} Tamu, {{ request('kamar', '1') }} Kamar
+                            {{ $searchData['guests'] ?? 2 }} Tamu, {{ $searchData['rooms'] ?? 1 }} Kamar
                         </div>
                     </div>
 
-                    <div id="selectedRoomInfo" class="text-center mb-3 text-gray-700">
-                        <em>Belum ada kamar yang dipilih.</em>
+                    <div id="selectedRoomInfo" style="text-align: center; margin-bottom: 15px; padding: 12px; background: rgba(212, 175, 55, 0.05); border-radius: 6px; display: none;">
+                        <strong>Kamar Dipilih:</strong>
+                        <div id="roomNameDisplay" style="font-size: 18px; color: var(--primary); margin-top: 5px;"></div>
+                        <div id="roomPriceDisplay" style="font-size: 14px; color: var(--text-light);"></div>
                     </div>
 
                     <button type="submit" id="pesanBtn" class="book-btn" disabled>
@@ -949,39 +938,73 @@
             <h3 class="section-title"><i class="fas fa-bed"></i> Pilihan Tipe Kamar di {{ $property->name }}</h3>
 
             <div class="room-grid">
-                @forelse($tipeKamars as $tipe)
+                @forelse($property->tipeKamars as $tipe)
                     <div class="room-card">
                         <div class="room-badge">POPULER</div>
 
-                        <!-- ROOM IMAGE -->
                         <div class="room-photo">
                             @php
-                                $fotoPath = public_path('images/tipe_kamar/' . $tipe->foto);
+                                $roomPhoto = null;
+                                if ($tipe->foto) {
+                                    if (is_string($tipe->foto)) {
+                                        $roomPhoto = $tipe->foto;
+                                    } elseif (is_array($tipe->foto)) {
+                                        $roomPhoto = $tipe->foto[0] ?? null;
+                                    }
+                                }
                             @endphp
 
-                            @if ($tipe->foto && file_exists($fotoPath))
-                                <img src="{{ asset('images/tipe_kamar/' . $tipe->foto) }}"
-                                    alt="{{ $tipe->name }}" class="room-image">
+                            @if($roomPhoto)
+                                <img src="{{ asset('storage/' . $roomPhoto) }}"
+                                     alt="{{ $tipe->nama_tipe }}" 
+                                     class="room-image"
+                                     onerror="this.src='https://via.placeholder.com/400x200?text=Room+Image'">
                             @else
-                                <img src="{{ asset('images/default-room.jpg') }}" alt="Default Room"
-                                    class="room-image">
+                                <img src="https://via.placeholder.com/400x200?text=Room+Image" 
+                                     alt="Default Room"
+                                     class="room-image">
                             @endif
                         </div>
 
-                        <!-- ROOM INFO -->
                         <div class="room-content">
                             <div class="room-header">
-                                <h4 class="room-title">{{ $tipe->name }}</h4>
+                                <h4 class="room-title">{{ $tipe->nama_tipe }}</h4>
                                 <div class="room-price">Rp {{ number_format($tipe->harga, 0, ',', '.') }}</div>
                             </div>
 
-                            <p class="room-facilities">{{ $tipe->fasilitas_kamar ?? 'Fasilitas belum tersedia.' }}
+                            <p class="room-facilities">
+                                @php
+                                    $fasilitasKamar = [];
+                                    if ($tipe->fasilitas_kamar) {
+                                        if (is_string($tipe->fasilitas_kamar)) {
+                                            $decoded = json_decode($tipe->fasilitas_kamar, true);
+                                            if ($decoded) {
+                                                $fasilitasKamar = $decoded;
+                                            } else {
+                                                $fasilitasKamar = explode(',', $tipe->fasilitas_kamar);
+                                            }
+                                        } elseif (is_array($tipe->fasilitas_kamar)) {
+                                            $fasilitasKamar = $tipe->fasilitas_kamar;
+                                        }
+                                    }
+                                    $fasilitasKamar = array_map('trim', $fasilitasKamar);
+                                    $fasilitasKamar = array_filter($fasilitasKamar);
+                                @endphp
+
+                                @if(count($fasilitasKamar) > 0)
+                                    {{ implode(' • ', array_slice($fasilitasKamar, 0, 3)) }}
+                                    @if(count($fasilitasKamar) > 3)
+                                        <span style="color: var(--accent);">+{{ count($fasilitasKamar) - 3 }} lainnya</span>
+                                    @endif
+                                @else
+                                    {{ $tipe->deskripsi ?? 'Kamar nyaman dengan fasilitas lengkap' }}
+                                @endif
                             </p>
 
-                            @if ($tipe->kamars->count() > 0)
+                            @if($tipe->kamars && $tipe->kamars->count() > 0)
                                 <div class="room-status">
                                     <p><strong>Status Kamar:</strong></p>
-                                    @foreach ($tipe->kamars as $kamar)
+                                    @foreach($tipe->kamars->take(3) as $kamar)
                                         <div class="status-item">
                                             <span>Kamar {{ $kamar->nomor_kamar }}</span>
                                             <span class="status-{{ $kamar->status }}">
@@ -989,22 +1012,34 @@
                                             </span>
                                         </div>
                                     @endforeach
+                                    @if($tipe->kamars->count() > 3)
+                                        <div style="text-align: center; margin-top: 8px; color: var(--text-light); font-size: 12px;">
+                                            +{{ $tipe->kamars->count() - 3 }} kamar lainnya
+                                        </div>
+                                    @endif
                                 </div>
                             @else
-                                <p><em>Tidak ada kamar untuk tipe ini.</em></p>
+                                <div style="padding: 12px; background: rgba(220, 38, 38, 0.05); border-radius: 6px; margin: 16px 0;">
+                                    <p style="color: #dc2626; font-size: 14px; text-align: center;">
+                                        <i class="fas fa-exclamation-circle"></i> Tidak ada kamar tersedia
+                                    </p>
+                                </div>
                             @endif
 
-                            <!-- BOOKING BUTTON -->
-                            <button type="button" class="room-book-btn pilih-kamar-btn"
-                                data-id="{{ $tipe->id }}" data-name="{{ $tipe->name }}"
-                                data-harga="{{ number_format($tipe->harga, 0, ',', '.') }}">
+                            <button type="button" 
+                                    class="room-book-btn pilih-kamar-btn"
+                                    data-id="{{ $tipe->id }}" 
+                                    data-name="{{ $tipe->nama_tipe }}"
+                                    data-harga="{{ $tipe->harga }}"
+                                    data-harga-format="{{ number_format($tipe->harga, 0, ',', '.') }}">
                                 <i class="fas fa-calendar-plus"></i> Pilih Kamar Ini
                             </button>
                         </div>
                     </div>
                 @empty
-                    <div class="text-center mb-20">
-                        <p>Tidak ada tipe kamar yang tersedia untuk properti ini.</p>
+                    <div style="text-align: center; padding: 40px; grid-column: 1/-1;">
+                        <i class="fas fa-bed" style="font-size: 48px; color: var(--border); margin-bottom: 16px;"></i>
+                        <p style="color: var(--text-light);">Tidak ada tipe kamar yang tersedia untuk properti ini.</p>
                     </div>
                 @endforelse
             </div>
@@ -1015,12 +1050,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             const headerCheckin = document.getElementById('headerCheckin');
             const headerCheckout = document.getElementById('headerCheckout');
-            const headerTamu = document.getElementById('headerTamu');
-            const headerKamar = document.getElementById('headerKamar');
             const thumbnails = document.querySelectorAll('.thumbnail');
             const mainPhoto = document.getElementById('mainPhoto');
             const pilihKamarBtns = document.querySelectorAll('.pilih-kamar-btn');
             const selectedRoomInfo = document.getElementById('selectedRoomInfo');
+            const roomNameDisplay = document.getElementById('roomNameDisplay');
+            const roomPriceDisplay = document.getElementById('roomPriceDisplay');
             const selectedTipeKamarId = document.getElementById('selectedTipeKamarId');
             const pesanBtn = document.getElementById('pesanBtn');
 
@@ -1030,21 +1065,32 @@
 
             // Atur tanggal checkout minimal sama dengan checkin
             headerCheckin.addEventListener('change', function() {
-                headerCheckout.min = this.value;
-                if (headerCheckout.value && headerCheckout.value < this.value) {
-                    headerCheckout.value = this.value;
+                const checkinDate = new Date(this.value);
+                checkinDate.setDate(checkinDate.getDate() + 1);
+                const minCheckout = checkinDate.toISOString().split('T')[0];
+                headerCheckout.min = minCheckout;
+                
+                if (headerCheckout.value && headerCheckout.value <= this.value) {
+                    headerCheckout.value = minCheckout;
                 }
             });
 
             // Initialize checkout min date
-            headerCheckout.min = headerCheckin.value;
+            if (headerCheckin.value) {
+                const checkinDate = new Date(headerCheckin.value);
+                checkinDate.setDate(checkinDate.getDate() + 1);
+                headerCheckout.min = checkinDate.toISOString().split('T')[0];
+            } else {
+                headerCheckout.min = today;
+            }
 
             // Thumbnail handler
             thumbnails.forEach(thumb => {
                 thumb.addEventListener('click', function() {
                     thumbnails.forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
-                    mainPhoto.src = this.getAttribute('data-full');
+                    const fullImageSrc = this.getAttribute('data-full');
+                    mainPhoto.src = fullImageSrc;
                 });
             });
 
@@ -1053,26 +1099,45 @@
                 btn.addEventListener('click', function() {
                     const nama = this.dataset.name;
                     const harga = this.dataset.harga;
+                    const hargaFormat = this.dataset.hargaFormat;
                     const id = this.dataset.id;
 
                     // Update tampilan form booking
-                    selectedRoomInfo.innerHTML = `
-                        <strong>Kamar Dipilih:</strong> ${nama}<br>
-                        <span class="text-sm text-gray-500">Harga: Rp ${harga} / malam</span>
-                    `;
+                    roomNameDisplay.textContent = nama;
+                    roomPriceDisplay.textContent = 'Harga: Rp ' + hargaFormat + ' / malam';
+                    selectedRoomInfo.style.display = 'block';
 
                     selectedTipeKamarId.value = id;
                     pesanBtn.disabled = false;
 
-                    // Scroll ke form booking
-                    document.querySelector('.Booking-form-container').scrollIntoView({
-                        behavior: 'smooth'
+                    // Highlight button yang dipilih
+                    pilihKamarBtns.forEach(b => {
+                        b.style.opacity = '1';
+                        b.innerHTML = '<i class="fas fa-calendar-plus"></i> Pilih Kamar Ini';
                     });
+                    this.style.opacity = '0.8';
+                    this.innerHTML = '<i class="fas fa-check"></i> Dipilih';
+
+                    // Scroll ke form booking (mobile)
+                    if (window.innerWidth < 992) {
+                        document.querySelector('.booking-form-container').scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
                 });
+            });
+
+            // Form validation
+            const bookingForm = document.getElementById('bookingForm');
+            bookingForm.addEventListener('submit', function(e) {
+                if (!selectedTipeKamarId.value) {
+                    e.preventDefault();
+                    alert('Silakan pilih tipe kamar terlebih dahulu!');
+                }
             });
         });
     </script>
 
 </body>
-
 </html>
