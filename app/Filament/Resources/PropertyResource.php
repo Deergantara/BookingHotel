@@ -16,11 +16,11 @@ class PropertyResource extends Resource
     protected static ?string $model = Property::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office';
-    
+
     protected static ?string $navigationLabel = 'Properties';
-    
+
     protected static ?string $navigationGroup = 'Hotel Management';
-    
+
     protected static ?int $navigationSort = 2;
 
     // ✅ Hanya Admin Hotel & Owner Hotel yang bisa akses
@@ -33,14 +33,14 @@ class PropertyResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
-        
+
         $user = auth()->user();
-        
+
         // Jika admin hotel/owner hotel, filter by hotel_id
         if (in_array($user->role, ['admin hotel', 'owner hotel']) && $user->hotel_id) {
             $query->where('hotel_id', $user->hotel_id);
         }
-        
+
         return $query->with(['hotel', 'tipeKamars']);
     }
 
@@ -255,14 +255,14 @@ class PropertyResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    
+
                     Tables\Actions\BulkAction::make('activate')
                         ->label('Aktifkan')
                         ->icon('heroicon-o-check-circle')
                         ->color('success')
                         ->requiresConfirmation()
                         ->action(fn ($records) => $records->each->update(['is_active' => true])),
-                    
+
                     Tables\Actions\BulkAction::make('deactivate')
                         ->label('Nonaktifkan')
                         ->icon('heroicon-o-x-circle')
