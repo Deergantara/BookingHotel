@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\OwnerHotel\Resources;
 
-use App\Filament\Resources\PropertyResource\Pages;
+use App\Filament\OwnerHotel\Resources\PropertyResource\Pages;
 use App\Models\Property;
 use Filament\Forms;
 use Filament\Forms\Form;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\PropertyResource\Pages;
+namespace App\Filament\AdminHotel\Resources\PropertyResource\Pages;
 
-use App\Filament\Resources\PropertyResource;
+use App\Filament\AdminHotel\Resources\PropertyResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

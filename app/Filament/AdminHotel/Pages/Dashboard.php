@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Pages;
+namespace App\Filament\AdminHotel\Pages;
 
-use Filament\Pages\Page;
+use Filament\Pages\Dashboard as BaseDashboard;
 
-class AdminHotelDashboard extends Page
+class Dashboard extends BaseDashboard
 {
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
 
@@ -19,24 +19,24 @@ class AdminHotelDashboard extends Page
     // Hanya admin hotel & owner hotel yang bisa akses
     public static function canAccess(): bool
     {
-        return in_array(auth()->user()?->role, ['admin hotel', 'owner hotel']);
+        return auth()->user()?->role === 'owner hotel';
     }
 
     public function getHeaderWidgets(): array
     {
         return [
-            \App\Filament\Widgets\AdminHotelStatsWidget::class,
+            \App\Filament\OwnerHotel\Widgets\AdminHotelStatsWidget::class,
         ];
     }
 
     public function getFooterWidgets(): array
     {
         return [
-            \App\Filament\Widgets\AdminHotelBookingTrendWidget::class,
-            \App\Filament\Widgets\AdminHotelBookingStatusWidget::class,
-            \App\Filament\Widgets\AdminHotelRevenueByMonthWidget::class,
-            \App\Filament\Widgets\AdminHotelTopPropertiesWidget::class,
-            \App\Filament\Widgets\AdminHotelYearlySummaryWidget::class,
+            \App\Filament\OwnerHotel\Widgets\AdminHotelBookingTrendWidget::class,
+            \App\Filament\OwnerHotel\Widgets\AdminHotelBookingStatusWidget::class,
+            \App\Filament\OwnerHotel\Widgets\AdminHotelRevenueByMonthWidget::class,
+            \App\Filament\OwnerHotel\Widgets\AdminHotelTopPropertiesWidget::class,
+            \App\Filament\OwnerHotel\Widgets\AdminHotelYearlySummaryWidget::class,
         ];
     }
 

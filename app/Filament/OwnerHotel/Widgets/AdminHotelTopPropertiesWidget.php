@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\OwnerHotel\Widgets;
 
 use App\Models\Property;
 use App\Models\Booking;

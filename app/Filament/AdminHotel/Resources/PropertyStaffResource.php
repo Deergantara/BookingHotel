@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\AdminHotel\Resources\PropertyStaffResource\Pages;
 
-use App\Filament\Resources\PropertyStaffResource\Pages;
+use App\Filament\AdminHotel\Resources\PropertyStaffResource\Pages;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -29,9 +29,9 @@ class PropertyStaffResource extends Resource
 
     // ✅ Hanya Admin Hotel & Owner Hotel yang bisa akses
     public static function canAccess(): bool
-    {
-        return in_array(auth()->user()?->role, ['admin hotel', 'owner hotel']);
-    }
+{
+    return auth()->user()?->role === 'admin hotel';
+}
 
     // ✅ Filter: Hanya tampilkan staff dari properties milik hotel admin yang login
     public static function getEloquentQuery(): Builder
