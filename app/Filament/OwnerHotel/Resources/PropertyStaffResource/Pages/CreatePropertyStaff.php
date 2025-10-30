@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\PropertyStaffResource\Pages;
+namespace App\Filament\OwnerHotel\Resources\PropertyStaffResource\Pages;
 
-use App\Filament\Resources\PropertyStaffResource;
+use App\Filament\OwnerHotel\Resources\PropertyStaffResource;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Hash;
 

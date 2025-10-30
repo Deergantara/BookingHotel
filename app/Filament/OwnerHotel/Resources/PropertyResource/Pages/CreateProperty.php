@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\OwnerHotel\Resources\PropertyStaffResource\Pages;
+namespace App\Filament\OwnerHotel\Resources\PropertyResource\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
-use App\Filament\OwnerHotel\Resources\PropertyStaffResource;
+use App\Filament\OwnerHotel\Resources\PropertyResource;
 
 class CreateProperty extends CreateRecord
 {

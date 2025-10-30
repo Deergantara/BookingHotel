@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\PropertyStaffResource\Pages;
+namespace App\Filament\AdminHotel\Resources\PropertyStaffResource\Pages;
 
 use App\Filament\AdminHotel\Resources\PropertyStaffResource;
 use Filament\Actions;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\AdminHotel\Resources\PropertyStaffResource\Pages;
+namespace App\Filament\AdminHotel\Resources;
 
 use App\Filament\AdminHotel\Resources\PropertyStaffResource\Pages;
 use App\Models\User;

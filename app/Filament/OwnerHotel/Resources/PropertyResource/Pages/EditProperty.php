@@ -2,7 +2,7 @@
 
 namespace App\Filament\OwnerHotel\Resources\PropertyResource\Pages;
 
-use App\OwnerHotel\Filament\Resources\PropertyResource;
+use App\Filament\OwnerHotel\Resources\PropertyResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 

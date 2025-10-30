@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\AdminHotel\Resources\PropertyResource\Pages;
+namespace App\Filament\AdminHotel\Resources;
 
-use App\Filament\AdminHotel\Resources\PropertyResource\Pages;
+use App\Filament\AdminHotel\Resources\PropertyResource\pages;
 use App\Models\Property;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -37,7 +37,7 @@ class PropertyResource extends Resource
         $user = auth()->user();
 
         // Jika admin hotel/owner hotel, filter by hotel_id
-        if (in_array($user->role, ['admin hotel', 'owner hotel']) && $user->hotel_id) {
+        if (in_array($user->role, ['admin hotel']) && $user->hotel_id) {
             $query->where('hotel_id', $user->hotel_id);
         }
 

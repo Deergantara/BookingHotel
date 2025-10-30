@@ -30,7 +30,7 @@ class PropertyStaffResource extends Resource
     // ✅ Hanya Admin Hotel & Owner Hotel yang bisa akses
     public static function canAccess(): bool
     {
-        return in_array(auth()->user()?->role, ['admin hotel', 'owner hotel']);
+        return in_array(auth()->user()?->role, ['owner hotel']);
     }
 
     // ✅ Filter: Hanya tampilkan staff dari properties milik hotel admin yang login

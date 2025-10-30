@@ -19,29 +19,14 @@ class Dashboard extends BaseDashboard
     // Hanya admin hotel & owner hotel yang bisa akses
     public static function canAccess(): bool
     {
-        return auth()->user()?->role === 'owner hotel';
-    }
-
-    public function getHeaderWidgets(): array
-    {
-        return [
-            \App\Filament\OwnerHotel\Widgets\AdminHotelStatsWidget::class,
-        ];
-    }
-
-    public function getFooterWidgets(): array
-    {
-        return [
-            \App\Filament\OwnerHotel\Widgets\AdminHotelBookingTrendWidget::class,
-            \App\Filament\OwnerHotel\Widgets\AdminHotelBookingStatusWidget::class,
-            \App\Filament\OwnerHotel\Widgets\AdminHotelRevenueByMonthWidget::class,
-            \App\Filament\OwnerHotel\Widgets\AdminHotelTopPropertiesWidget::class,
-            \App\Filament\OwnerHotel\Widgets\AdminHotelYearlySummaryWidget::class,
-        ];
+        return auth()->user()?->role === 'admin hotel';
     }
 
     public function getHeaderWidgetsColumns(): int | array
     {
-        return 4;
+        return [
+            AccountWidget::class,
+            FilamentInfoWidget::class,
+        ];
     }
 }

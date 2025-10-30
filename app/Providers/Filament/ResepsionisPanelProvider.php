@@ -36,18 +36,18 @@ class ResepsionisPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Resepsionis/Pages'), for: 'App\\Filament\\Resepsionis\\Pages')
             ->pages([
                 \App\Filament\Resepsionis\Pages\Dashboard::class, // ✅ panggil dashboard resepsionis kamu
-            ])            
+            ])
             ->discoverWidgets(in: app_path('Filament/Resepsionis/Widgets'), for: 'App\\Filament\\Resepsionis\\Widgets')
             ->widgets([
                 // Widgets khusus resepsionis
             ])
 
-            ->userMenuItems([
-                'profile' => UserMenuItem::make()
-                    ->label('Edit Profile')
-                    ->url(fn (): string => ProfileResource::getUrl('edit', ['record' => Auth::id()]))
-                    ->icon('heroicon-o-user'),
-            ])
+            // ->userMenuItems([
+            //     'profile' => UserMenuItem::make()
+            //         ->label('Edit Profile')
+            //         ->url(fn (): string => ProfileResource::getUrl('edit', ['record' => Auth::id()]))
+            //         ->icon('heroicon-o-user'),
+            // ])
 
             ->middleware([
                 EnsureUserIsResepsionis::class,

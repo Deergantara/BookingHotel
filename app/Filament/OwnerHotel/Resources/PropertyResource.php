@@ -2,7 +2,7 @@
 
 namespace App\Filament\OwnerHotel\Resources;
 
-use App\Filament\OwnerHotel\Resources\PropertyResource\Pages;
+use App\Filament\OwnerHotel\Resources\PropertyResource\pages;
 use App\Models\Property;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -26,7 +26,7 @@ class PropertyResource extends Resource
     // ✅ Hanya Admin Hotel & Owner Hotel yang bisa akses
     public static function canAccess(): bool
     {
-        return in_array(auth()->user()?->role, ['admin hotel', 'owner hotel']);
+        return in_array(auth()->user()?->role, ['owner hotel']);
     }
 
     // ✅ Filter: Hanya tampilkan properties dari hotel admin yang login
