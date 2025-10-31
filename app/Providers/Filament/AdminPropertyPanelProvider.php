@@ -16,24 +16,29 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-class ResepsionisPanelProvider extends PanelProvider
+class AdminPropertyPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->id('resepsionis')
-            ->path('resepsionis')
+            ->id('admin-property')
+            ->path('admin-property')
             ->login()
             ->colors([
-                'primary' => Color::Teal,
+                'primary' => Color::Indigo,
             ])
-            ->brandName('Resepsionis Panel')
-            ->discoverResources(in: app_path('Filament/Resepsionis/Resources'), for: 'App\\Filament\\Resepsionis\\Resources')
-            ->discoverPages(in: app_path('Filament/Resepsionis/Pages'), for: 'App\\Filament\\Resepsionis\\Pages')
+            ->brandName('Admin Property Panel')
+            ->favicon(asset('favicon.ico'))
+            ->discoverResources(in: app_path('Filament/AdminProperty/Resources'), for: 'App\\Filament\\AdminProperty\\Resources')
+            ->discoverPages(in: app_path('Filament/AdminProperty/Pages'), for: 'App\\Filament\\AdminProperty\\Pages')
             ->pages([
-                \App\Filament\Resepsionis\Pages\Dashboard::class, // ✅ Pastikan ini ada
+                \App\Filament\AdminProperty\Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Resepsionis/Widgets'), for: 'App\\Filament\\Resepsionis\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/AdminProperty/Widgets'), for: 'App\\Filament\\AdminProperty\\Widgets')
+            ->navigationGroups([
+                'Main',
+                'Booking Management',
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -46,7 +51,8 @@ class ResepsionisPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
-                Authenticate::class,
+            Authenticate::class,
+            \App\Http\Middleware\EnsureUserIsAdminProperty::class,
             ])
             ->authGuard('web');
     }

@@ -153,10 +153,7 @@
                         <i class="fas fa-bed mr-2 text-gold"></i> Hotel
                     </a>
                     <a href="#" class="nav-item text-sm hover-gold transition-smooth flex items-center">
-                        <i class="fas fa-train mr-2 text-gold"></i> parking
-                    </a>
-                    <a href="#" class="nav-item text-sm hover-gold transition-smooth flex items-center">
-                        <i class="fas fa-car mr-2 text-gold"></i> pool
+                        <i class="fas fa-car mr-2 text-gold"></i> Parking
                     </a>
                     <a href="#" class="nav-item text-sm hover-gold transition-smooth flex items-center">
                         <i class="fas fa-umbrella-beach mr-2 text-gold"></i> pemandangan

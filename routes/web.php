@@ -7,6 +7,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PropertiesController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\KamarController;
+use App\Http\Controllers\CustomerAuthController;
+use App\Http\Controllers\CustomerAccountController;
 
 // Halaman utama
 Route::get('/', function () {
