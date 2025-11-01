@@ -62,7 +62,7 @@
                         </div>
                         <input type="password" name="password" required
                             class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none transition-all duration-200"
-                            placeholder="buat password minimal 8 karakter">
+                            placeholder="buat password minimal 6 karakter">
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                             <button type="button" class="text-gray-400 hover:text-gray-600 focus:outline-none password-toggle">
                                 <i class="fas fa-eye"></i>
@@ -91,25 +91,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Terms and Conditions -->
-                <div class="flex items-start gap-3">
-                    <div class="relative flex-shrink-0 mt-1">
-                        <input type="checkbox" name="terms" id="terms" required class="sr-only">
-                        <div class="w-4 h-4 border-2 border-gray-300 rounded-sm flex items-center justify-center transition-all duration-200 checkbox-custom">
-                            <i class="fas fa-check text-xs text-white opacity-0"></i>
-                        </div>
-                    </div>
-                    <label for="terms" class="text-sm text-gray-600 cursor-pointer select-none">
-                        Saya menyetujui
-                        <a href="#" class="text-yellow-600 hover:text-yellow-700 font-medium">Syarat & Ketentuan</a>
-                        dan
-                        <a href="#" class="text-yellow-600 hover:text-yellow-700 font-medium">Kebijakan Privasi</a>
-                    </label>
-                </div>
-                @error('terms')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
 
                 <!-- Submit Button -->
                 <button type="submit"
@@ -154,20 +135,6 @@
 </section>
 
 <style>
-    .checkbox-custom {
-        position: relative;
-        cursor: pointer;
-    }
-
-    input[type="checkbox"]:checked + .checkbox-custom {
-        background: linear-gradient(135deg, #d4af37 0%, #f7ef8a 100%);
-        border-color: #d4af37;
-    }
-
-    input[type="checkbox"]:checked + .checkbox-custom i {
-        opacity: 1;
-    }
-
     input:focus {
         box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
     }
@@ -175,42 +142,10 @@
     .bg-gradient-to-br {
         background-image: linear-gradient(to bottom right, #f9fafb, #f3f4f6);
     }
-
-    .password-strength {
-        height: 4px;
-        background: #e5e7eb;
-        border-radius: 2px;
-        margin-top: 4px;
-        overflow: hidden;
-    }
-
-    .password-strength-bar {
-        height: 100%;
-        width: 0%;
-        transition: all 0.3s ease;
-        border-radius: 2px;
-    }
 </style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Custom checkbox functionality
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                const customCheckbox = this.nextElementSibling;
-                if (this.checked) {
-                    customCheckbox.style.background = 'linear-gradient(135deg, #d4af37 0%, #f7ef8a 100%)';
-                    customCheckbox.style.borderColor = '#d4af37';
-                    customCheckbox.querySelector('i').style.opacity = '1';
-                } else {
-                    customCheckbox.style.background = 'transparent';
-                    customCheckbox.style.borderColor = '#d1d5db';
-                    customCheckbox.querySelector('i').style.opacity = '0';
-                }
-            });
-        });
-
         // Password toggle functionality
         const passwordToggles = document.querySelectorAll('.password-toggle');
         passwordToggles.forEach(toggle => {
@@ -229,12 +164,6 @@
                 }
             });
         });
-
-        // Password strength indicator (optional enhancement)
-        const passwordInput = document.querySelector('input[name="password"]');
-        if (passwordInput) {
-            // You can add password strength indicator here if needed
-        }
     });
 </script>
 @endsection

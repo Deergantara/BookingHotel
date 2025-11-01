@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
 
 class RegisterController extends Controller
 {
@@ -16,30 +15,24 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        // Redirect jika sudah login
-        if (Auth::check()) {
-            return redirect('/');
-        }
-
         return view('auth.register');
     }
 
     /**
-     * Proses register user baru sebagai CUSTOMER.
+     * Proses register user baru.
      */
     public function register(Request $request)
     {
         // Validasi data input
-        $validated = $request->validate([
+        $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ], [
             'name.required' => 'Nama lengkap wajib diisi',
-            'name.max' => 'Nama lengkap maksimal 255 karakter',
             'email.required' => 'Email wajib diisi',
             'email.email' => 'Format email tidak valid',
-            'email.unique' => 'Email sudah terdaftar, silakan gunakan email lain',
+            'email.unique' => 'Email sudah terdaftar',
             'password.required' => 'Password wajib diisi',
             'password.min' => 'Password minimal 6 karakter',
             'password.confirmed' => 'Konfirmasi password tidak cocok',
@@ -47,17 +40,16 @@ class RegisterController extends Controller
 
         // Simpan user baru dengan role 'user' (customer)
         $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
             'role' => 'user', // ✅ PENTING: Set role sebagai 'user' untuk customer
         ]);
 
         // Auto login setelah register
         Auth::login($user);
 
-        // Redirect ke homepage dengan pesan sukses
-        return redirect('/')
-            ->with('success', 'Selamat datang di Luxury Allure, ' . $user->name . '! Akun Anda berhasil dibuat.');
+        // Redirect ke homepage (bukan dashboard)
+        return redirect('/')->with('success', 'Registrasi berhasil! Selamat datang di Luxury Allure.');
     }
 }

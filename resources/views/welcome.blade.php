@@ -172,7 +172,7 @@
 
 <body class="bg-white text-gray-800">
     <!-- Hero Section -->
-    <section class="relative bg-cover bg-center h-[560px]" style="background-image: url('{{ asset('images/hotel.jpg') }}')">
+    <section class="relative bg-cover bg-center h-[560px]" style="background-image: url('{{ asset('images/hondel.jpeg') }}')">
         <div class="absolute inset-0 gradient-overlay"></div>
         <div class="relative z-10 flex flex-col justify-center items-center h-full text-center text-white px-4">
             <h1 class="hero-title text-4xl md:text-5xl lg:text-6xl font-bold mb-4 max-w-3xl leading-tight">

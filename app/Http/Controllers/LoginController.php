@@ -20,26 +20,34 @@ class LoginController extends Controller
      * Proses login user.
      */
     public function login(Request $request)
-    {
-        // Validasi input
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+{
+    // Validasi input
+    $credentials = $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required'],
+    ]);
 
-        // Coba login
-        if (Auth::attempt($credentials, $request->filled('remember'))) {
-            $request->session()->regenerate();
+    // Coba login dulu
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
 
-            return redirect()->intended('/dashboard') // arahkan ke dashboard
-                             ->with('success', 'Login berhasil!');
+        // Redirect berdasarkan role
+        if (Auth::user()->role === 'user') {
+            return redirect('/')->with('success', 'Login berhasil sebagai user!');
+        } elseif (Auth::user()->role === 'admin') {
+            return redirect('/dashboard')->with('success', 'Login berhasil sebagai admin!');
         }
 
-        // Kalau gagal login
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ])->onlyInput('email');
+        // Default redirect kalau role tidak diketahui
+        return redirect('/')->with('success', 'Login berhasil!');
     }
+
+    // Kalau gagal login
+    return back()->withErrors([
+        'email' => 'Email atau password salah.',
+    ])->onlyInput('email');
+}
+
 
     /**
      * Logout user.
@@ -51,6 +59,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login')->with('success', 'Anda sudah logout.');
+        return redirect('/')->with('success', 'Anda sudah logout.');
     }
 }
