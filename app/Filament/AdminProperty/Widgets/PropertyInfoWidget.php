@@ -7,7 +7,7 @@ use Filament\Widgets\Widget;
 
 class PropertyInfoWidget extends Widget
 {
-    protected static string $view = 'filament.admin-property.widgets.property-info';
+    protected static string $view = 'filament.admin-property.widgets.property-info-widget';
 
     protected int | string | array $columnSpan = 'full';
 

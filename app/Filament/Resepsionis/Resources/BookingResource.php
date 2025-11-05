@@ -33,24 +33,27 @@ class BookingResource extends Resource
                 Forms\Components\Section::make('Informasi Tamu')
                     ->schema([
                         Forms\Components\Select::make('user_id')
-                            ->relationship('user', 'name')
-                            ->searchable()
-                            ->required()
-                            ->createOptionForm([
-                                Forms\Components\TextInput::make('name')->required(),
-                                Forms\Components\TextInput::make('email')->email()->required(),
-                                Forms\Components\TextInput::make('phone'),
-                            ]),
+    ->relationship('user', 'name')
+    ->searchable()
+    ->required()
+    ->createOptionForm([
+        Forms\Components\TextInput::make('name')->required(),
+        Forms\Components\TextInput::make('email')->email()->required(),
+        Forms\Components\TextInput::make('phone'),
+        Forms\Components\Hidden::make('password')
+            ->default(bcrypt('password123')), // ← default password
+    ]),
+
                     ]),
 
                 Forms\Components\Section::make('Detail Booking')
                     ->schema([
                         Forms\Components\Select::make('kamar_id')
                             ->relationship(
-                                'kamar', 
+                                'kamar',
                                 'nomor_kamar',
                                 fn (Builder $query) => $query
-                                    ->whereHas('tipeKamar', fn ($q) => 
+                                    ->whereHas('tipeKamar', fn ($q) =>
                                         $q->where('property_id', auth()->user()->property_id)
                                     )
                                     ->where('status', 'tersedia')

@@ -22,9 +22,9 @@ class Kamar extends Model
 
     // relasi ke tipe_kamar
     public function tipeKamar()
-    {
-        return $this->belongsTo(TipeKamar::class, 'tipe_kamar_id');
-    }
+{
+    return $this->belongsTo(TipeKamar::class, 'tipe_kamar_id');
+}
 
     // label status
     public function getStatusLabelAttribute()

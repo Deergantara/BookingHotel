@@ -603,8 +603,8 @@
                                         @if($tipe->fasilitas_kamar)
                                             <div class="room-features">
                                                 @php
-                                                    $features = is_array($tipe->fasilitas_kamar) 
-                                                        ? $tipe->fasilitas_kamar 
+                                                    $features = is_array($tipe->fasilitas_kamar)
+                                                        ? $tipe->fasilitas_kamar
                                                         : explode(',', $tipe->fasilitas_kamar);
                                                 @endphp
                                                 @foreach(array_slice($features, 0, 3) as $feature)
@@ -623,48 +623,161 @@
                     </div>
                 </div>
 
-                <!-- DATES & GUESTS -->
-                <div class="form-section">
-                    <h3 class="section-title">
-                        <i class="fas fa-calendar-alt"></i>
-                        Detail Pemesanan
-                    </h3>
+                <!-- Cari bagian ini di file Anda (sekitar baris 810) dan ganti dengan kode ini -->
 
-                    <div class="date-inputs">
-                        <div class="form-group">
-                            <label class="form-label">Check-in</label>
-                            <div class="input-with-icon">
-                                <input type="date" name="checkin_date" value="{{ $checkin }}"
-                                       class="form-control" required min="{{ date('Y-m-d') }}"
-                                       id="checkinDate">
-                                <i class="fas fa-calendar-day input-icon"></i>
-                            </div>
-                        </div>
+@if(!$isLoggedIn)
+<div class="form-section">
+    <h3 class="section-title">
+        <i class="fas fa-user"></i>
+        Informasi Pemesan
+    </h3>
 
-                        <div class="form-group">
-                            <label class="form-label">Check-out</label>
-                            <div class="input-with-icon">
-                                <input type="date" name="checkout_date" value="{{ $checkout }}"
-                                       class="form-control" required id="checkoutDate">
-                                <i class="fas fa-calendar-day input-icon"></i>
-                            </div>
-                        </div>
-                    </div>
+    <div class="form-group">
+        <label class="form-label">Nama Lengkap <span style="color: red;">*</span></label>
+        <div class="input-with-icon">
+            <input type="text" name="guest_name" class="form-control" required
+                   value="{{ old('guest_name') }}" placeholder="Masukkan nama lengkap Anda">
+            <i class="fas fa-user input-icon"></i>
+        </div>
+    </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Jumlah Tamu</label>
-                        <div class="input-with-icon">
-                            <select name="guests" class="form-control form-select" required>
-                                @for($i = 1; $i <= 10; $i++)
-                                    <option value="{{ $i }}" {{ $guests == $i ? 'selected' : '' }}>
-                                        {{ $i }} Tamu
-                                    </option>
-                                @endfor
-                            </select>
-                            <i class="fas fa-user-friends input-icon"></i>
-                        </div>
-                    </div>
+    <div class="form-group">
+        <label class="form-label">Email <span style="color: red;">*</span></label>
+        <div class="input-with-icon">
+            <input type="email" name="guest_email" class="form-control" required
+                   value="{{ old('guest_email') }}" placeholder="contoh@email.com">
+            <i class="fas fa-envelope input-icon"></i>
+        </div>
+        <small style="color: var(--text-light); font-size: 12px; margin-top: 4px; display: block;">
+            Konfirmasi booking akan dikirim ke email ini
+        </small>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Nomor Telepon <span style="color: red;">*</span></label>
+        <div class="input-with-icon">
+            <input type="tel" name="guest_phone" class="form-control" required
+                   value="{{ old('guest_phone') }}" placeholder="08xxxxxxxxxx">
+            <i class="fas fa-phone input-icon"></i>
+        </div>
+    </div>
+
+    <!-- Optional: Create Account -->
+    <div style="background: rgba(212, 175, 55, 0.05); padding: 16px; border-radius: 8px; margin-top: 16px;">
+        <label style="display: flex; align-items: start; gap: 12px; cursor: pointer;">
+            <input type="checkbox" name="create_account" value="1" id="createAccountCheckbox"
+                   style="margin-top: 4px; width: 18px; height: 18px; cursor: pointer;">
+            <div>
+                <strong style="color: var(--primary); display: block; margin-bottom: 4px;">
+                    Buat akun untuk booking lebih mudah
+                </strong>
+                <small style="color: var(--text-light); font-size: 13px;">
+                    Dengan membuat akun, Anda dapat melacak pesanan dan mendapatkan penawaran khusus
+                </small>
+            </div>
+        </label>
+
+        <!-- Password fields (hidden by default) -->
+        <div id="passwordFields" style="display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(212, 175, 55, 0.2);">
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label class="form-label" style="font-size: 14px;">Password <span style="color: red;">*</span></label>
+                <div class="input-with-icon">
+                    <input type="password" name="guest_password" class="form-control"
+                           placeholder="Minimal 8 karakter" minlength="8">
+                    <i class="fas fa-lock input-icon"></i>
                 </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" style="font-size: 14px;">Konfirmasi Password <span style="color: red;">*</span></label>
+                <div class="input-with-icon">
+                    <input type="password" name="guest_password_confirmation" class="form-control"
+                           placeholder="Ulangi password" minlength="8">
+                    <i class="fas fa-lock input-icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@else
+<!-- LOGGED IN USER INFO -->
+<div class="form-section">
+    <h3 class="section-title">
+        <i class="fas fa-user-check"></i>
+        Informasi Pemesan
+    </h3>
+
+    <div style="background: rgba(212, 175, 55, 0.05); padding: 20px; border-radius: 8px; border-left: 4px solid var(--accent);">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 24px; font-weight: 700;">
+                {{ strtoupper(substr($user->name, 0, 1)) }}
+            </div>
+            <div>
+                <div style="font-weight: 700; font-size: 18px; color: var(--primary);">
+                    {{ $user->name }}
+                </div>
+                <div style="color: var(--text-light); font-size: 14px;">
+                    <i class="fas fa-envelope" style="margin-right: 6px;"></i>
+                    {{ $user->email }}
+                </div>
+                @if($user->phone)
+                <div style="color: var(--text-light); font-size: 14px;">
+                    <i class="fas fa-phone" style="margin-right: 6px;"></i>
+                    {{ $user->phone }}
+                </div>
+                @endif
+            </div>
+        </div>
+        <small style="color: var(--text-light); font-size: 12px;">
+            <i class="fas fa-info-circle"></i>
+            Konfirmasi booking akan dikirim ke email Anda
+        </small>
+    </div>
+</div>
+@endif
+
+<!-- DATES & GUESTS -->
+<div class="form-section">
+    <h3 class="section-title">
+        <i class="fas fa-calendar-alt"></i>
+        Detail Pemesanan
+    </h3>
+
+    <div class="date-inputs">
+        <div class="form-group">
+            <label class="form-label">Check-in</label>
+            <div class="input-with-icon">
+                <input type="date" name="checkin_date" value="{{ $checkin }}"
+                       class="form-control" required min="{{ date('Y-m-d') }}"
+                       id="checkinDate">
+                <i class="fas fa-calendar-day input-icon"></i>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Check-out</label>
+            <div class="input-with-icon">
+                <input type="date" name="checkout_date" value="{{ $checkout }}"
+                       class="form-control" required id="checkoutDate">
+                <i class="fas fa-calendar-day input-icon"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Jumlah Tamu</label>
+        <div class="input-with-icon">
+            <select name="guests" class="form-control form-select" required>
+                @for($i = 1; $i <= 10; $i++)
+                    <option value="{{ $i }}" {{ $totalGuests == $i ? 'selected' : '' }}>
+                        {{ $i }} Tamu
+                    </option>
+                @endfor
+            </select>
+            <i class="fas fa-user-friends input-icon"></i>
+        </div>
+    </div>
+</div>
 
                 <!-- PRICE SUMMARY -->
                 <div class="price-summary">
@@ -730,7 +843,7 @@
                 const minCheckout = new Date(this.value);
                 minCheckout.setDate(minCheckout.getDate() + 1);
                 checkoutInput.min = minCheckout.toISOString().split('T')[0];
-                
+
                 if (checkoutInput.value && checkoutInput.value < this.value) {
                     checkoutInput.value = '';
                 }
@@ -776,7 +889,7 @@
             // Initialize
             const today = new Date().toISOString().split('T')[0];
             checkinInput.min = today;
-            
+
             if (checkoutInput.value) {
                 const checkoutDate = new Date(checkoutInput.value);
                 const minCheckout = new Date(checkinInput.value);
@@ -786,6 +899,34 @@
 
             updatePriceSummary();
         });
+
+        // Toggle password fields ketika checkbox create account dicentang
+document.addEventListener('DOMContentLoaded', function() {
+    const createAccountCheckbox = document.getElementById('createAccountCheckbox');
+    const passwordFields = document.getElementById('passwordFields');
+
+    if (createAccountCheckbox) {
+        createAccountCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                passwordFields.style.display = 'block';
+                // Set required attribute
+                passwordFields.querySelectorAll('input').forEach(input => {
+                    input.required = true;
+                });
+            } else {
+                passwordFields.style.display = 'none';
+                // Remove required attribute
+                passwordFields.querySelectorAll('input').forEach(input => {
+                    input.required = false;
+                    input.value = '';
+                });
+            }
+        });
+    }
+
+    // Existing code untuk room selection, date validation, dll...
+    // ... (kode yang sudah ada sebelumnya)
+});
     </script>
 </body>
 </html>

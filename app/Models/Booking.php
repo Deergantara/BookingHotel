@@ -58,5 +58,15 @@ class Booking extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
-    
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function kamar()
+{
+    return $this->belongsTo(\App\Models\Kamar::class);
+}
+
 }

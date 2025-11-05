@@ -734,22 +734,22 @@
             @endphp
 
             @if($mainPhoto)
-                <img src="{{ asset('storage/' . $mainPhoto) }}" 
-                     alt="{{ $property->name }}" 
-                     class="main-photo" 
+                <img src="{{ asset('storage/' . $mainPhoto) }}"
+                     alt="{{ $property->name }}"
+                     class="main-photo"
                      id="mainPhoto"
                      onerror="this.src='https://via.placeholder.com/800x400?text=Hotel+Image'">
             @else
-                <img src="https://via.placeholder.com/800x400?text=No+Image" 
-                     alt="No Image" 
-                     class="main-photo" 
+                <img src="https://via.placeholder.com/800x400?text=No+Image"
+                     alt="No Image"
+                     class="main-photo"
                      id="mainPhoto">
             @endif
 
             <div class="photo-thumbnails">
                 @if(count($photos) > 0)
                     @foreach(array_slice($photos, 0, 4) as $index => $foto)
-                        <img src="{{ asset('storage/' . $foto) }}" 
+                        <img src="{{ asset('storage/' . $foto) }}"
                              alt="Thumbnail {{ $index + 1 }}"
                              class="thumbnail {{ $index === 0 ? 'active' : '' }}"
                              data-full="{{ asset('storage/' . $foto) }}"
@@ -757,7 +757,7 @@
                     @endforeach
                 @else
                     @for($i = 0; $i < 4; $i++)
-                        <img src="https://via.placeholder.com/120x80?text=Image+{{ $i+1 }}" 
+                        <img src="https://via.placeholder.com/120x80?text=Image+{{ $i+1 }}"
                              alt="Placeholder {{ $i+1 }}"
                              class="thumbnail {{ $i === 0 ? 'active' : '' }}"
                              data-full="https://via.placeholder.com/800x400?text=Image+{{ $i+1 }}">
@@ -881,56 +881,59 @@
                 </div>
             </div>
 
-            <div class="booking-form-container">
-                <form id="bookingForm" class="booking-form" action="{{ route('booking.store') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="property_id" value="{{ $property->id }}">
-                    <input type="hidden" name="tipe_kamar_id" id="selectedTipeKamarId">
-                    <input type="hidden" name="checkin" value="{{ $searchData['checkin'] ?? now()->format('Y-m-d') }}">
-                    <input type="hidden" name="checkout" value="{{ $searchData['checkout'] ?? now()->addDay()->format('Y-m-d') }}">
-                    <input type="hidden" name="guests" value="{{ $searchData['guests'] ?? 2 }}">
-                    <input type="hidden" name="rooms" value="{{ $searchData['rooms'] ?? 1 }}">
+            <!-- GANTI BAGIAN BOOKING FORM CONTAINER INI -->
+<div class="booking-form-container">
+    <!-- Ubah dari POST ke GET dan action ke route booking.create -->
+    <form id="bookingForm" class="booking-form" action="{{ route('booking.create', $property->id) }}" method="GET">
+        <!-- Tidak perlu @csrf karena menggunakan GET -->
 
-                    <h3><i class="fas fa-calendar-check"></i> Form Pemesanan</h3>
+        <!-- Hidden inputs untuk data yang akan dikirim -->
+        <input type="hidden" name="checkin" id="formCheckin" value="{{ $searchData['checkin'] ?? now()->format('Y-m-d') }}">
+        <input type="hidden" name="checkout" id="formCheckout" value="{{ $searchData['checkout'] ?? now()->addDay()->format('Y-m-d') }}">
+        <input type="hidden" name="total_guests" id="formGuests" value="{{ $searchData['guests'] ?? 2 }}">
+        <input type="hidden" name="total_rooms" id="formRooms" value="{{ $searchData['rooms'] ?? 1 }}">
+        <input type="hidden" name="tipe_kamar_id" id="selectedTipeKamarId">
 
-                    <div class="form-group">
-                        <label>Check-in:</label>
-                        <div class="search-summary-value">
-                            {{ \Carbon\Carbon::parse($searchData['checkin'] ?? now())->format('d/m/Y') }}
-                        </div>
-                    </div>
+        <h3><i class="fas fa-calendar-check"></i> Form Pemesanan</h3>
 
-                    <div class="form-group">
-                        <label>Check-out:</label>
-                        <div class="search-summary-value">
-                            {{ \Carbon\Carbon::parse($searchData['checkout'] ?? now()->addDay())->format('d/m/Y') }}
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Jumlah Tamu & Kamar:</label>
-                        <div class="search-summary-value">
-                            {{ $searchData['guests'] ?? 2 }} Tamu, {{ $searchData['rooms'] ?? 1 }} Kamar
-                        </div>
-                    </div>
-
-                    <div id="selectedRoomInfo" style="text-align: center; margin-bottom: 15px; padding: 12px; background: rgba(212, 175, 55, 0.05); border-radius: 6px; display: none;">
-                        <strong>Kamar Dipilih:</strong>
-                        <div id="roomNameDisplay" style="font-size: 18px; color: var(--primary); margin-top: 5px;"></div>
-                        <div id="roomPriceDisplay" style="font-size: 14px; color: var(--text-light);"></div>
-                    </div>
-
-                    <button type="submit" id="pesanBtn" class="book-btn" disabled>
-                        <i class="fas fa-check-circle"></i> Pesan Sekarang
-                    </button>
-                </form>
-
-                <div class="policies-box">
-                    <h4><i class="fas fa-info-circle"></i> Kebijakan</h4>
-                    <p>Check-in: 14:00 WIB | Check-out: 12:00 WIB</p>
-                    <p>Pembatalan gratis hingga 24 jam sebelum check-in</p>
-                </div>
+        <div class="form-group">
+            <label>Check-in:</label>
+            <div class="search-summary-value">
+                {{ \Carbon\Carbon::parse($searchData['checkin'] ?? now())->format('d M Y') }}
             </div>
+        </div>
+
+        <div class="form-group">
+            <label>Check-out:</label>
+            <div class="search-summary-value">
+                {{ \Carbon\Carbon::parse($searchData['checkout'] ?? now()->addDay())->format('d M Y') }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Jumlah Tamu & Kamar:</label>
+            <div class="search-summary-value">
+                {{ $searchData['guests'] ?? 2 }} Tamu, {{ $searchData['rooms'] ?? 1 }} Kamar
+            </div>
+        </div>
+
+        <div id="selectedRoomInfo" style="text-align: center; margin-bottom: 15px; padding: 12px; background: rgba(212, 175, 55, 0.05); border-radius: 6px; display: none;">
+            <strong>Kamar Dipilih:</strong>
+            <div id="roomNameDisplay" style="font-size: 18px; color: var(--primary); margin-top: 5px;"></div>
+            <div id="roomPriceDisplay" style="font-size: 14px; color: var(--text-light);"></div>
+        </div>
+
+        <button type="submit" id="pesanBtn" class="book-btn" disabled>
+            <i class="fas fa-check-circle"></i> Pesan Sekarang
+        </button>
+    </form>
+
+    <div class="policies-box">
+        <h4><i class="fas fa-info-circle"></i> Kebijakan</h4>
+        <p>Check-in: 14:00 WIB | Check-out: 12:00 WIB</p>
+        <p>Pembatalan gratis hingga 24 jam sebelum check-in</p>
+    </div>
+</div>
         </div>
 
         <!-- ROOM TYPES -->
@@ -956,11 +959,11 @@
 
                             @if($roomPhoto)
                                 <img src="{{ asset('storage/' . $roomPhoto) }}"
-                                     alt="{{ $tipe->nama_tipe }}" 
+                                     alt="{{ $tipe->nama_tipe }}"
                                      class="room-image"
                                      onerror="this.src='https://via.placeholder.com/400x200?text=Room+Image'">
                             @else
-                                <img src="https://via.placeholder.com/400x200?text=Room+Image" 
+                                <img src="https://via.placeholder.com/400x200?text=Room+Image"
                                      alt="Default Room"
                                      class="room-image">
                             @endif
@@ -1026,9 +1029,9 @@
                                 </div>
                             @endif
 
-                            <button type="button" 
+                            <button type="button"
                                     class="room-book-btn pilih-kamar-btn"
-                                    data-id="{{ $tipe->id }}" 
+                                    data-id="{{ $tipe->id }}"
                                     data-name="{{ $tipe->nama_tipe }}"
                                     data-harga="{{ $tipe->harga }}"
                                     data-harga-format="{{ number_format($tipe->harga, 0, ',', '.') }}">
@@ -1050,6 +1053,13 @@
         document.addEventListener('DOMContentLoaded', function() {
             const headerCheckin = document.getElementById('headerCheckin');
             const headerCheckout = document.getElementById('headerCheckout');
+                    const headerTamu = document.getElementById('headerTamu');
+            const headerKamar = document.getElementById('headerKamar');
+
+            const formCheckin = document.getElementById('formCheckin');
+            const formCheckout = document.getElementById('formCheckout');
+            const formGuests = document.getElementById('formGuests');
+            const formRooms = document.getElementById('formRooms');
             const thumbnails = document.querySelectorAll('.thumbnail');
             const mainPhoto = document.getElementById('mainPhoto');
             const pilihKamarBtns = document.querySelectorAll('.pilih-kamar-btn');
@@ -1063,17 +1073,48 @@
             const today = new Date().toISOString().split('T')[0];
             headerCheckin.min = today;
 
+                // Sync header search dengan form booking
+            function syncFormData() {
+                formCheckin.value = headerCheckin.value;
+                formCheckout.value = headerCheckout.value;
+                formGuests.value = headerTamu.value;
+                formRooms.value = headerKamar.value;
+
+                // Update display
+                updateBookingDisplay();
+            }
+
+            function updateBookingDisplay() {
+            const checkinDate = new Date(headerCheckin.value);
+            const checkoutDate = new Date(headerCheckout.value);
+
+            const formatOptions = { day: 'numeric', month: 'short', year: 'numeric' };
+            const checkinFormatted = checkinDate.toLocaleDateString('id-ID', formatOptions);
+            const checkoutFormatted = checkoutDate.toLocaleDateString('id-ID', formatOptions);
+
+            document.querySelector('.form-group:nth-child(2) .search-summary-value').textContent = checkinFormatted;
+            document.querySelector('.form-group:nth-child(3) .search-summary-value').textContent = checkoutFormatted;
+            document.querySelector('.form-group:nth-child(4) .search-summary-value').textContent =
+                `${headerTamu.value} Tamu, ${headerKamar.value} Kamar`;
+            }
+
             // Atur tanggal checkout minimal sama dengan checkin
             headerCheckin.addEventListener('change', function() {
                 const checkinDate = new Date(this.value);
                 checkinDate.setDate(checkinDate.getDate() + 1);
                 const minCheckout = checkinDate.toISOString().split('T')[0];
                 headerCheckout.min = minCheckout;
-                
+
                 if (headerCheckout.value && headerCheckout.value <= this.value) {
                     headerCheckout.value = minCheckout;
                 }
+
+                syncFormData();
             });
+
+            headerCheckout.addEventListener('change', syncFormData);
+            headerTamu.addEventListener('change', syncFormData);
+            headerKamar.addEventListener('change', syncFormData);
 
             // Initialize checkout min date
             if (headerCheckin.value) {
@@ -1131,11 +1172,12 @@
             // Form validation
             const bookingForm = document.getElementById('bookingForm');
             bookingForm.addEventListener('submit', function(e) {
-                if (!selectedTipeKamarId.value) {
-                    e.preventDefault();
-                    alert('Silakan pilih tipe kamar terlebih dahulu!');
-                }
-            });
+            if (!selectedTipeKamarId.value) {
+                e.preventDefault();
+                alert('Silakan pilih tipe kamar terlebih dahulu!');
+                return false;
+                    }
+             });
         });
     </script>
 

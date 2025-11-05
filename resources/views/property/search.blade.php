@@ -750,7 +750,7 @@
         @endphp
 
         <img src="{{ asset($fotoPath) }}" alt="{{ $property->name }}" class="property-image">
-        
+
         <div class="property-content">
           <div class="property-header">
             <h3 class="property-name">{{ $property->name }}</h3>
@@ -771,17 +771,18 @@
               <span>{{ $property->kapasitas_tamu ?? 2 }} tamu</span>
             </div>
           </div>
-          
+
           <div class="property-price">
             Rp {{ number_format($lowestPrice, 0, ',', '.') }} / malam
           </div>
-          
+
           <div class="property-actions">
             <a href="{{ route('property.show', $property->id) }}" class="view-btn">
               <i class="fas fa-eye"></i> Lihat Detail
             </a>
-            <a href="{{ route('booking.create', ['property_id' => $property->id]) }}" class="book-btn">
-              <i class="fas fa-calendar-check"></i> Pesan Sekarang
+            <a href="{{ route('booking.create', $property->id) }}?checkin={{ $searchData['checkin'] ?? now()->format('Y-m-d') }}&checkout={{ $searchData['checkout'] ?? now()->addDay()->format('Y-m-d') }}&total_guests={{ $searchData['guests'] ?? 2 }}&total_rooms={{ $searchData['rooms'] ?? 1 }}"
+            class="book-btn">
+                <i class="fas fa-calendar-check"></i> Pesan Sekarang
             </a>
           </div>
         </div>
