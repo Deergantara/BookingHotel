@@ -681,15 +681,48 @@
             @endif
         </div>
 
-        <!-- Payment Alert -->
-        <div class="alert alert-info">
-            <i class="fas fa-exclamation-circle"></i>
-            <div class="alert-content">
-                <h4>Selesaikan Pembayaran</h4>
-                <p>Silakan lakukan pembayaran sebelum <strong>{{ \Carbon\Carbon::now()->addHours(24)->isoFormat('dddd, D MMMM Y - HH:mm') }} WIB</strong> untuk mengkonfirmasi booking Anda.</p>
-                <p style="margin-top: 8px;">Konfirmasi pembayaran akan dikirim ke email Anda.</p>
-            </div>
-        </div>
+       <!-- Payment Alert -->
+@if($booking->payment->transaction_status === 'settlement')
+<div class="alert alert-success" style="background: rgba(34, 197, 94, 0.1); border: 2px solid rgba(34, 197, 94, 0.3);">
+    <i class="fas fa-check-circle" style="color: #22c55e;"></i>
+    <div class="alert-content">
+        <h4 style="color: #16a34a;">Pembayaran Berhasil</h4>
+        <p style="color: #15803d;">
+            Pembayaran Anda telah berhasil diproses pada
+            <strong>{{ \Carbon\Carbon::parse($booking->payment->paid_at)->isoFormat('dddd, D MMMM Y - HH:mm') }} WIB</strong>
+        </p>
+        <p style="margin-top: 8px; color: #15803d;">
+            Metode Pembayaran: <strong>{{ ucfirst($booking->payment->payment_type ?? 'N/A') }}</strong>
+        </p>
+    </div>
+</div>
+@elseif($booking->payment->transaction_status === 'pending')
+<div class="alert alert-info">
+    <i class="fas fa-clock"></i>
+    <div class="alert-content">
+        <h4>Menunggu Pembayaran</h4>
+        <p>Silakan lakukan pembayaran sebelum <strong>{{ \Carbon\Carbon::now()->addHours(24)->isoFormat('dddd, D MMMM Y - HH:mm') }} WIB</strong> untuk mengkonfirmasi booking Anda.</p>
+        <p style="margin-top: 8px;">
+            Jika Anda sudah melakukan pembayaran, tunggu beberapa saat untuk konfirmasi otomatis atau
+            <a href="{{ route('payment.status', $booking->id) }}"
+               style="color: var(--accent); font-weight: 600; text-decoration: underline;"
+               onclick="event.preventDefault(); checkPaymentStatus();">
+                klik di sini untuk cek status
+            </a>
+        </p>
+    </div>
+</div>
+@else
+<div class="alert alert-info" style="background: rgba(239, 68, 68, 0.1); border: 2px solid rgba(239, 68, 68, 0.3);">
+    <i class="fas fa-exclamation-circle" style="color: #ef4444;"></i>
+    <div class="alert-content">
+        <h4 style="color: #dc2626;">Pembayaran {{ ucfirst($booking->payment->transaction_status) }}</h4>
+        <p style="color: #b91c1c;">
+            Status pembayaran: <strong>{{ strtoupper($booking->payment->transaction_status) }}</strong>
+        </p>
+    </div>
+</div>
+@endif
 
         <!-- Action Buttons -->
         <div class="action-buttons">

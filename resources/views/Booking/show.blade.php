@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Detail Booking - Luxury Allure</title>
+    <title>Bukti Pembayaran</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -33,7 +33,7 @@
             font-family: 'Playfair Display', serif;
         }
 
-        .booking-header {
+        .voucher-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
         }
 
@@ -46,21 +46,6 @@
 
         .status-confirmed {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-        }
-
-        .status-pending {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: white;
-        }
-
-        .status-cancelled {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-        }
-
-        .status-completed {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             color: white;
         }
 
@@ -114,150 +99,216 @@
             border: 2px solid white;
             box-shadow: 0 0 0 2px var(--accent);
         }
+
+        .print-section {
+            background-color: #f9fafb;
+            border: 1px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 24px;
+        }
+
+        .hotel-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .room-type {
+            font-size: 1.125rem;
+            color: #374151;
+            margin-bottom: 16px;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 12px;
+        }
+
+        .detail-label {
+            width: 140px;
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .detail-value {
+            flex: 1;
+            color: #1f2937;
+        }
+
+        .promo-section {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 1px solid #fbbf24;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .payment-method {
+            background-color: #f3f4f6;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .signature-section {
+            margin-top: 40px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 20px;
+        }
+
+        .footer {
+            background-color: #1f2937;
+            color: white;
+            padding: 24px;
+            margin-top: 40px;
+            border-radius: 8px;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .no-print {
+                display: none;
+            }
+            .info-card {
+                box-shadow: none;
+                border: 1px solid #e5e7eb;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="min-h-screen py-8">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Header Section -->
-            <div class="text-center mb-12">
-                <h1 class="text-5xl font-bold text-gray-900 mb-4 font-playfair">Detail Booking</h1>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Informasi lengkap mengenai reservasi Anda di Luxury Allure
-                </p>
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold text-gray-900 mb-2 font-playfair">HOTEL VOUCHER</h1>
+                <div class="print-section">
+                    <p class="text-lg font-semibold text-gray-700">
+                        <i class="fas fa-print mr-2"></i>
+                        Tolong CETAK Voucher ini dan bawa ketika CHECK IN di HOTEL
+                    </p>
+                    <p class="text-lg font-semibold text-gray-700 mt-2">
+                        <i class="fas fa-credit-card mr-2"></i>
+                        Bawalah Kartu Kredit Anda jika Anda membayar dengan Kartu Kredit
+                    </p>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
-                <!-- Main Booking Information -->
-                <div class="xl:col-span-2 space-y-6">
-                    <!-- Booking Summary Card -->
+            <div class="grid grid-cols-1 gap-8">
+                <!-- Main Voucher Information -->
+                <div class="space-y-6">
+                    <!-- Booking Details Card -->
                     <div class="info-card p-8">
                         <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-3xl font-bold text-gray-900 font-playfair">Ringkasan Booking</h2>
-                            <div class="status-badge status-{{ strtolower($booking->status) }}">
-                                {{ ucfirst($booking->status) }}
+                            <h2 class="text-2xl font-bold text-gray-900">Detail Pemesanan</h2>
+                            <div class="status-badge status-confirmed">
+                                CONFIRMED
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Property Information -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div class="space-y-4">
-                                <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                                    <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
-                                        <i class="fas fa-hotel text-xl text-yellow-600"></i>
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-semibold text-gray-500 mb-1">Properti</label>
-                                        <p class="text-lg font-bold text-gray-900">{{ $booking->property->nama ?? '-' }}</p>
-                                    </div>
+                                <div class="detail-row">
+                                    <div class="detail-label">Order ID</div>
+                                    <div class="detail-value font-semibold">#43579424</div>
                                 </div>
-
-                                <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                                        <i class="fas fa-bed text-xl text-blue-600"></i>
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-semibold text-gray-500 mb-1">Tipe Kamar</label>
-                                        <p class="text-lg font-bold text-gray-900">{{ $booking->kamar->tipeKamar->nama_tipe ?? '-' }}</p>
-                                    </div>
+                                <div class="detail-row">
+                                    <div class="detail-label">Nama Tamu</div>
+                                    <div class="detail-value">Marselina Jawa</div>
+                                </div>
+                                <div class="detail-row">
+                                    <div class="detail-label">Tanggal</div>
+                                    <div class="detail-value">26/03/2018</div>
                                 </div>
                             </div>
 
-                            <!-- Date Information -->
                             <div class="space-y-4">
-                                <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                                        <i class="fas fa-calendar-check text-xl text-green-600"></i>
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-semibold text-gray-500 mb-1">Check-in</label>
-                                        <p class="text-lg font-bold text-gray-900">{{ \Carbon\Carbon::parse($booking->checkin_date)->format('d F Y') }}</p>
-                                        <p class="text-sm text-gray-500">14:00 WIB</p>
-                                    </div>
+                                <div class="detail-row">
+                                    <div class="detail-label">Item Number</div>
+                                    <div class="detail-value">65858411</div>
                                 </div>
-
-                                <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
-                                        <i class="fas fa-calendar-times text-xl text-red-600"></i>
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-semibold text-gray-500 mb-1">Check-out</label>
-                                        <p class="text-lg font-bold text-gray-900">{{ \Carbon\Carbon::parse($booking->checkout_date)->format('d F Y') }}</p>
-                                        <p class="text-sm text-gray-500">12:00 WIB</p>
-                                    </div>
+                                <div class="detail-row">
+                                    <div class="detail-label">Negara</div>
+                                    <div class="detail-value">Indonesia</div>
+                                </div>
+                                <div class="detail-row">
+                                    <div class="detail-label">Booked by</div>
+                                    <div class="detail-value">Travelscape LLC: 304061356</div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Duration Calculation -->
-                        <div class="mt-6 p-4 bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-xl border border-yellow-200">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <i class="fas fa-moon text-yellow-600 text-xl"></i>
-                                    <span class="text-lg font-semibold text-gray-700">Durasi Menginap</span>
+                        <div class="border-t border-gray-200 pt-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4 section-title">DETIL HOTEL</h3>
+
+                            <div class="hotel-name">D Lima Hotel and Villa</div>
+                            <div class="room-type">Kamar Superior - Non Refundable</div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                                <div class="space-y-4">
+                                    <div class="detail-row">
+                                        <div class="detail-label">Alamat</div>
+                                        <div class="detail-value">Jalan Pura Mertasari 2 No. 9 Sunset Road</div>
+                                    </div>
+                                    <div class="detail-row">
+                                        <div class="detail-label">Tgl Masuk</div>
+                                        <div class="detail-value font-semibold">11 April 2018</div>
+                                    </div>
+                                    <div class="detail-row">
+                                        <div class="detail-label">Tgl Keluar</div>
+                                        <div class="detail-value font-semibold">14 April 2018</div>
+                                    </div>
                                 </div>
-                                <span class="text-xl font-bold text-yellow-700">
-                                    {{ \Carbon\Carbon::parse($booking->checkin_date)->diffInDays($booking->checkout_date) }} Malam
-                                </span>
+
+                                <div class="space-y-4">
+                                    <div class="detail-row">
+                                        <div class="detail-label">Jumlah Kamar</div>
+                                        <div class="detail-value">1</div>
+                                    </div>
+                                    <div class="detail-row">
+                                        <div class="detail-label">Dewasa</div>
+                                        <div class="detail-value">2</div>
+                                    </div>
+                                    <div class="detail-row">
+                                        <div class="detail-label">Anak-Anak</div>
+                                        <div class="detail-value">0</div>
+                                    </div>
+                                    <div class="detail-row">
+                                        <div class="detail-label">Sarapan</div>
+                                        <div class="detail-value">Ya, Termasuk</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="promo-section">
+                                <div class="detail-row">
+                                    <div class="detail-label">Promosi</div>
+                                    <div class="detail-value">Promo Code : TIKETFAIR150 Promo Code Worth IDR 150.000,00</div>
+                                </div>
+                                <div class="detail-row mt-2">
+                                    <div class="detail-label">Tambahan Promosi</div>
+                                    <div class="detail-value">Sarapan Lengkap, Gratis Parkir, Gratis Internet Nirkabel</div>
+                                </div>
+                            </div>
+
+                            <div class="payment-method">
+                                <div class="detail-row">
+                                    <div class="detail-label">Metode Pembayaran</div>
+                                    <div class="detail-value">Virtual Account BCA, PROMOCODE</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Payment Information -->
-                    @if($booking->payment)
-                    <div class="info-card p-8">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                            <i class="fas fa-credit-card text-yellow-500"></i>
-                            Informasi Pembayaran
-                        </h3>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="space-y-4">
-                                <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                                        <i class="fas fa-wallet text-xl text-purple-600"></i>
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-semibold text-gray-500 mb-1">Metode Pembayaran</label>
-                                        <p class="text-lg font-bold text-gray-900">{{ $booking->payment->metode ?? '-' }}</p>
-                                    </div>
-                                </div>
-
-                                <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                                    <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
-                                        <i class="fas fa-info-circle text-xl text-indigo-600"></i>
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-semibold text-gray-500 mb-1">Status Pembayaran</label>
-                                        <p class="text-lg font-bold text-gray-900">{{ $booking->payment->status ?? '-' }}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Payment Proof -->
-                            @if($booking->payment->bukti_pembayaran)
-                            <div class="space-y-4">
-                                <div class="p-4 bg-gray-50 rounded-xl">
-                                    <label class="block text-sm font-semibold text-gray-500 mb-3">Bukti Pembayaran</label>
-                                    <div class="relative group">
-                                        <img src="{{ asset('storage/bukti/' . $booking->payment->bukti_pembayaran) }}"
-                                             alt="Bukti Pembayaran"
-                                             class="w-full h-48 object-cover rounded-lg shadow-md transition-all duration-300 group-hover:scale-105">
-                                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 rounded-lg flex items-center justify-center">
-                                            <a href="{{ asset('storage/bukti/' . $booking->payment->bukti_pembayaran) }}"
-                                               target="_blank"
-                                               class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white bg-opacity-90 p-3 rounded-full shadow-lg">
-                                                <i class="fas fa-expand text-gray-700 text-lg"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <p class="text-sm text-gray-500 mt-2 text-center">Klik untuk melihat ukuran penuh</p>
-                                </div>
-                            </div>
-                            @endif
+                        <div class="signature-section">
+                            <p class="text-lg font-semibold text-gray-700 mb-8">Tanda Tangan dan Stempel Resmi</p>
+                            <div class="h-24 border-b border-gray-400 w-3/4 mx-auto"></div>
                         </div>
                     </div>
-                    @endif
                 </div>
 
                 <!-- Sidebar Information -->
@@ -266,63 +317,48 @@
                     <div class="info-card p-6">
                         <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
                             <i class="fas fa-history text-yellow-500"></i>
-                            Timeline Booking
+                            Timeline Pemesanan
                         </h3>
 
                         <div class="timeline">
                             <div class="timeline-item">
-                                <p class="font-semibold text-gray-900">Booking Dibuat</p>
-                                <p class="text-sm text-gray-500">{{ $booking->created_at->format('d M Y, H:i') }}</p>
+                                <p class="font-semibold text-gray-900">Pemesanan Dibuat</p>
+                                <p class="text-sm text-gray-500">26 Maret 2018</p>
                             </div>
-
-                            @if($booking->payment)
-                            <div class="timeline-item">
-                                <p class="font-semibold text-gray-900">Pembayaran Diproses</p>
-                                <p class="text-sm text-gray-500">{{ $booking->payment->created_at->format('d M Y, H:i') }}</p>
-                            </div>
-                            @endif
 
                             <div class="timeline-item">
                                 <p class="font-semibold text-gray-900">Check-in</p>
-                                <p class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($booking->checkin_date)->format('d M Y') }}, 14:00 WIB</p>
+                                <p class="text-sm text-gray-500">11 April 2018, 14:00 WIB</p>
                             </div>
 
                             <div class="timeline-item">
                                 <p class="font-semibold text-gray-900">Check-out</p>
-                                <p class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($booking->checkout_date)->format('d M Y') }}, 12:00 WIB</p>
+                                <p class="text-sm text-gray-500">14 April 2018, 12:00 WIB</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Quick Actions -->
-                    <div class="info-card p-6">
+                    <div class="info-card p-6 no-print">
                         <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
                             <i class="fas fa-bolt text-yellow-500"></i>
                             Tindakan Cepat
                         </h3>
 
                         <div class="space-y-3">
-                            <a href="{{ route('booking.index') }}"
-                               class="w-full flex items-center gap-3 p-3 text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-xl transition-all duration-200">
-                                <i class="fas fa-arrow-left text-gray-500"></i>
-                                <span class="font-semibold">Kembali ke Daftar</span>
-                            </a>
-
-                            @if($booking->status == 'pending')
-                            <button class="w-full flex items-center gap-3 p-3 text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-xl transition-all duration-200">
-                                <i class="fas fa-credit-card text-blue-500"></i>
-                                <span class="font-semibold">Lanjutkan Pembayaran</span>
-                            </button>
-                            @endif
-
-                            <button class="w-full flex items-center gap-3 p-3 text-green-700 bg-green-50 hover:bg-green-100 rounded-xl transition-all duration-200">
+                            <button onclick="window.print()" class="w-full flex items-center gap-3 p-3 text-green-700 bg-green-50 hover:bg-green-100 rounded-xl transition-all duration-200">
                                 <i class="fas fa-print text-green-500"></i>
-                                <span class="font-semibold">Cetak Invoice</span>
+                                <span class="font-semibold">Cetak Voucher</span>
+                            </button>
+
+                            <button class="w-full flex items-center gap-3 p-3 text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-xl transition-all duration-200">
+                                <i class="fas fa-download text-blue-500"></i>
+                                <span class="font-semibold">Unduh PDF</span>
                             </button>
 
                             <button class="w-full flex items-center gap-3 p-3 text-red-700 bg-red-50 hover:bg-red-100 rounded-xl transition-all duration-200">
                                 <i class="fas fa-times text-red-500"></i>
-                                <span class="font-semibold">Batalkan Booking</span>
+                                <span class="font-semibold">Batalkan Pemesanan</span>
                             </button>
                         </div>
                     </div>
@@ -333,23 +369,25 @@
                             <i class="fas fa-headset text-yellow-400"></i>
                             Butuh Bantuan?
                         </h3>
-                        <p class="text-gray-300 mb-4">Tim support kami siap membantu 24/7</p>
+                        <p class="text-gray-300 mb-4">Tim support kami siap membantu</p>
                         <div class="space-y-2">
                             <div class="flex items-center gap-3">
                                 <i class="fas fa-phone text-yellow-400"></i>
-                                <span class="font-semibold">+62 21 1234 5678</span>
+                                <span class="font-semibold">0804 1500 878</span>
                             </div>
                             <div class="flex items-center gap-3">
                                 <i class="fas fa-envelope text-yellow-400"></i>
-                                <span class="font-semibold">support@luxuryallure.com</span>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <i class="fas fa-comment text-yellow-400"></i>
-                                <span class="font-semibold">Live Chat</span>
+                                <span class="font-semibold">mrdeerhardiansyah6@gmail.com</span>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer text-center mt-8">
+                <h3 class="text-xl font-bold mb-2">PT. Global Tiket Network</h3>
+                <p class="text-gray-300">Jl. Kawi No 45, RT 006 RW 002, Setiabudi - Jakarta Selatan, DKI Jakarta - 12980</p>
             </div>
         </div>
     </div>
@@ -367,11 +405,6 @@
                     card.style.opacity = '1';
                     card.style.transform = 'translateY(0)';
                 }, index * 100);
-            });
-
-            // Print functionality
-            document.querySelector('button:contains("Cetak Invoice")')?.addEventListener('click', function() {
-                window.print();
             });
         });
     </script>
