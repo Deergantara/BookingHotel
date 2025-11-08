@@ -8,6 +8,8 @@ use App\Models\TipeKamar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class BookingController extends Controller
 {
@@ -74,20 +76,20 @@ class BookingController extends Controller
         }
 
         $isLoggedIn = Auth::check();
-    $user = Auth::user();
+        $user = Auth::user();
 
-    return view('booking.create', [
-        'property' => $property,
-        'availableRoomTypes' => $availableRoomTypes,
-        'checkin' => $checkin,
-        'checkout' => $checkout,
-        'totalGuests' => $totalGuests,
-        'totalRooms' => $totalRooms,
-        'nights' => $nights,
-        'selectedTipeKamarId' => $selectedTipeKamarId,
-        'isLoggedIn' => $isLoggedIn,  // ← TAMBAHKAN INI
-        'user' => $user,                // ← TAMBAHKAN INI
-    ]);
+        return view('booking.create', [
+            'property' => $property,
+            'availableRoomTypes' => $availableRoomTypes,
+            'checkin' => $checkin,
+            'checkout' => $checkout,
+            'totalGuests' => $totalGuests,
+            'totalRooms' => $totalRooms,
+            'nights' => $nights,
+            'selectedTipeKamarId' => $selectedTipeKamarId,
+            'isLoggedIn' => $isLoggedIn,
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -145,7 +147,7 @@ class BookingController extends Controller
         $nights = $checkin->diffInDays($checkout);
         $totalPrice = $tipeKamar->harga * $nights;
 
-        // Buat payment record terlebih dahulu
+        // Buat payment record
         $payment = \App\Models\Payment::create([
             'midtrans_order_id' => 'ORDER-' . time() . '-' . Auth::id(),
             'price' => $totalPrice,
@@ -156,7 +158,7 @@ class BookingController extends Controller
         $booking = Booking::create([
             'user_id' => Auth::id(),
             'property_id' => $validated['property_id'],
-            'kamar_id' => $availableKamar->id, // Gunakan kamar_id, bukan tipe_kamar_id
+            'kamar_id' => $availableKamar->id,
             'payment_id' => $payment->id,
             'checkin_date' => $validated['checkin_date'],
             'checkout_date' => $validated['checkout_date'],
@@ -166,9 +168,20 @@ class BookingController extends Controller
         // Update status kamar menjadi dipesan
         $availableKamar->update(['status' => 'dipesan']);
 
-        // Redirect ke halaman detail booking atau payment
+        // Debug: Cek apakah booking dan payment berhasil dibuat
+        \Log::info('Booking created:', [
+            'booking_id' => $booking->id,
+            'payment_id' => $payment->id,
+            'user_id' => Auth::id()
+        ]);
+
+        // Debug: Cek redirect URL
+        $redirectUrl = route('payment.createTransaction', $booking->id);
+        \Log::info('Redirecting to:', ['url' => $redirectUrl]);
+
+        // Redirect ke halaman pembayaran - INI YANG DIPERBAIKI
         return redirect()
-            ->route('booking.show', $booking->id)
+            ->route('payment.createTransaction', $booking->id)
             ->with('success', 'Booking berhasil dibuat! Silakan lakukan pembayaran.');
     }
 
@@ -241,15 +254,18 @@ class BookingController extends Controller
             ->with('success', 'Booking berhasil dibatalkan.');
     }
 
+    /**
+     * Menampilkan konfirmasi booking
+     */
     public function confirmation(Booking $booking)
-{
-    $booking->load([
-        'property.hotel',
-        'kamar.tipeKamar',
-        'payment',
-        'user'
-    ]);
+    {
+        $booking->load([
+            'property.hotel',
+            'kamar.tipeKamar',
+            'payment',
+            'user'
+        ]);
 
-    return view('booking.confirmation', compact('booking'));
-}
+        return view('booking.confirmation', compact('booking'));
+    }
 }

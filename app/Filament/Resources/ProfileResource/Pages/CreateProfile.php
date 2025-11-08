@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\ProfileResource\Pages;
+namespace App\Filament\Admin\Resources\ProfileResource\Pages;
 
 use App\Filament\Resources\ProfileResource;
 use Filament\Actions;

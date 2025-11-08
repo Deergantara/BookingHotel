@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Bookings', function (Blueprint $table) {
+        Schema::create('bookings', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('property_id')->nullable()->constrained('properties')->nullOnDelete();
-            $table->foreignId('kamar_id')->nullable()->constrained('tipe_kamars')->nullOnDelete();
+
+            // ✅ Tambahkan kolom kamar_id lebih dulu baru buat foreign key-nya
+            $table->foreignId('kamar_id')->nullable()->constrained('kamars')->nullOnDelete();
+
             $table->foreignId('payment_id')->nullable()->constrained('payments')->nullOnDelete();
             $table->foreignId('review_id')->nullable()->constrained('reviews')->nullOnDelete();
-
 
             $table->date('checkin_date')->nullable();
             $table->date('checkout_date')->nullable();
@@ -36,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('Bookings');
+        Schema::dropIfExists('bookings');
     }
 };

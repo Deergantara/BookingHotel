@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\ProfileResource\Pages;
+namespace App\Filament\Admin\Resources\ProfileResource\Pages;
 
 use App\Filament\Resources\ProfileResource;
 use App\Models\User;
@@ -23,7 +23,7 @@ class EditProfile extends EditRecord
     public function mount(int | string $record): void
     {
         $user = Auth::user();
-        
+
         // Pastikan user hanya bisa akses profil sendiri
         if ($user->id != $record) {
             abort(403, 'You can only edit your own profile.');
@@ -31,7 +31,7 @@ class EditProfile extends EditRecord
 
         // Load record
         $this->record = User::findOrFail($record);
-        
+
         // Isi form dengan data
         $this->fillForm();
     }

@@ -1,4 +1,5 @@
 <?php
+// File: app/Http/Controllers/PaymentController.php
 
 namespace App\Http\Controllers;
 
@@ -23,98 +24,120 @@ class PaymentController extends Controller
     /**
      * Buat transaksi pembayaran dan redirect ke Snap
      */
-    public function createTransaction(Booking $booking)
-    {
-        // Cek apakah booking milik user yang login atau booking guest
-        if (auth()->check() && $booking->user_id !== auth()->id()) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        // Cek apakah sudah dibayar
-        if ($booking->payment && $booking->payment->transaction_status === 'settlement') {
-            return redirect()
-                ->route('booking.confirmation', $booking->id)
-                ->with('info', 'Booking ini sudah dibayar.');
-        }
-
-        // Load relasi
-        $booking->load(['property', 'kamar.tipeKamar', 'payment', 'user']);
-
-        // Pastikan ada payment record
-        if (!$booking->payment) {
-            return redirect()
-                ->back()
-                ->with('error', 'Payment record tidak ditemukan.');
-        }
-
-        // Siapkan parameter transaksi untuk Midtrans
-        $orderId = $booking->payment->midtrans_order_id;
-        $grossAmount = (int) $booking->payment->price;
-
-        $transactionDetails = [
-            'order_id' => $orderId,
-            'gross_amount' => $grossAmount,
-        ];
-
-        // Item details
-        $itemDetails = [
-            [
-                'id' => $booking->kamar->tipeKamar->id,
-                'price' => (int) $booking->kamar->tipeKamar->harga,
-                'quantity' => \Carbon\Carbon::parse($booking->checkin_date)->diffInDays($booking->checkout_date),
-                'name' => $booking->kamar->tipeKamar->nama_tipe . ' - ' . $booking->property->name,
-            ]
-        ];
-
-        // Customer details
-        $customerDetails = [
-            'first_name' => $booking->user->name,
-            'email' => $booking->user->email,
-            'phone' => $booking->user->phone ?? '08123456789',
-        ];
-
-        // Transaction data
-        $transaction = [
-            'transaction_details' => $transactionDetails,
-            'item_details' => $itemDetails,
-            'customer_details' => $customerDetails,
-            'enabled_payments' => [
-                'credit_card',
-                'bca_va',
-                'bni_va',
-                'bri_va',
-                'permata_va',
-                'other_va',
-                'gopay',
-                'shopeepay',
-                'qris'
-            ],
-            'callbacks' => [
-                'finish' => route('payment.finish', $booking->id),
-            ]
-        ];
-
-        try {
-            // Dapatkan Snap Token
-            $snapToken = Snap::getSnapToken($transaction);
-
-            // Update payment record dengan snap token
-            $booking->payment->update([
-                'snap_token' => $snapToken,
-            ]);
-
-            // Redirect ke halaman payment dengan snap token
-            return view('payment.show', [
-                'booking' => $booking,
-                'snapToken' => $snapToken,
-            ]);
-
-        } catch (\Exception $e) {
-            return redirect()
-                ->back()
-                ->with('error', 'Gagal membuat transaksi: ' . $e->getMessage());
-        }
+    /**
+ * Buat transaksi pembayaran dan redirect ke Snap
+ */
+public function createTransaction(Booking $booking)
+{
+    // Jika user belum login, kita masih izinkan akses ke halaman pembayaran
+    // karena booking mungkin dibuat oleh guest
+    if (auth()->check() && $booking->user_id !== auth()->id()) {
+        abort(403, 'Unauthorized action.');
     }
+    // Jika guest, kita tidak bisa verifikasi ownership, tapi tetap izinkan akses
+    // (asumsi booking ID sudah cukup untuk mengakses halaman pembayaran)
+
+    // Cek apakah sudah dibayar
+    if ($booking->payment && $booking->payment->transaction_status === 'settlement') {
+        return redirect()
+            ->route('booking.confirmation', $booking->id)
+            ->with('info', 'Booking ini sudah dibayar.');
+    }
+    // Load relasi
+    $booking->load(['property', 'kamar.tipeKamar', 'payment', 'user']);
+
+    // Pastikan ada payment record
+    if (!$booking->payment) {
+        return redirect()
+            ->route('booking.confirmation', $booking->id)
+            ->with('error', 'Payment record tidak ditemukan.');
+    }
+
+     // Debug
+    \Log::info('Processing payment for booking:', [
+        'booking_id' => $booking->id,
+        'payment_id' => $booking->payment->id,
+        'order_id' => $booking->payment->midtrans_order_id
+    ]);
+
+    // Siapkan parameter transaksi untuk Midtrans
+    $orderId = $booking->payment->midtrans_order_id;
+    $grossAmount = (int) $booking->payment->price;
+
+    $transactionDetails = [
+        'order_id' => $orderId,
+        'gross_amount' => $grossAmount,
+    ];
+
+    // Item details
+    $nights = \Carbon\Carbon::parse($booking->checkin_date)->diffInDays($booking->checkout_date);
+    $itemDetails = [
+        [
+            'id' => $booking->kamar->tipeKamar->id,
+            'price' => $grossAmount, // Total price
+            'quantity' => 1,
+            'name' => $booking->kamar->tipeKamar->nama_tipe . ' - ' . $booking->property->name . ' (' . $nights . ' malam)',
+        ]
+    ];
+
+    // Customer details
+    $customerDetails = [
+        'first_name' => $booking->user->name,
+        'email' => $booking->user->email,
+        'phone' => $booking->user->phone ?? '08123456789',
+    ];
+
+    // Transaction data
+    $transaction = [
+        'transaction_details' => $transactionDetails,
+        'item_details' => $itemDetails,
+        'customer_details' => $customerDetails,
+        'enabled_payments' => [
+            'credit_card',
+            'bca_va',
+            'bni_va',
+            'bri_va',
+            'permata_va',
+            'other_va',
+            'gopay',
+            'shopeepay',
+            'qris'
+        ],
+        'callbacks' => [
+            'finish' => route('payment.finish', $booking->id),
+        ]
+    ];
+
+     try {
+        // Dapatkan Snap Token
+        $snapToken = Snap::getSnapToken($transaction);
+
+        // Update payment record dengan snap token
+        $booking->payment->update([
+            'snap_token' => $snapToken,
+        ]);
+
+        // Debug
+        \Log::info('Snap token generated for booking:', [
+            'booking_id' => $booking->id,
+            'snap_token' => $snapToken
+        ]);
+
+        // Tampilkan halaman payment dengan snap token
+        return view('payment.show', [
+            'booking' => $booking,
+            'snapToken' => $snapToken,
+        ]);
+
+    } catch (\Exception $e) {
+
+        \Log::error('Midtrans error for booking ' . $booking->id . ': ' . $e->getMessage());
+
+        return redirect()
+            ->route('booking.confirmation', $booking->id)
+            ->with('error', 'Gagal membuat transaksi pembayaran. Silakan coba lagi atau hubungi customer service.');
+    }
+}
 
     /**
      * Handle payment finish (redirect dari Midtrans)

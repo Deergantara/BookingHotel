@@ -10,6 +10,7 @@ use App\Http\Controllers\KamarController;
 use App\Http\Controllers\CustomerAuthController;
 use App\Http\Controllers\CustomerAccountController;
 use App\Http\Controllers\OwnerHotelController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +34,6 @@ Route::get('/property/{property}', [PropertiesController::class, 'show'])->name(
 */
 
 // Halaman form booking (TIDAK perlu login)
-// URL: /booking/{property}?checkin=...&checkout=...&total_guests=...&total_rooms=...
 Route::get('/booking/{property}', [BookingController::class, 'create'])->name('booking.create');
 
 // Proses simpan booking (TIDAK perlu login)
@@ -41,6 +41,16 @@ Route::post('/booking', [BookingController::class, 'store'])->name('booking.stor
 
 // Halaman konfirmasi booking setelah berhasil (TIDAK perlu login)
 Route::get('/booking/{booking}/confirmation', [BookingController::class, 'confirmation'])->name('booking.confirmation');
+
+/*
+|--------------------------------------------------------------------------
+| PAYMENT ROUTES - BISA TANPA LOGIN!
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/payment/{booking}', [PaymentController::class, 'createTransaction'])->name('payment.createTransaction');
+Route::get('/payment/{booking}/finish', [PaymentController::class, 'finish'])->name('payment.finish');
+Route::get('/payment/{booking}/status', [PaymentController::class, 'checkStatus'])->name('payment.status');
 
 // Auth Routes (Login & Register)
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -110,7 +120,3 @@ Route::middleware(['auth'])->group(function () {
 | FALLBACK ROUTE (404 Custom)
 |--------------------------------------------------------------------------
 */
-
-Route::fallback(function () {
-    return response()->view('errors.404', [], 404);
-});
