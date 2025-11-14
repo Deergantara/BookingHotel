@@ -18,13 +18,9 @@ use Illuminate\Support\Facades\Hash;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-users';
-
     protected static ?string $navigationLabel = 'Users';
-
     protected static ?string $navigationGroup = 'User Management';
-
     protected static ?int $navigationSort = 1;
 
     // Hanya admin system yang bisa akses
@@ -47,37 +43,23 @@ class UserResource extends Resource
                     ->description('Basic user information')
                     ->schema([
                         Forms\Components\TextInput::make('name')
-                            ->label('Full Name')
-                            ->required()
-                            ->maxLength(255)
-                            ->prefixIcon('heroicon-o-user')
+                            ->label('Full Name')->required()->maxLength(255)->prefixIcon('heroicon-o-user')
                             ->placeholder('John Doe'),
 
                         Forms\Components\TextInput::make('email')
-                            ->label('Email Address')
-                            ->email()
-                            ->required()
-                            ->unique(ignoreRecord: true)
-                            ->maxLength(255)
-                            ->prefixIcon('heroicon-o-envelope')
-                            ->placeholder('john@example.com'),
+                            ->label('Email Address')->email()->required()->unique(ignoreRecord: true)
+                            ->maxLength(255)->prefixIcon('heroicon-o-envelope')->placeholder('john@example.com'),
 
                         Forms\Components\TextInput::make('phone')
-                            ->label('Phone Number')
-                            ->tel()
-                            ->maxLength(20)
-                            ->prefixIcon('heroicon-o-phone')
-                            ->placeholder('+62 812 3456 7890'),
+                            ->label('Phone Number')->tel()->maxLength(20)
+                            ->prefixIcon('heroicon-o-phone')->placeholder('+62 812 3456 7890'),
 
                         Forms\Components\TextInput::make('password')
-                            ->label('Password')
-                            ->password()
+                            ->label('Password')->password()
                             ->required(fn (string $context): bool => $context === 'create')
                             ->dehydrateStateUsing(fn ($state) => filled($state) ? Hash::make($state) : null)
                             ->dehydrated(fn ($state) => filled($state))
-                            ->maxLength(255)
-                            ->prefixIcon('heroicon-o-lock-closed')
-                            ->placeholder('••••••••')
+                            ->maxLength(255)->prefixIcon('heroicon-o-lock-closed')->placeholder('••••••••')
                             ->helperText('Leave blank to keep current password (only for edit)'),
                     ])
                     ->columns(2),
@@ -108,7 +90,7 @@ class UserResource extends Resource
                                 }
                             }),
 
-                        Forms\Components\Select::make('hotel_id')
+                        Forms\Components\Select::make('otel_idotel_id')
                             ->label('Hotel')
                             ->relationship('hotel', 'nama')
                             ->searchable()
@@ -168,33 +150,20 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label('ID')
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->label('ID')->sortable()
+                    ->searchable()->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
-                    ->icon('heroicon-o-user')
-                    ->searchable()
-                    ->sortable()
-                    ->wrap(),
+                    ->label('Name')->icon('heroicon-o-user')->searchable()
+                    ->sortable()->wrap(),
 
                 Tables\Columns\TextColumn::make('email')
-                    ->label('Email')
-                    ->icon('heroicon-o-envelope')
-                    ->searchable()
-                    ->sortable()
-                    ->copyable()
-                    ->copyMessage('Email copied!')
-                    ->wrap(),
+                    ->label('Email')->icon('heroicon-o-envelope')->searchable()
+                    ->sortable()->copyable()->copyMessage('Email copied!')->wrap(),
 
                 Tables\Columns\TextColumn::make('phone')
-                    ->label('Phone')
-                    ->icon('heroicon-o-phone')
-                    ->searchable()
-                    ->toggleable()
-                    ->placeholder('—'),
+                    ->label('Phone')->icon('heroicon-o-phone')->searchable()
+                    ->toggleable()->placeholder('—'),
 
                 Tables\Columns\TextColumn::make('role')
                     ->label('Role')

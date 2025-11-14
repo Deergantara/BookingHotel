@@ -318,11 +318,6 @@
                 </div>
 
                 <!-- User Menu -->
-                <div class="flex items-center space-x-2">
-                    <button class="user-btn flex items-center space-x-1 px-3 py-2 rounded-lg" onclick="toggleDarkMode()">
-                        <i class="fas fa-moon text-gold"></i>
-                        <span>Mode Gelap</span>
-                    </button>
                     
                     @guest
                         <a href="{{ route('login') }}" class="user-btn flex items-center space-x-1 px-3 py-2 rounded-lg">
@@ -333,19 +328,25 @@
                 </div>
             </div>
 
-            <!-- Secondary Navigation -->
-            <div class="flex items-center justify-between py-3 border-t border-gray-700">
-                <div class="flex items-center space-x-6">
-                    <a href="#" class="nav-item text-sm hover-gold transition-smooth flex items-center">
-                        <i class="fas fa-bed mr-2 text-gold"></i> Hotel
-                    </a>
-                    <a href="#" class="nav-item text-sm hover-gold transition-smooth flex items-center">
-                        <i class="fas fa-car mr-2 text-gold"></i> Parking
-                    </a>
-                    <a href="#" class="nav-item text-sm hover-gold transition-smooth flex items-center">
-                        <i class="fas fa-umbrella-beach mr-2 text-gold"></i> Pemandangan
-                    </a>
-                </div>
+            <!-- Filter fasilitas - UPDATE BAGIAN INI -->
+<div class="flex items-center justify-between py-3 border-t border-gray-700">
+    <div class="flex items-center space-x-6">
+        <a href="{{ route('property.search') }}" class="nav-item text-sm hover-gold transition-smooth flex items-center">
+            <i class="fas fa-bed mr-2 text-gold"></i> Semua Hotel
+        </a>
+        <a href="{{ route('property.search', ['facility[]' => 'Parking']) }}" class="nav-item text-sm hover-gold transition-smooth flex items-center">
+            <i class="fas fa-car mr-2 text-gold"></i> Parking
+        </a>
+        <a href="{{ route('property.search', ['facility[]' => 'Swimming Pool']) }}" class="nav-item text-sm hover-gold transition-smooth flex items-center">
+            <i class="fas fa-swimming-pool mr-2 text-gold"></i> Swimming Pool
+        </a>
+        <a href="{{ route('property.search', ['facility[]' => 'WiFi']) }}" class="nav-item text-sm hover-gold transition-smooth flex items-center">
+            <i class="fas fa-wifi mr-2 text-gold"></i> WiFi
+        </a>
+        <a href="{{ route('property.search', ['facility[]' => 'Restaurant']) }}" class="nav-item text-sm hover-gold transition-smooth flex items-center">
+            <i class="fas fa-utensils mr-2 text-gold"></i> Restaurant
+        </a>
+    </div>
 
                 <div class="flex items-center space-x-6">
                     <a href="{{ route('work.with.us') }}" class="nav-item text-sm hover-gold transition-smooth flex items-center">

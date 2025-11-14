@@ -364,106 +364,139 @@
     </section>
 
     <!-- City Section -->
-    <section class="py-16 bg-white">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="section-title text-3xl md:text-4xl font-bold mb-4 text-gray-900 hero-title">Explore Indonesia</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">Temukan pengalaman menginap terbaik di berbagai kota menarik di Indonesia</p>
-            </div>
+    <!-- City Section -->
+<section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="section-title text-3xl md:text-4xl font-bold mb-4 text-gray-900 hero-title">Explore Indonesia</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Temukan pengalaman menginap terbaik di berbagai kota menarik di Indonesia</p>
+        </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- City 1 - jakarta -->
-                <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- City 1 - Jakarta -->
+            <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer">
+                <a href="{{ route('property.search', ['city' => 'Jakarta']) }}" class="block">
                     <div class="relative overflow-hidden">
                         <img src="{{ asset('images/jakarta.jpg') }}"
-                             alt="jakarta" class="city-image w-full h-48 object-cover">
+                             alt="Jakarta" class="city-image w-full h-48 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                         <div class="absolute bottom-4 left-4 text-white">
                             <h3 class="text-xl font-bold">Jakarta</h3>
+                            <p class="text-sm text-gray-200 mt-1">{{ \App\Models\Property::where('city', 'Jakarta')->where('is_active', true)->count() }} Properties</p>
                         </div>
                     </div>
                     <div class="p-6">
                         <p class="text-gray-600 mb-4">Ibu kota Indonesia dengan berbagai destinasi wisata dan bisnis</p>
                         <div class="flex justify-between items-center">
-                            <span class="text-gold font-semibold">Mulai dari Rp 450.000</span>
-                            <a href="#" class="text-gold hover:text-yellow-700 font-semibold flex items-center">
-                                Explore Now <i class="fas fa-arrow-right ml-2"></i>
-                            </a>
+                            @php
+                                $jakartaMinPrice = \App\Models\TipeKamar::whereHas('property', function($query) {
+                                    $query->where('city', 'Jakarta')->where('is_active', true);
+                                })->min('harga') ?? 450000;
+                            @endphp
+                            <span class="text-gold font-semibold">Mulai dari Rp {{ number_format($jakartaMinPrice, 0, ',', '.') }}</span>
+                            <span class="text-gold group-hover:text-yellow-700 font-semibold flex items-center transition-colors">
+                                Explore Now <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            </span>
                         </div>
                     </div>
-                </div>
+                </a>
+            </div>
 
-                <!-- City 2 - Bandung -->
-                <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden">
+            <!-- City 2 - Bandung -->
+            <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer">
+                <a href="{{ route('property.search', ['city' => 'Bandung']) }}" class="block">
                     <div class="relative overflow-hidden">
-                        <img src="{{ asset('images/Bandung.jpg') }}"
-                             alt="bandung" class="city-image w-full h-48 object-cover">
+                        <img src="{{ asset('images/bandung.jpg') }}"
+                             alt="Bandung" class="city-image w-full h-48 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                         <div class="absolute bottom-4 left-4 text-white">
                             <h3 class="text-xl font-bold">Bandung</h3>
+                            <p class="text-sm text-gray-200 mt-1">{{ \App\Models\Property::where('city', 'Bandung')->where('is_active', true)->count() }} Properties</p>
                         </div>
                     </div>
                     <div class="p-6">
                         <p class="text-gray-600 mb-4">Kota Kembang dengan udara sejuk dan wisata kuliner yang terkenal</p>
                         <div class="flex justify-between items-center">
-                            <span class="text-gold font-semibold">Mulai dari Rp 350.000</span>
-                            <a href="#" class="text-gold hover:text-yellow-700 font-semibold flex items-center">
-                                Explore Now <i class="fas fa-arrow-right ml-2"></i>
-                            </a>
+                            @php
+                                $bandungMinPrice = \App\Models\TipeKamar::whereHas('property', function($query) {
+                                    $query->where('city', 'Bandung')->where('is_active', true);
+                                })->min('harga') ?? 350000;
+                            @endphp
+                            <span class="text-gold font-semibold">Mulai dari Rp {{ number_format($bandungMinPrice, 0, ',', '.') }}</span>
+                            <span class="text-gold group-hover:text-yellow-700 font-semibold flex items-center transition-colors">
+                                Explore Now <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            </span>
                         </div>
                     </div>
-                </div>
+                </a>
+            </div>
 
-                <!-- City 3 - Palembang -->
-                <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden">
+            <!-- City 3 - Palembang -->
+            <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer">
+                <a href="{{ route('property.search', ['city' => 'Palembang']) }}" class="block">
                     <div class="relative overflow-hidden">
-                    <img src="{{ asset('images/palembang.jpg') }}"
+                        <img src="{{ asset('images/palembang.jpg') }}"
                              alt="Palembang" class="city-image w-full h-48 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                         <div class="absolute bottom-4 left-4 text-white">
                             <h3 class="text-xl font-bold">Palembang</h3>
+                            <p class="text-sm text-gray-200 mt-1">{{ \App\Models\Property::where('city', 'Palembang')->where('is_active', true)->count() }} Properties</p>
                         </div>
                     </div>
                     <div class="p-6">
                         <p class="text-gray-600 mb-4">Kota tertua di Indonesia dengan jembatan Ampera yang ikonik</p>
                         <div class="flex justify-between items-center">
-                            <span class="text-gold font-semibold">Mulai dari Rp 320.000</span>
-                            <a href="#" class="text-gold hover:text-yellow-700 font-semibold flex items-center">
-                                Explore Now <i class="fas fa-arrow-right ml-2"></i>
-                            </a>
+                            @php
+                                $palembangMinPrice = \App\Models\TipeKamar::whereHas('property', function($query) {
+                                    $query->where('city', 'Palembang')->where('is_active', true);
+                                })->min('harga') ?? 320000;
+                            @endphp
+                            <span class="text-gold font-semibold">Mulai dari Rp {{ number_format($palembangMinPrice, 0, ',', '.') }}</span>
+                            <span class="text-gold group-hover:text-yellow-700 font-semibold flex items-center transition-colors">
+                                Explore Now <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            </span>
                         </div>
                     </div>
-                </div>
+                </a>
+            </div>
 
-                <!-- City 4 - Surabaya -->
-                <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden">
+            <!-- City 4 - Surabaya -->
+            <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer">
+                <a href="{{ route('property.search', ['city' => 'Surabaya']) }}" class="block">
                     <div class="relative overflow-hidden">
-                    <img src="{{ asset('images/surabaya.jpg') }}"
+                        <img src="{{ asset('images/surabaya.jpg') }}"
                              alt="Surabaya" class="city-image w-full h-48 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                         <div class="absolute bottom-4 left-4 text-white">
                             <h3 class="text-xl font-bold">Surabaya</h3>
+                            <p class="text-sm text-gray-200 mt-1">{{ \App\Models\Property::where('city', 'Surabaya')->where('is_active', true)->count() }} Properties</p>
                         </div>
                     </div>
                     <div class="p-6">
                         <p class="text-gray-600 mb-4">Kota Pahlawan dengan beragam destinasi sejarah dan modern</p>
                         <div class="flex justify-between items-center">
-                            <span class="text-gold font-semibold">Mulai dari Rp 380.000</span>
-                            <a href="#" class="text-gold hover:text-yellow-700 font-semibold flex items-center">
-                                Explore Now <i class="fas fa-arrow-right ml-2"></i>
-                            </a>
+                            @php
+                                $surabayaMinPrice = \App\Models\TipeKamar::whereHas('property', function($query) {
+                                    $query->where('city', 'Surabaya')->where('is_active', true);
+                                })->min('harga') ?? 380000;
+                            @endphp
+                            <span class="text-gold font-semibold">Mulai dari Rp {{ number_format($surabayaMinPrice, 0, ',', '.') }}</span>
+                            <span class="text-gold group-hover:text-yellow-700 font-semibold flex items-center transition-colors">
+                                Explore Now <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            </span>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="text-center mt-12">
-                <a href="#" class="inline-flex items-center px-6 py-3 border border-gold text-gold hover:bg-yellow-50 rounded-lg transition-all duration-300 font-semibold">
-                    Lihat Semua Kota <i class="fas fa-chevron-down ml-2"></i>
                 </a>
             </div>
         </div>
-    </section>
+
+        <div class="text-center mt-12">
+            <a href="{{ route('property.search') }}" class="inline-flex items-center px-6 py-3 border border-gold text-gold hover:bg-yellow-50 rounded-lg transition-all duration-300 font-semibold">
+                Lihat Semua Kota <i class="fas fa-chevron-down ml-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
 
     <!-- Why Choose Us Section -->
     <section class="py-16 bg-gray-50">

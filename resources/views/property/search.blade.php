@@ -600,119 +600,130 @@
 
   <div class="container">
     <!-- SIDEBAR FILTER -->
-    <div class="sidebar">
-      <div class="sidebar-header">
+<!-- SIDEBAR FILTER -->
+<div class="sidebar">
+    <div class="sidebar-header">
         <h3><i class="fas fa-sliders-h"></i> Filter Pencarian</h3>
-        <button type="button" class="clear-btn" onclick="window.location='{{ route('property.search') }}'">
-          <i class="fas fa-times"></i> Hapus Semua
-        </button>
-      </div>
+        <a href="{{ route('property.search') }}" class="clear-btn">
+            <i class="fas fa-times"></i> Hapus Semua
+        </a>
+    </div>
 
-      <form action="{{ route('property.search') }}" method="GET">
+    <form action="{{ route('property.search') }}" method="GET" id="filterForm">
+        <!-- Simpan parameter pencarian -->
+        @if(request('search'))
+        <input type="hidden" name="search" value="{{ request('search') }}">
+        @endif
+
         <!-- FILTER HARGA -->
         <div class="filter-section">
-          <span class="filter-title"><i class="fas fa-tag"></i> Rentang Harga per Malam</span>
-          <div class="price-range">
-            <input type="range" class="price-slider" id="minPrice" name="min_price" min="50000" max="2000000" step="50000"
-                   value="{{ request('min_price', 100000) }}"
-                   oninput="updatePriceValues()">
-            <input type="range" class="price-slider" id="maxPrice" name="max_price" min="50000" max="2000000" step="50000"
-                   value="{{ request('max_price', 1000000) }}"
-                   oninput="updatePriceValues()">
-            <div class="price-values">
-              <span>Rp <span id="minPriceValue">{{ number_format(request('min_price', 100000), 0, ',', '.') }}</span></span>
-              <span>Rp <span id="maxPriceValue">{{ number_format(request('max_price', 1000000), 0, ',', '.') }}</span></span>
+            <span class="filter-title"><i class="fas fa-tag"></i> Rentang Harga per Malam</span>
+            <div class="price-range">
+                <input type="range" class="price-slider" id="minPrice" name="min_price" 
+                       min="{{ $filterData['min_price_available'] }}" 
+                       max="{{ $filterData['max_price_available'] }}" 
+                       step="50000"
+                       value="{{ request('min_price', $filterData['min_price_available']) }}"
+                       oninput="updatePriceValues()">
+                <input type="range" class="price-slider" id="maxPrice" name="max_price" 
+                       min="{{ $filterData['min_price_available'] }}" 
+                       max="{{ $filterData['max_price_available'] }}" 
+                       step="50000"
+                       value="{{ request('max_price', $filterData['max_price_available']) }}"
+                       oninput="updatePriceValues()">
+                <div class="price-values">
+                    <span>Rp <span id="minPriceValue">{{ number_format(request('min_price', $filterData['min_price_available']), 0, ',', '.') }}</span></span>
+                    <span>Rp <span id="maxPriceValue">{{ number_format(request('max_price', $filterData['max_price_available']), 0, ',', '.') }}</span></span>
+                </div>
             </div>
-          </div>
         </div>
 
-        <!-- FILTER KATEGORI -->
+        <!-- FILTER LOKASI -->
         <div class="filter-section">
-          <span class="filter-title"><i class="fas fa-list"></i> Kategori Hotel</span>
-          <div class="filter-options">
-            <div class="filter-option">
-              <input type="checkbox" id="oyo" name="category[]" value="OYO Rooms">
-              <label for="oyo">OYO Rooms - Super affordable stays</label>
+            <span class="filter-title"><i class="fas fa-map-marker-alt"></i> Lokasi</span>
+            <div class="filter-options">
+                @foreach($filterData['cities'] as $city)
+                <div class="filter-option">
+                    <input type="checkbox" id="city-{{ Str::slug($city) }}" name="cities[]" value="{{ $city }}" 
+                           {{ in_array($city, request('cities', [])) ? 'checked' : '' }}>
+                    <label for="city-{{ Str::slug($city) }}">{{ $city }}</label>
+                </div>
+                @endforeach
             </div>
-            <div class="filter-option">
-              <input type="checkbox" id="premium" name="category[]" value="Premium">
-              <label for="premium">Premium - Prime location hotels</label>
+        </div>
+
+        <!-- FILTER RATING -->
+        <div class="filter-section">
+            <span class="filter-title"><i class="fas fa-star"></i> Rating Hotel</span>
+            <div class="filter-options">
+                @for($i = 5; $i >= 1; $i--)
+                <div class="filter-option">
+                    <input type="checkbox" id="rating-{{ $i }}" name="ratings[]" value="{{ $i }}" 
+                           {{ in_array($i, request('ratings', [])) ? 'checked' : '' }}>
+                    <label for="rating-{{ $i }}">
+                        @for($j = 1; $j <= 5; $j++)
+                            <i class="fas fa-star{{ $j <= $i ? '' : '-o' }}" style="color: {{ $j <= $i ? '#d4af37' : '#ccc' }}"></i>
+                        @endfor
+                        <span style="margin-left: 8px;">{{ $i }}+ bintang</span>
+                    </label>
+                </div>
+                @endfor
             </div>
-            <div class="filter-option">
-              <input type="checkbox" id="capital" name="category[]" value="Capital O">
-              <label for="capital">Capital O - Spacious for business</label>
-            </div>
-            <div class="filter-option">
-              <input type="checkbox" id="collection" name="category[]" value="Collection O">
-              <label for="collection">Collection O - Modern travellers</label>
-            </div>
-            <div class="filter-option">
-              <input type="checkbox" id="spot" name="category[]" value="Spot On">
-              <label for="spot">Spot On - Budget comfort</label>
-            </div>
-          </div>
         </div>
 
         <!-- FILTER FASILITAS -->
         <div class="filter-section">
-          <span class="filter-title"><i class="fas fa-concierge-bell"></i> Fasilitas Hotel</span>
-          <div class="filter-options" id="facilityList">
-            <div class="filter-option">
-              <input type="checkbox" id="parking" name="facility[]" value="Parking">
-              <label for="parking">Parking Facility</label>
-            </div>
-            <div class="filter-option">
-              <input type="checkbox" id="pool" name="facility[]" value="Swimming Pool">
-              <label for="pool">Swimming Pool</label>
-            </div>
-            <div class="filter-option">
-              <input type="checkbox" id="kitchen" name="facility[]" value="Kitchen">
-              <label for="kitchen">Kitchen</label>
-            </div>
-            <div class="filter-option">
-              <input type="checkbox" id="geyser" name="facility[]" value="Geyser">
-              <label for="geyser">Geyser</label>
-            </div>
-            <div class="filter-option">
-              <input type="checkbox" id="tv" name="facility[]" value="TV">
-              <label for="tv">TV</label>
-            </div>
+            <span class="filter-title"><i class="fas fa-concierge-bell"></i> Fasilitas Hotel</span>
+            <div class="filter-options" id="facilityList">
+                @php
+                    $facilities = $filterData['facilities'];
+                    $selectedFacilities = request('facilities', []);
+                    $showMore = count($facilities) > 5;
+                @endphp
 
-            <div id="moreFacilities" style="display:none;">
-              <div class="filter-option">
-                <input type="checkbox" id="ac" name="facility[]" value="AC">
-                <label for="ac">AC</label>
-              </div>
-              <div class="filter-option">
-                <input type="checkbox" id="wifi" name="facility[]" value="WiFi">
-                <label for="wifi">WiFi</label>
-              </div>
-              <div class="filter-option">
-                <input type="checkbox" id="restaurant" name="facility[]" value="Restaurant">
-                <label for="restaurant">Restaurant</label>
-              </div>
-              <div class="filter-option">
-                <input type="checkbox" id="gym" name="facility[]" value="Gym">
-                <label for="gym">Gym</label>
-              </div>
-              <div class="filter-option">
-                <input type="checkbox" id="reception" name="facility[]" value="24h Reception">
-                <label for="reception">24h Reception</label>
-              </div>
-            </div>
+                @foreach($facilities->take(5) as $index => $facility)
+                <div class="filter-option">
+                    <input type="checkbox" id="facility-{{ $index }}" name="facilities[]" value="{{ $facility }}" 
+                           {{ in_array($facility, $selectedFacilities) ? 'checked' : '' }}>
+                    <label for="facility-{{ $index }}">{{ $facility }}</label>
+                </div>
+                @endforeach
 
-            <span class="view-more" onclick="toggleFacilities()">
-              <i class="fas fa-chevron-down" id="facilityIcon"></i>
-              <span id="facilityText">Lihat Lebih Banyak</span>
-            </span>
-          </div>
+                @if($showMore)
+                <div id="moreFacilities" style="display:none;">
+                    @foreach($facilities->skip(5) as $index => $facility)
+                    <div class="filter-option">
+                        <input type="checkbox" id="facility-{{ $index + 5 }}" name="facilities[]" value="{{ $facility }}" 
+                               {{ in_array($facility, $selectedFacilities) ? 'checked' : '' }}>
+                        <label for="facility-{{ $index + 5 }}">{{ $facility }}</label>
+                    </div>
+                    @endforeach
+                </div>
+
+                <span class="view-more" onclick="toggleFacilities()">
+                    <i class="fas fa-chevron-down" id="facilityIcon"></i>
+                    <span id="facilityText">Lihat Lebih Banyak</span>
+                </span>
+                @endif
+            </div>
+        </div>
+
+        <!-- SORTING -->
+        <div class="filter-section">
+            <span class="filter-title"><i class="fas fa-sort"></i> Urutkan</span>
+            <select class="sort-select w-full p-3 border border-gray-300 rounded-lg" name="sort" onchange="document.getElementById('filterForm').submit()">
+                <option value="popular" {{ request('sort') == 'popular' ? 'selected' : '' }}>Populer</option>
+                <option value="price-low" {{ request('sort') == 'price-low' ? 'selected' : '' }}>Harga Terendah</option>
+                <option value="price-high" {{ request('sort') == 'price-high' ? 'selected' : '' }}>Harga Tertinggi</option>
+                <option value="rating" {{ request('sort') == 'rating' ? 'selected' : '' }}>Rating Tertinggi</option>
+            </select>
         </div>
 
         <button type="submit" class="apply-btn">
-          <i class="fas fa-check"></i> Terapkan Filter
+            <i class="fas fa-filter"></i> Terapkan Filter
         </button>
-      </form>
-    </div>
+    </form>
+</div>
 
     <!-- HASIL PENCARIAN -->
     <div class="results">
@@ -797,36 +808,57 @@
   </div>
 
   <script>
-    function toggleFacilities() {
-      const more = document.getElementById("moreFacilities");
-      const text = document.getElementById("facilityText");
-      const icon = document.getElementById("facilityIcon");
+// Toggle fasilitas
+function toggleFacilities() {
+    const more = document.getElementById("moreFacilities");
+    const text = document.getElementById("facilityText");
+    const icon = document.getElementById("facilityIcon");
 
-      if (more.style.display === "none") {
+    if (more.style.display === "none") {
         more.style.display = "block";
         text.textContent = "Lihat Lebih Sedikit";
         icon.className = "fas fa-chevron-up";
-      } else {
+    } else {
         more.style.display = "none";
         text.textContent = "Lihat Lebih Banyak";
         icon.className = "fas fa-chevron-down";
-      }
     }
+}
 
-    function updatePriceValues() {
-      const minPrice = document.getElementById("minPrice").value;
-      const maxPrice = document.getElementById("maxPrice").value;
+    // Update nilai harga
+function updatePriceValues() {
+    const minPrice = document.getElementById("minPrice").value;
+    const maxPrice = document.getElementById("maxPrice").value;
 
-      document.getElementById("minPriceValue").textContent =
+    document.getElementById("minPriceValue").textContent = 
         new Intl.NumberFormat('id-ID').format(minPrice);
-      document.getElementById("maxPriceValue").textContent =
+    document.getElementById("maxPriceValue").textContent = 
         new Intl.NumberFormat('id-ID').format(maxPrice);
-    }
+}
 
-    // Initialize price values on page load
-    document.addEventListener('DOMContentLoaded', function() {
-      updatePriceValues();
+// Auto-submit form ketika filter berubah (opsional)
+function setupAutoFilter() {
+    const inputs = document.querySelectorAll('#filterForm input[type="checkbox"], #filterForm input[type="range"]');
+    inputs.forEach(input => {
+        input.addEventListener('change', function() {
+            // Untuk range slider, tunggu sedikit agar tidak terlalu sering submit
+            if (this.type === 'range') {
+                clearTimeout(window.sliderTimeout);
+                window.sliderTimeout = setTimeout(() => {
+                    document.getElementById('filterForm').submit();
+                }, 500);
+            } else {
+                document.getElementById('filterForm').submit();
+            }
+        });
     });
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updatePriceValues();
+    setupAutoFilter();
+});
   </script>
 
 </body>

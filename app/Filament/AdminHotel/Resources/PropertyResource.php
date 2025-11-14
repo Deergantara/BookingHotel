@@ -14,15 +14,10 @@ use Illuminate\Database\Eloquent\Builder;
 class PropertyResource extends Resource
 {
     protected static ?string $model = Property::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-building-office';
-
     protected static ?string $navigationLabel = 'Properties';
-
     protected static ?string $navigationGroup = 'Hotel Management';
-
     protected static ?int $navigationSort = 2;
-
     // ✅ Hanya Admin Hotel & Owner Hotel yang bisa akses
     public static function canAccess(): bool
 {
@@ -147,11 +142,7 @@ class PropertyResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('foto')
-                    ->label('Foto')
-                    ->circular()
-                    ->stacked()
-                    ->limit(3)
-                    ->limitedRemainingText()
+                    ->label('Foto')->circular()->stacked()->limit(3)->limitedRemainingText()
                     ->defaultImageUrl(url('/images/default-hotel.jpg')),
 
                 Tables\Columns\TextColumn::make('name')

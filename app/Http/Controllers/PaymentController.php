@@ -1,250 +1,246 @@
 <?php
-// File: app/Http/Controllers/PaymentController.php
 
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Midtrans\Config;
 use Midtrans\Snap;
 use Midtrans\Notification;
 
 class PaymentController extends Controller
 {
-    public function __construct()
+    /**
+     * Get base URL - otomatis detect ngrok di local
+     */
+    private function getBaseUrl()
     {
-        // Set Midtrans configuration
+        // Jika di local environment, gunakan ngrok URL
+        if (app()->environment('local')) {
+            return config('app.ngrok_url', config('app.url'));
+        }
+        
+        return config('app.url');
+    }
+
+    /**
+     * Buat transaksi pembayaran
+     */
+    public function createTransaction(Booking $booking)
+    {
+        // Setup Midtrans
         Config::$serverKey = config('midtrans.server_key');
         Config::$isProduction = config('midtrans.is_production');
-        Config::$isSanitized = config('midtrans.is_sanitized');
-        Config::$is3ds = config('midtrans.is_3ds');
-    }
+        Config::$isSanitized = config('midtrans.is_sanitized', true);
+        Config::$is3ds = config('midtrans.is_3ds', true);
 
-    /**
-     * Buat transaksi pembayaran dan redirect ke Snap
-     */
-    /**
- * Buat transaksi pembayaran dan redirect ke Snap
- */
-public function createTransaction(Booking $booking)
-{
-    // Jika user belum login, kita masih izinkan akses ke halaman pembayaran
-    // karena booking mungkin dibuat oleh guest
-    if (auth()->check() && $booking->user_id !== auth()->id()) {
-        abort(403, 'Unauthorized action.');
-    }
-    // Jika guest, kita tidak bisa verifikasi ownership, tapi tetap izinkan akses
-    // (asumsi booking ID sudah cukup untuk mengakses halaman pembayaran)
+        // Authorization check
+        if (auth()->check() && $booking->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
 
-    // Cek apakah sudah dibayar
-    if ($booking->payment && $booking->payment->transaction_status === 'settlement') {
-        return redirect()
-            ->route('booking.confirmation', $booking->id)
-            ->with('info', 'Booking ini sudah dibayar.');
-    }
-    // Load relasi
-    $booking->load(['property', 'kamar.tipeKamar', 'payment', 'user']);
-
-    // Pastikan ada payment record
-    if (!$booking->payment) {
-        return redirect()
-            ->route('booking.confirmation', $booking->id)
-            ->with('error', 'Payment record tidak ditemukan.');
-    }
-
-     // Debug
-    \Log::info('Processing payment for booking:', [
-        'booking_id' => $booking->id,
-        'payment_id' => $booking->payment->id,
-        'order_id' => $booking->payment->midtrans_order_id
-    ]);
-
-    // Siapkan parameter transaksi untuk Midtrans
-    $orderId = $booking->payment->midtrans_order_id;
-    $grossAmount = (int) $booking->payment->price;
-
-    $transactionDetails = [
-        'order_id' => $orderId,
-        'gross_amount' => $grossAmount,
-    ];
-
-    // Item details
-    $nights = \Carbon\Carbon::parse($booking->checkin_date)->diffInDays($booking->checkout_date);
-    $itemDetails = [
-        [
-            'id' => $booking->kamar->tipeKamar->id,
-            'price' => $grossAmount, // Total price
-            'quantity' => 1,
-            'name' => $booking->kamar->tipeKamar->nama_tipe . ' - ' . $booking->property->name . ' (' . $nights . ' malam)',
-        ]
-    ];
-
-    // Customer details
-    $customerDetails = [
-        'first_name' => $booking->user->name,
-        'email' => $booking->user->email,
-        'phone' => $booking->user->phone ?? '08123456789',
-    ];
-
-    // Transaction data
-    $transaction = [
-        'transaction_details' => $transactionDetails,
-        'item_details' => $itemDetails,
-        'customer_details' => $customerDetails,
-        'enabled_payments' => [
-            'credit_card',
-            'bca_va',
-            'bni_va',
-            'bri_va',
-            'permata_va',
-            'other_va',
-            'gopay',
-            'shopeepay',
-            'qris'
-        ],
-        'callbacks' => [
-            'finish' => route('payment.finish', $booking->id),
-        ]
-    ];
-
-     try {
-        // Dapatkan Snap Token
-        $snapToken = Snap::getSnapToken($transaction);
-
-        // Update payment record dengan snap token
-        $booking->payment->update([
-            'snap_token' => $snapToken,
-        ]);
-
-        // Debug
-        \Log::info('Snap token generated for booking:', [
-            'booking_id' => $booking->id,
-            'snap_token' => $snapToken
-        ]);
-
-        // Tampilkan halaman payment dengan snap token
-        return view('payment.show', [
-            'booking' => $booking,
-            'snapToken' => $snapToken,
-        ]);
-
-    } catch (\Exception $e) {
-
-        \Log::error('Midtrans error for booking ' . $booking->id . ': ' . $e->getMessage());
-
-        return redirect()
-            ->route('booking.confirmation', $booking->id)
-            ->with('error', 'Gagal membuat transaksi pembayaran. Silakan coba lagi atau hubungi customer service.');
-    }
-}
-
-    /**
-     * Handle payment finish (redirect dari Midtrans)
-     */
-    public function finish(Booking $booking)
-    {
+        // Load relations
         $booking->load(['property', 'kamar.tipeKamar', 'payment', 'user']);
 
-        return view('payment.finish', compact('booking'));
-    }
+        if (!$booking->payment) {
+            return redirect()
+                ->route('booking.confirmation', $booking->id)
+                ->with('error', 'Payment record tidak ditemukan.');
+        }
 
-    /**
-     * Handle notification callback dari Midtrans
-     */
-    public function notification(Request $request)
-    {
+        // Siapkan parameter
+        $orderId = $booking->payment->midtrans_order_id;
+        $grossAmount = (int) $booking->payment->price;
+
+        // Gunakan base URL yang support ngrok
+        $baseUrl = $this->getBaseUrl();
+
+        $transaction = [
+            'transaction_details' => [
+                'order_id' => $orderId,
+                'gross_amount' => $grossAmount,
+            ],
+            'item_details' => [
+                [
+                    'id' => $booking->kamar->tipeKamar->id,
+                    'price' => $grossAmount,
+                    'quantity' => 1,
+                    'name' => $booking->kamar->tipeKamar->nama_tipe . ' - ' . $booking->property->name,
+                ]
+            ],
+            'customer_details' => [
+                'first_name' => $booking->user->name,
+                'email' => $booking->user->email,
+                'phone' => $booking->user->phone ?? '08123456789',
+            ],
+            'callbacks' => [
+                'finish' => $baseUrl . '/payment/' . $booking->id . '/finish',
+            ],
+            'enabled_payments' => [
+                'credit_card', 'gopay', 'shopeepay', 'qris',
+                'bca_va', 'bni_va', 'bri_va', 'permata_va', 'other_va'
+            ]
+        ];
+
         try {
-            // Buat instance notifikasi
-            $notification = new Notification();
+            $snapToken = Snap::getSnapToken($transaction);
 
-            // Data dari notifikasi
-            $orderId = $notification->order_id;
-            $transactionStatus = $notification->transaction_status;
-            $fraudStatus = $notification->fraud_status;
-            $transactionId = $notification->transaction_id;
-            $paymentType = $notification->payment_type;
-            $transactionTime = $notification->transaction_time;
+            // Update payment dengan snap token
+            $booking->payment->update(['snap_token' => $snapToken]);
 
-            // Cari payment berdasarkan order_id
-            $payment = Payment::where('midtrans_order_id', $orderId)->firstOrFail();
-            $booking = Booking::where('payment_id', $payment->id)->first();
+            Log::info('Snap token generated', [
+                'booking_id' => $booking->id,
+                'order_id' => $orderId,
+                'base_url' => $baseUrl
+            ]);
 
-            // Update payment data
-            $payment->transaction_id = $transactionId;
-            $payment->payment_type = $paymentType;
-            $payment->transaction_time = $transactionTime;
-
-            // Handle berdasarkan status
-            if ($transactionStatus == 'capture') {
-                if ($fraudStatus == 'accept') {
-                    // Payment success
-                    $payment->transaction_status = 'settlement';
-                    $payment->paid_at = now();
-                    if ($booking) {
-                        $booking->status = 'confirmed';
-                        $booking->save();
-                    }
-                }
-            } elseif ($transactionStatus == 'settlement') {
-                // Payment success
-                $payment->transaction_status = 'settlement';
-                $payment->paid_at = now();
-                if ($booking) {
-                    $booking->status = 'confirmed';
-                    $booking->save();
-                }
-            } elseif ($transactionStatus == 'pending') {
-                // Payment pending
-                $payment->transaction_status = 'pending';
-                if ($booking) {
-                    $booking->status = 'pending';
-                    $booking->save();
-                }
-            } elseif ($transactionStatus == 'deny') {
-                // Payment denied
-                $payment->transaction_status = 'deny';
-            } elseif ($transactionStatus == 'expire') {
-                // Payment expired
-                $payment->transaction_status = 'expire';
-                if ($booking) {
-                    $booking->status = 'cancelled';
-                    $booking->save();
-                }
-            } elseif ($transactionStatus == 'cancel') {
-                // Payment cancelled
-                $payment->transaction_status = 'cancel';
-                if ($booking) {
-                    $booking->status = 'cancelled';
-                    $booking->save();
-                }
-            }
-
-            $payment->save();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Notification processed successfully'
+            return view('payment.show', [
+                'booking' => $booking,
+                'snapToken' => $snapToken,
             ]);
 
         } catch (\Exception $e) {
+            Log::error('Midtrans error: ' . $e->getMessage());
+            return redirect()
+                ->route('booking.confirmation', $booking->id)
+                ->with('error', 'Gagal membuat transaksi: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * HANDLE NOTIFICATION FROM MIDTRANS (WEBHOOK)
+     * INI YANG PALING PENTING UNTUK NGROK
+     */
+    public function notification(Request $request)
+    {
+        Log::info('=== MIDTRANS NOTIFICATION RECEIVED ===');
+        Log::info('Headers:', $request->headers->all());
+        Log::info('Payload:', $request->all());
+
+        try {
+            // Setup Midtrans config
+            Config::$serverKey = config('midtrans.server_key');
+            Config::$isProduction = config('midtrans.is_production');
+
+            // Get notification
+            $notification = new Notification();
+            
+            $orderId = $notification->order_id;
+            $transactionStatus = $notification->transaction_status;
+            $fraudStatus = $notification->fraud_status;
+            $paymentType = $notification->payment_type;
+            $transactionId = $notification->transaction_id;
+
+            Log::info('Processing notification', [
+                'order_id' => $orderId,
+                'status' => $transactionStatus,
+                'fraud_status' => $fraudStatus,
+                'payment_type' => $paymentType
+            ]);
+
+            // Cari payment berdasarkan order_id
+            $payment = Payment::where('midtrans_order_id', $orderId)->first();
+
+            if (!$payment) {
+                Log::error('Payment not found for order: ' . $orderId);
+                return response()->json(['error' => 'Payment not found'], 404);
+            }
+
+            // Cari booking terkait
+            $booking = Booking::where('payment_id', $payment->id)->first();
+
+            // Update payment data
+            $updateData = [
+                'transaction_id' => $transactionId,
+                'payment_type' => $paymentType,
+                'transaction_status' => $transactionStatus,
+            ];
+
+            // Handle status transaksi
+            if ($transactionStatus == 'capture') {
+                if ($fraudStatus == 'accept') {
+                    $updateData['transaction_status'] = 'settlement';
+                    $updateData['paid_at'] = now();
+                    
+                    if ($booking) {
+                        $booking->update(['status' => 'confirmed']);
+                        Log::info('Booking confirmed', ['booking_id' => $booking->id]);
+                    }
+                }
+            } elseif ($transactionStatus == 'settlement') {
+                $updateData['transaction_status'] = 'settlement';
+                $updateData['paid_at'] = now();
+                
+                if ($booking) {
+                    $booking->update(['status' => 'confirmed']);
+                    Log::info('Booking settled', ['booking_id' => $booking->id]);
+                }
+            } elseif ($transactionStatus == 'pending') {
+                $updateData['transaction_status'] = 'pending';
+                if ($booking) {
+                    $booking->update(['status' => 'pending']);
+                }
+            } elseif (in_array($transactionStatus, ['deny', 'expire', 'cancel'])) {
+                $updateData['transaction_status'] = $transactionStatus;
+                if ($booking) {
+                    $booking->update(['status' => 'cancelled']);
+                    // Kembalikan status kamar
+                    if ($booking->kamar) {
+                        $booking->kamar->update(['status' => 'tersedia']);
+                    }
+                    Log::info('Booking cancelled', ['booking_id' => $booking->id]);
+                }
+            }
+
+            $payment->update($updateData);
+
+            Log::info('Payment updated successfully', [
+                'order_id' => $orderId,
+                'new_status' => $transactionStatus
+            ]);
+
             return response()->json([
-                'success' => false,
+                'status' => 'success',
+                'message' => 'Notification processed',
+                'order_id' => $orderId,
+                'transaction_status' => $transactionStatus
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error processing notification: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString());
+
+            return response()->json([
+                'status' => 'error',
                 'message' => $e->getMessage()
             ], 500);
         }
     }
 
     /**
-     * Cek status pembayaran
+     * Handle finish redirect dari Midtrans
+     */
+    public function finish(Booking $booking)
+    {
+        Log::info('Finish callback received', [
+            'booking_id' => $booking->id,
+            'query_params' => request()->all()
+        ]);
+
+        $booking->load(['property', 'kamar.tipeKamar', 'payment', 'user']);
+
+        return view('payment.finish', compact('booking'));
+    }
+
+    /**
+     * Check payment status
      */
     public function checkStatus(Booking $booking)
     {
         if (!$booking->payment) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Payment not found'
-            ], 404);
+            return response()->json(['error' => 'Payment not found'], 404);
         }
 
         return response()->json([

@@ -28,11 +28,11 @@ class BookingResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('Informasi Tamu')
-                    ->schema([
-                        Forms\Components\Select::make('user_id')
+    return $form
+    ->schema([
+    Forms\Components\Section::make('Informasi Tamu')
+    ->schema([
+    Forms\Components\Select::make('user_id')
     ->relationship('user', 'name')
     ->searchable()
     ->required()
@@ -50,27 +50,18 @@ class BookingResource extends Resource
                     ->schema([
                         Forms\Components\Select::make('kamar_id')
                             ->relationship(
-                                'kamar',
-                                'nomor_kamar',
-                                fn (Builder $query) => $query
-                                    ->whereHas('tipeKamar', fn ($q) =>
-                                        $q->where('property_id', auth()->user()->property_id)
-                                    )
-                                    ->where('status', 'tersedia')
-                            )
-                            ->required()
-                            ->searchable()
-                            ->preload(),
+                            'kamar',
+                            'nomor_kamar',
+                            fn (Builder $query) => $query
+                            ->whereHas('tipeKamar', fn ($q) =>
+                            $q->where('property_id', auth()->user()->property_id))
+                            ->where('status', 'tersedia'))->required()->searchable()->preload(),
 
                         Forms\Components\DatePicker::make('checkin_date')
-                            ->required()
-                            ->native(false)
-                            ->minDate(now()),
+                            ->required()->native(false)->minDate(now()),
 
                         Forms\Components\DatePicker::make('checkout_date')
-                            ->required()
-                            ->native(false)
-                            ->after('checkin_date'),
+                            ->required()->native(false)->after('checkin_date'),
 
                         Forms\Components\Select::make('status')
                             ->options([
