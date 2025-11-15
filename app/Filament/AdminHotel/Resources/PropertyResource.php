@@ -26,9 +26,19 @@ class PropertyResource extends Resource
 
     // ✅ Method untuk kontrol akses per action
     public static function canCreate(): bool
-    {
-        return auth()->user()?->role === 'admin hotel';
-    }
+{
+    $user = auth()->user();
+    $canCreate = $user && $user->role === 'admin hotel' && !is_null($user->hotel_id);
+
+    \Log::info('Property Create Permission Check', [
+        'user_id' => $user?->id,
+        'user_role' => $user?->role,
+        'hotel_id' => $user?->hotel_id,
+        'can_create' => $canCreate
+    ]);
+
+    return $canCreate;
+}
 
     public static function canViewAny(): bool
     {
