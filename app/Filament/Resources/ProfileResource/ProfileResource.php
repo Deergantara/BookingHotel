@@ -2,7 +2,7 @@
 
 namespace App\Filament\Admin\Resources;
 
-use App\Filament\Resources\ProfileResource\Pages;
+use App\Filament\Admin\Resources\ProfileResource\Pages;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Admin\Resources\UserResource\Pages;
+namespace App\Filament\Admin\Resources\HotelResource\Pages;
 
-use App\Filament\Resources\UserResource;
+use App\Filament\Admin\Resources\HotelResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListUsers extends ListRecords
+class ListHotels extends ListRecords
 {
-    protected static string $resource = UserResource::class;
+    protected static string $resource = HotelResource::class;
 
     protected function getHeaderActions(): array
     {

@@ -2,7 +2,7 @@
 
 namespace App\Filament\Admin\Resources\ProfileResource\Pages;
 
-use App\Filament\Resources\ProfileResource;
+use App\Filament\Admin\Resources\ProfileResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 

@@ -13,7 +13,11 @@ class Hotel extends Model
         'nama',
         'tdup',
         'npwp',
-        'status',   
+        'status',
+    ];
+
+    protected $casts = [
+        'status' => 'string',
     ];
 
     public function properties()
@@ -28,8 +32,9 @@ class Hotel extends Model
     }
 
     // relasi ke Bookings
-    public function Bookings()
+   // ✅ PERBAIKI: Relasi ke Bookings melalui properties
+    public function bookings()
     {
-        return $this->hasMany(Booking::class);
+        return $this->hasManyThrough(Booking::class, Property::class);
     }
 }

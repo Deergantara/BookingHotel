@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama');   // nama hotel
             $table->string('tdup')->nullable();
             $table->string('npwp'); // NPWP hotel
-            $table->enum('status', ['pending', 'verified', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'verified', 'rejected', 'active'])->default('pending');
             $table->timestamps();;
         });
     }

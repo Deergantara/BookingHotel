@@ -18,11 +18,22 @@ class PropertyResource extends Resource
     protected static ?string $navigationLabel = 'Properties';
     protected static ?string $navigationGroup = 'Hotel Management';
     protected static ?int $navigationSort = 2;
-    // ✅ Hanya Admin Hotel & Owner Hotel yang bisa akses
-    public static function canAccess(): bool
-{
-    return auth()->user()?->role === 'admin hotel';
-}
+        // ✅ Hanya Admin Hotel & Owner Hotel yang bisa akses
+    //     public static function canAccess(): bool
+    // {
+    //     return auth()->user()?->role === 'admin hotel';
+    // }
+
+    // ✅ Method untuk kontrol akses per action
+    public static function canCreate(): bool
+    {
+        return auth()->user()?->role === 'admin hotel';
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->role === 'admin hotel';
+    }
 
     // ✅ Filter: Hanya tampilkan properties dari hotel admin yang login
     public static function getEloquentQuery(): Builder
@@ -31,8 +42,8 @@ class PropertyResource extends Resource
 
         $user = auth()->user();
 
-        // Jika admin hotel/owner hotel, filter by hotel_id
-        if (in_array($user->role, ['admin hotel']) && $user->hotel_id) {
+        // Jika admin hotel, filter by hotel_id
+        if ($user->role === 'admin hotel' && $user->hotel_id) {
             $query->where('hotel_id', $user->hotel_id);
         }
 
