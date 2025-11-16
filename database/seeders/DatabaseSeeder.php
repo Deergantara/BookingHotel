@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             TipeKamarSeeder::class,
             KamarSeeder::class,
             UserSeeder::class,
+            FasilitasSeeder::class,
         ]);
     }
 }

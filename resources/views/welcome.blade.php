@@ -1,176 +1,171 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxury Allure - Hotel Terpercaya</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@section('title', 'Luxury Allure - Hotel Terpercaya')
 
-        :root {
-            --primary: #0a0a0a;
-            --secondary: #1a1a1a;
-            --accent: #d4af37;
-            --accent-light: #f7ef8a;
-            --light: #f5f5f5;
-            --text-dark: #333333;
-            --text-light: #f5f5f5;
-        }
+@push('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--light);
-            color: var(--text-dark);
-        }
+    :root {
+        --primary: #0a0a0a;
+        --secondary: #1a1a1a;
+        --accent: #d4af37;
+        --accent-light: #f7ef8a;
+        --light: #f5f5f5;
+        --text-dark: #333333;
+        --text-light: #f5f5f5;
+    }
 
-        .hero-title {
-            font-family: 'Playfair Display', serif;
-        }
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--light);
+        color: var(--text-dark);
+    }
 
-        .gradient-overlay {
-            background: linear-gradient(135deg, rgba(10, 10, 10, 0.85) 0%, rgba(26, 26, 26, 0.75) 100%);
-        }
+    .hero-title {
+        font-family: 'Playfair Display', serif;
+    }
 
-        .city-card {
-            transition: all 0.3s ease;
-            overflow: hidden;
-            border: 1px solid #e5e5e5;
-        }
+    .gradient-overlay {
+        background: linear-gradient(135deg, rgba(10, 10, 10, 0.85) 0%, rgba(26, 26, 26, 0.75) 100%);
+    }
 
-        .city-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-            border-color: var(--accent);
-        }
+    .city-card {
+        transition: all 0.3s ease;
+        overflow: hidden;
+        border: 1px solid #e5e5e5;
+    }
 
-        .city-image {
-            transition: transform 0.5s ease;
-        }
+    .city-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        border-color: var(--accent);
+    }
 
-        .city-card:hover .city-image {
-            transform: scale(1.05);
-        }
+    .city-image {
+        transition: transform 0.5s ease;
+    }
 
-        .facility-icon {
-            transition: all 0.3s ease;
-        }
+    .city-card:hover .city-image {
+        transform: scale(1.05);
+    }
 
-        .facility-item:hover .facility-icon {
-            transform: scale(1.1);
-            background-color: var(--accent) !important;
-            color: var(--primary) !important;
-        }
+    .facility-icon {
+        transition: all 0.3s ease;
+    }
 
-        .promo-section {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-            position: relative;
-            overflow: hidden;
-        }
+    .facility-item:hover .facility-icon {
+        transform: scale(1.1);
+        background-color: var(--accent) !important;
+        color: var(--primary) !important;
+    }
 
-        .promo-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 50%;
-            height: 100%;
-            background: url('https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80') center/cover no-repeat;
-            opacity: 0.1;
-        }
+    .promo-section {
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        position: relative;
+        overflow: hidden;
+    }
 
-        .promo-btn {
-            background: linear-gradient(135deg, #d4af37 0%, #f7ef8a 100%);
-            color: #0a0a0a;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            font-weight: 700;
-        }
+    .promo-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50%;
+        height: 100%;
+        background: url('https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80') center/cover no-repeat;
+        opacity: 0.1;
+    }
 
-        .promo-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s ease;
-        }
+    .promo-btn {
+        background: linear-gradient(135deg, #d4af37 0%, #f7ef8a 100%);
+        color: #0a0a0a;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        font-weight: 700;
+    }
 
-        .promo-btn:hover::before {
-            left: 100%;
-        }
+    .promo-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s ease;
+    }
 
-        .promo-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
-        }
+    .promo-btn:hover::before {
+        left: 100%;
+    }
 
-        .text-gold {
-            color: #d4af37;
-        }
+    .promo-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+    }
 
-        .plus-icon {
-            transition: transform 0.3s ease;
-        }
+    .text-gold {
+        color: #d4af37;
+    }
 
-        .promo-btn:hover .plus-icon {
-            transform: rotate(90deg);
-        }
+    .plus-icon {
+        transition: transform 0.3s ease;
+    }
 
-        .search-btn {
-            background: linear-gradient(135deg, #d4af37 0%, #f7ef8a 100%);
-            color: #0a0a0a;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
+    .promo-btn:hover .plus-icon {
+        transform: rotate(90deg);
+    }
 
-        .search-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
-        }
+    .search-btn {
+        background: linear-gradient(135deg, #d4af37 0%, #f7ef8a 100%);
+        color: #0a0a0a;
+        transition: all 0.3s ease;
+        font-weight: 600;
+    }
 
-        .section-title {
-            position: relative;
-            display: inline-block;
-        }
+    .search-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+    }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, #d4af37, #f7ef8a);
-        }
+    .section-title {
+        position: relative;
+        display: inline-block;
+    }
 
-        .accent-border {
-            border-color: #d4af37;
-        }
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #d4af37, #f7ef8a);
+    }
 
-        .accent-bg {
-            background-color: #d4af37;
-        }
+    .accent-border {
+        border-color: #d4af37;
+    }
 
-        .dark-bg {
-            background-color: #0a0a0a;
-        }
+    .accent-bg {
+        background-color: #d4af37;
+    }
 
-        .medium-bg {
-            background-color: #1a1a1a;
-        }
-    </style>
-</head>
-@include('layouts.app')
+    .dark-bg {
+        background-color: #0a0a0a;
+    }
 
-@section('title', 'Home - Luxury Allure')
+    .medium-bg {
+        background-color: #1a1a1a;
+    }
+</style>
+@endpush
 
-<body class="bg-white text-gray-800">
+@section('content')
     <!-- Hero Section -->
     <section class="relative bg-cover bg-center h-[560px]" style="background-image: url('{{ asset('images/hondel.jpeg') }}')">
         <div class="absolute inset-0 gradient-overlay"></div>
@@ -183,7 +178,7 @@
             <!-- Form Pencarian -->
             <form action="{{ route('property.search') }}" method="GET"
     class="bg-white rounded-xl shadow-2xl px-6 py-6 w-full max-w-4xl">
-    
+
     <div class="flex flex-col md:flex-row items-center gap-4 mb-4">
         <!-- Search Input -->
         <div class="flex-1 w-full">
@@ -194,7 +189,7 @@
         <!-- Check-in -->
         <div>
             <label class="block text-xs text-gray-500 mb-1">Check-in</label>
-            <input type="date" name="checkin" id="checkin" 
+            <input type="date" name="checkin" id="checkin"
                 class="px-4 py-3 border-0 rounded-lg text-gray-700 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-500">
         </div>
 
@@ -215,9 +210,9 @@
             </button>
 
             <!-- Dropdown Panel -->
-            <div id="guestPanel" 
+            <div id="guestPanel"
                 class="hidden absolute top-full mt-2 bg-white border border-gray-200 rounded-lg shadow-2xl p-4 w-80 z-50 right-0">
-                
+
                 <!-- Room List Container -->
                 <div id="roomsContainer" class="space-y-4 mb-4">
                     <!-- Room 1 (Default) -->
@@ -225,11 +220,11 @@
                         <div class="flex justify-between items-center mb-3">
                             <h4 class="font-semibold text-gray-800">Kamar 1</h4>
                         </div>
-                        
+
                         <div class="flex justify-between items-center">
                             <span class="text-sm text-gray-600">Tamu</span>
                             <div class="flex items-center gap-3">
-                                <button type="button" onclick="changeGuests(1, -1)" 
+                                <button type="button" onclick="changeGuests(1, -1)"
                                     class="w-8 h-8 rounded border border-gray-300 hover:border-yellow-500 flex items-center justify-center">
                                     <i class="fas fa-minus text-xs text-black"></i>
                                 </button>
@@ -265,7 +260,7 @@
         </div>
 
         <!-- Search Button -->
-        <button type="submit" 
+        <button type="submit"
             class="search-btn text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 self-end md:self-auto mt-2 md:mt-0">
             CARI
         </button>
@@ -363,140 +358,258 @@
         </div>
     </section>
 
-    <!-- City Section -->
-    <!-- City Section -->
-<section class="py-16 bg-white">
-    <div class="max-w-6xl mx-auto px-4">
-        <div class="text-center mb-12">
-            <h2 class="section-title text-3xl md:text-4xl font-bold mb-4 text-gray-900 hero-title">Explore Indonesia</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto">Temukan pengalaman menginap terbaik di berbagai kota menarik di Indonesia</p>
+    <!-- City Section - IMPROVED WITH PROPER FILTER PARAMETERS -->
+    <section class="py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-3xl md:text-4xl font-bold mb-4 text-gray-900 hero-title">Explore Indonesia</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Temukan pengalaman menginap terbaik di berbagai kota menarik di Indonesia</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- City 1 - Jakarta -->
+                <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer">
+                    <a href="{{ route('property.search', ['cities[]' => 'Jakarta']) }}" class="block">
+                        <div class="relative overflow-hidden">
+                            <img src="{{ asset('images/jakarta.jpg') }}"
+                                 alt="Jakarta" class="city-image w-full h-48 object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4 text-white">
+                                <h3 class="text-xl font-bold">Jakarta</h3>
+                                <p class="text-sm text-gray-200 mt-1">{{ \App\Models\Property::where('city', 'Jakarta')->where('is_active', true)->count() }} Properties</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-600 mb-4">Ibu kota Indonesia dengan berbagai destinasi wisata dan bisnis</p>
+                            <div class="flex justify-between items-center">
+                                @php
+                                    $jakartaMinPrice = \App\Models\TipeKamar::whereHas('property', function($query) {
+                                        $query->where('city', 'Jakarta')->where('is_active', true);
+                                    })->min('harga') ?? 450000;
+                                @endphp
+                                <span class="text-gold font-semibold">Mulai dari Rp {{ number_format($jakartaMinPrice, 0, ',', '.') }}</span>
+                                <span class="text-gold group-hover:text-yellow-700 font-semibold flex items-center transition-colors">
+                                    Explore Now <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- City 2 - Bandung -->
+                <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer">
+                    <a href="{{ route('property.search', ['cities[]' => 'Bandung']) }}" class="block">
+                        <div class="relative overflow-hidden">
+                            <img src="{{ asset('images/bandung.jpg') }}"
+                                 alt="Bandung" class="city-image w-full h-48 object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4 text-white">
+                                <h3 class="text-xl font-bold">Bandung</h3>
+                                <p class="text-sm text-gray-200 mt-1">{{ \App\Models\Property::where('city', 'Bandung')->where('is_active', true)->count() }} Properties</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-600 mb-4">Kota Kembang dengan udara sejuk dan wisata kuliner yang terkenal</p>
+                            <div class="flex justify-between items-center">
+                                @php
+                                    $bandungMinPrice = \App\Models\TipeKamar::whereHas('property', function($query) {
+                                        $query->where('city', 'Bandung')->where('is_active', true);
+                                    })->min('harga') ?? 350000;
+                                @endphp
+                                <span class="text-gold font-semibold">Mulai dari Rp {{ number_format($bandungMinPrice, 0, ',', '.') }}</span>
+                                <span class="text-gold group-hover:text-yellow-700 font-semibold flex items-center transition-colors">
+                                    Explore Now <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- City 3 - Palembang -->
+                <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer">
+                    <a href="{{ route('property.search', ['cities[]' => 'Palembang']) }}" class="block">
+                        <div class="relative overflow-hidden">
+                            <img src="{{ asset('images/palembang.jpg') }}"
+                                 alt="Palembang" class="city-image w-full h-48 object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4 text-white">
+                                <h3 class="text-xl font-bold">Palembang</h3>
+                                <p class="text-sm text-gray-200 mt-1">{{ \App\Models\Property::where('city', 'Palembang')->where('is_active', true)->count() }} Properties</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-600 mb-4">Kota tertua di Indonesia dengan jembatan Ampera yang ikonik</p>
+                            <div class="flex justify-between items-center">
+                                @php
+                                    $palembangMinPrice = \App\Models\TipeKamar::whereHas('property', function($query) {
+                                        $query->where('city', 'Palembang')->where('is_active', true);
+                                    })->min('harga') ?? 320000;
+                                @endphp
+                                <span class="text-gold font-semibold">Mulai dari Rp {{ number_format($palembangMinPrice, 0, ',', '.') }}</span>
+                                <span class="text-gold group-hover:text-yellow-700 font-semibold flex items-center transition-colors">
+                                    Explore Now <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- City 4 - Surabaya -->
+                <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer">
+                    <a href="{{ route('property.search', ['cities[]' => 'Surabaya']) }}" class="block">
+                        <div class="relative overflow-hidden">
+                            <img src="{{ asset('images/surabaya.jpg') }}"
+                                 alt="Surabaya" class="city-image w-full h-48 object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4 text-white">
+                                <h3 class="text-xl font-bold">Surabaya</h3>
+                                <p class="text-sm text-gray-200 mt-1">{{ \App\Models\Property::where('city', 'Surabaya')->where('is_active', true)->count() }} Properties</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-600 mb-4">Kota Pahlawan dengan beragam destinasi sejarah dan modern</p>
+                            <div class="flex justify-between items-center">
+                                @php
+                                    $surabayaMinPrice = \App\Models\TipeKamar::whereHas('property', function($query) {
+                                        $query->where('city', 'Surabaya')->where('is_active', true);
+                                    })->min('harga') ?? 380000;
+                                @endphp
+                                <span class="text-gold font-semibold">Mulai dari Rp {{ number_format($surabayaMinPrice, 0, ',', '.') }}</span>
+                                <span class="text-gold group-hover:text-yellow-700 font-semibold flex items-center transition-colors">
+                                    Explore Now <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Additional Cities -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+                <!-- City 5 - Bali -->
+                <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer">
+                    <a href="{{ route('property.search', ['cities[]' => 'Bali']) }}" class="block">
+                        <div class="relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+                                 alt="Bali" class="city-image w-full h-48 object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4 text-white">
+                                <h3 class="text-xl font-bold">Bali</h3>
+                                <p class="text-sm text-gray-200 mt-1">{{ \App\Models\Property::where('city', 'Bali')->where('is_active', true)->count() }} Properties</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-600 mb-4">Pulau Dewata dengan pantai eksotis dan budaya yang kaya</p>
+                            <div class="flex justify-between items-center">
+                                @php
+                                    $baliMinPrice = \App\Models\TipeKamar::whereHas('property', function($query) {
+                                        $query->where('city', 'Bali')->where('is_active', true);
+                                    })->min('harga') ?? 500000;
+                                @endphp
+                                <span class="text-gold font-semibold">Mulai dari Rp {{ number_format($baliMinPrice, 0, ',', '.') }}</span>
+                                <span class="text-gold group-hover:text-yellow-700 font-semibold flex items-center transition-colors">
+                                    Explore Now <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- City 6 - Yogyakarta -->
+                <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer">
+                    <a href="{{ route('property.search', ['cities[]' => 'Yogyakarta']) }}" class="block">
+                        <div class="relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1588666309998-4d588138b4d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+                                 alt="Yogyakarta" class="city-image w-full h-48 object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4 text-white">
+                                <h3 class="text-xl font-bold">Yogyakarta</h3>
+                                <p class="text-sm text-gray-200 mt-1">{{ \App\Models\Property::where('city', 'Yogyakarta')->where('is_active', true)->count() }} Properties</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-600 mb-4">Kota budaya dengan Candi Borobudur dan tradisi Jawa</p>
+                            <div class="flex justify-between items-center">
+                                @php
+                                    $yogyakartaMinPrice = \App\Models\TipeKamar::whereHas('property', function($query) {
+                                        $query->where('city', 'Yogyakarta')->where('is_active', true);
+                                    })->min('harga') ?? 300000;
+                                @endphp
+                                <span class="text-gold font-semibold">Mulai dari Rp {{ number_format($yogyakartaMinPrice, 0, ',', '.') }}</span>
+                                <span class="text-gold group-hover:text-yellow-700 font-semibold flex items-center transition-colors">
+                                    Explore Now <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- City 7 - Medan -->
+                <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer">
+                    <a href="{{ route('property.search', ['cities[]' => 'Medan']) }}" class="block">
+                        <div class="relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1591824438707-0a5cbb9d7353?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+                                 alt="Medan" class="city-image w-full h-48 object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4 text-white">
+                                <h3 class="text-xl font-bold">Medan</h3>
+                                <p class="text-sm text-gray-200 mt-1">{{ \App\Models\Property::where('city', 'Medan')->where('is_active', true)->count() }} Properties</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-600 mb-4">Kota terbesar di Sumatera dengan kuliner khas yang lezat</p>
+                            <div class="flex justify-between items-center">
+                                @php
+                                    $medanMinPrice = \App\Models\TipeKamar::whereHas('property', function($query) {
+                                        $query->where('city', 'Medan')->where('is_active', true);
+                                    })->min('harga') ?? 350000;
+                                @endphp
+                                <span class="text-gold font-semibold">Mulai dari Rp {{ number_format($medanMinPrice, 0, ',', '.') }}</span>
+                                <span class="text-gold group-hover:text-yellow-700 font-semibold flex items-center transition-colors">
+                                    Explore Now <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- City 8 - Makassar -->
+                <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer">
+                    <a href="{{ route('property.search', ['cities[]' => 'Makassar']) }}" class="block">
+                        <div class="relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80"
+                                 alt="Makassar" class="city-image w-full h-48 object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4 text-white">
+                                <h3 class="text-xl font-bold">Makassar</h3>
+                                <p class="text-sm text-gray-200 mt-1">{{ \App\Models\Property::where('city', 'Makassar')->where('is_active', true)->count() }} Properties</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-600 mb-4">Gerbang Indonesia Timur dengan Pantai Losari yang ikonik</p>
+                            <div class="flex justify-between items-center">
+                                @php
+                                    $makassarMinPrice = \App\Models\TipeKamar::whereHas('property', function($query) {
+                                        $query->where('city', 'Makassar')->where('is_active', true);
+                                    })->min('harga') ?? 330000;
+                                @endphp
+                                <span class="text-gold font-semibold">Mulai dari Rp {{ number_format($makassarMinPrice, 0, ',', '.') }}</span>
+                                <span class="text-gold group-hover:text-yellow-700 font-semibold flex items-center transition-colors">
+                                    Explore Now <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="{{ route('property.search') }}" class="inline-flex items-center px-6 py-3 border border-gold text-gold hover:bg-yellow-50 rounded-lg transition-all duration-300 font-semibold">
+                    Lihat Semua Kota <i class="fas fa-chevron-down ml-2"></i>
+                </a>
+            </div>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- City 1 - Jakarta -->
-            <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer">
-                <a href="{{ route('property.search', ['city' => 'Jakarta']) }}" class="block">
-                    <div class="relative overflow-hidden">
-                        <img src="{{ asset('images/jakarta.jpg') }}"
-                             alt="Jakarta" class="city-image w-full h-48 object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                        <div class="absolute bottom-4 left-4 text-white">
-                            <h3 class="text-xl font-bold">Jakarta</h3>
-                            <p class="text-sm text-gray-200 mt-1">{{ \App\Models\Property::where('city', 'Jakarta')->where('is_active', true)->count() }} Properties</p>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <p class="text-gray-600 mb-4">Ibu kota Indonesia dengan berbagai destinasi wisata dan bisnis</p>
-                        <div class="flex justify-between items-center">
-                            @php
-                                $jakartaMinPrice = \App\Models\TipeKamar::whereHas('property', function($query) {
-                                    $query->where('city', 'Jakarta')->where('is_active', true);
-                                })->min('harga') ?? 450000;
-                            @endphp
-                            <span class="text-gold font-semibold">Mulai dari Rp {{ number_format($jakartaMinPrice, 0, ',', '.') }}</span>
-                            <span class="text-gold group-hover:text-yellow-700 font-semibold flex items-center transition-colors">
-                                Explore Now <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                            </span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <!-- City 2 - Bandung -->
-            <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer">
-                <a href="{{ route('property.search', ['city' => 'Bandung']) }}" class="block">
-                    <div class="relative overflow-hidden">
-                        <img src="{{ asset('images/bandung.jpg') }}"
-                             alt="Bandung" class="city-image w-full h-48 object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                        <div class="absolute bottom-4 left-4 text-white">
-                            <h3 class="text-xl font-bold">Bandung</h3>
-                            <p class="text-sm text-gray-200 mt-1">{{ \App\Models\Property::where('city', 'Bandung')->where('is_active', true)->count() }} Properties</p>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <p class="text-gray-600 mb-4">Kota Kembang dengan udara sejuk dan wisata kuliner yang terkenal</p>
-                        <div class="flex justify-between items-center">
-                            @php
-                                $bandungMinPrice = \App\Models\TipeKamar::whereHas('property', function($query) {
-                                    $query->where('city', 'Bandung')->where('is_active', true);
-                                })->min('harga') ?? 350000;
-                            @endphp
-                            <span class="text-gold font-semibold">Mulai dari Rp {{ number_format($bandungMinPrice, 0, ',', '.') }}</span>
-                            <span class="text-gold group-hover:text-yellow-700 font-semibold flex items-center transition-colors">
-                                Explore Now <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                            </span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <!-- City 3 - Palembang -->
-            <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer">
-                <a href="{{ route('property.search', ['city' => 'Palembang']) }}" class="block">
-                    <div class="relative overflow-hidden">
-                        <img src="{{ asset('images/palembang.jpg') }}"
-                             alt="Palembang" class="city-image w-full h-48 object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                        <div class="absolute bottom-4 left-4 text-white">
-                            <h3 class="text-xl font-bold">Palembang</h3>
-                            <p class="text-sm text-gray-200 mt-1">{{ \App\Models\Property::where('city', 'Palembang')->where('is_active', true)->count() }} Properties</p>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <p class="text-gray-600 mb-4">Kota tertua di Indonesia dengan jembatan Ampera yang ikonik</p>
-                        <div class="flex justify-between items-center">
-                            @php
-                                $palembangMinPrice = \App\Models\TipeKamar::whereHas('property', function($query) {
-                                    $query->where('city', 'Palembang')->where('is_active', true);
-                                })->min('harga') ?? 320000;
-                            @endphp
-                            <span class="text-gold font-semibold">Mulai dari Rp {{ number_format($palembangMinPrice, 0, ',', '.') }}</span>
-                            <span class="text-gold group-hover:text-yellow-700 font-semibold flex items-center transition-colors">
-                                Explore Now <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                            </span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <!-- City 4 - Surabaya -->
-            <div class="city-card bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer">
-                <a href="{{ route('property.search', ['city' => 'Surabaya']) }}" class="block">
-                    <div class="relative overflow-hidden">
-                        <img src="{{ asset('images/surabaya.jpg') }}"
-                             alt="Surabaya" class="city-image w-full h-48 object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                        <div class="absolute bottom-4 left-4 text-white">
-                            <h3 class="text-xl font-bold">Surabaya</h3>
-                            <p class="text-sm text-gray-200 mt-1">{{ \App\Models\Property::where('city', 'Surabaya')->where('is_active', true)->count() }} Properties</p>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <p class="text-gray-600 mb-4">Kota Pahlawan dengan beragam destinasi sejarah dan modern</p>
-                        <div class="flex justify-between items-center">
-                            @php
-                                $surabayaMinPrice = \App\Models\TipeKamar::whereHas('property', function($query) {
-                                    $query->where('city', 'Surabaya')->where('is_active', true);
-                                })->min('harga') ?? 380000;
-                            @endphp
-                            <span class="text-gold font-semibold">Mulai dari Rp {{ number_format($surabayaMinPrice, 0, ',', '.') }}</span>
-                            <span class="text-gold group-hover:text-yellow-700 font-semibold flex items-center transition-colors">
-                                Explore Now <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                            </span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-
-        <div class="text-center mt-12">
-            <a href="{{ route('property.search') }}" class="inline-flex items-center px-6 py-3 border border-gold text-gold hover:bg-yellow-50 rounded-lg transition-all duration-300 font-semibold">
-                Lihat Semua Kota <i class="fas fa-chevron-down ml-2"></i>
-            </a>
-        </div>
-    </div>
-</section>
+    </section>
 
     <!-- Why Choose Us Section -->
     <section class="py-16 bg-gray-50">
@@ -528,64 +641,10 @@
             </div>
         </div>
     </section>
+@endsection
 
-    <!-- Footer -->
-    <footer class="dark-bg text-white py-12">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div class="md:col-span-2">
-                    <h3 class="hero-title text-2xl font-bold mb-4 text-gold">Luxury Allure</h3>
-                    <p class="text-gray-400 mb-6">Hotel mewah dengan pelayanan terbaik untuk pengalaman menginap yang tak terlupakan. Kami berkomitmen memberikan kenyamanan dan kepuasan maksimal bagi setiap tamu.</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 rounded-full medium-bg flex items-center justify-center hover:bg-gold transition-colors">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full medium-bg flex items-center justify-center hover:bg-gold transition-colors">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full medium-bg flex items-center justify-center hover:bg-gold transition-colors">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full medium-bg flex items-center justify-center hover:bg-gold transition-colors">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4 text-gold">Tautan Cepat</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-gold transition-colors">Tentang Kami</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-gold transition-colors">Kamar & Suite</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-gold transition-colors">Restoran</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-gold transition-colors">Fasilitas</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-gold transition-colors">Kontak</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4 text-gold">Kontak</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li class="flex items-start">
-                            <i class="fas fa-map-marker-alt text-gold mr-3 mt-1"></i>
-                            <span>Jl. Kemegahan No. 123, Jakarta Pusat</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-phone text-gold mr-3"></i>
-                            <span>+62 21 1234 5678</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-envelope text-gold mr-3"></i>
-                            <span>info@luxuryallure.com</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
-                <p>&copy; 2023 Luxury Allure. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
+@push('scripts')
+<script>
 let roomCount = 1;
 let roomsData = {
     1: { guests: 2 }
@@ -602,7 +661,7 @@ document.getElementById('guestToggle').addEventListener('click', function(e) {
 document.addEventListener('click', function(e) {
     const toggle = document.getElementById('guestToggle');
     const panel = document.getElementById('guestPanel');
-    
+
     if (!toggle.contains(e.target) && !panel.contains(e.target)) {
         panel.classList.add('hidden');
     }
@@ -612,7 +671,7 @@ document.addEventListener('click', function(e) {
 function changeGuests(roomNumber, change) {
     const currentGuests = roomsData[roomNumber].guests;
     const newGuests = currentGuests + change;
-    
+
     // Min 1, Max 10 guests per room
     if (newGuests >= 1 && newGuests <= 10) {
         roomsData[roomNumber].guests = newGuests;
@@ -628,20 +687,20 @@ function addRoom() {
         alert('Maksimal 5 kamar');
         return;
     }
-    
+
     roomCount++;
     roomsData[roomCount] = { guests: 1 };
-    
+
     const roomHTML = `
         <div class="room-item border-b border-gray-200 pb-4" data-room="${roomCount}">
             <div class="flex justify-between items-center mb-3">
                 <h4 class="font-semibold text-gray-800">Kamar ${roomCount}</h4>
             </div>
-            
+
             <div class="flex justify-between items-center">
                 <span class="text-sm text-gray-600">Tamu</span>
                 <div class="flex items-center gap-3">
-                    <button type="button" onclick="changeGuests(${roomCount}, -1)" 
+                    <button type="button" onclick="changeGuests(${roomCount}, -1)"
                         class="w-8 h-8 rounded border border-gray-300 hover:border-yellow-500 flex items-center justify-center">
                         <i class="fas fa-minus text-xs text-black"></i>
                     </button>
@@ -654,32 +713,32 @@ function addRoom() {
             </div>
         </div>
     `;
-    
+
     document.getElementById('roomsContainer').insertAdjacentHTML('beforeend', roomHTML);
-    
+
     // Enable remove button if more than 1 room
     document.getElementById('removeRoomBtn').disabled = false;
-    
+
     updateSummary();
 }
 
 // Remove last room
 function removeRoom() {
     if (roomCount <= 1) return; // Kamar 1 tidak bisa dihapus
-    
+
     // Remove from DOM
     const rooms = document.querySelectorAll('.room-item');
     rooms[rooms.length - 1].remove();
-    
+
     // Remove from data
     delete roomsData[roomCount];
     roomCount--;
-    
+
     // Disable remove button if only 1 room left
     if (roomCount === 1) {
         document.getElementById('removeRoomBtn').disabled = true;
     }
-    
+
     updateSummary();
 }
 
@@ -689,7 +748,7 @@ function updateSummary() {
     for (let room in roomsData) {
         totalGuests += roomsData[room].guests;
     }
-    
+
     const summary = `${roomCount} Kamar, ${totalGuests} Tamu`;
     document.getElementById('guestSummary').textContent = summary;
 }
@@ -700,7 +759,7 @@ function applyGuestSelection() {
     for (let room in roomsData) {
         totalGuests += roomsData[room].guests;
     }
-    
+
     // Update hidden inputs
     document.getElementById('totalRooms').value = roomCount;
     document.getElementById('totalGuests').value = totalGuests;
@@ -710,7 +769,7 @@ function applyGuestSelection() {
             guests: roomsData[room].guests
         }))
     );
-    
+
     // Close panel
     document.getElementById('guestPanel').classList.add('hidden');
 }
@@ -728,6 +787,4 @@ document.getElementById('checkin').addEventListener('change', function() {
     document.getElementById('checkout').setAttribute('min', minCheckout);
 });
 </script>
-</body>
-
-</html>
+@endpush

@@ -2,25 +2,34 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Resources\ProfileResource;
+use App\Filament\Owner\Pages\Dashboard;
+use App\Filament\Owner\Pages\HotelList;
+use App\Filament\Owner\Widgets\GrossAmountWidget;
+use App\Filament\Owner\Widgets\MonthlyBookingTrendWidget;
+use App\Filament\Owner\Widgets\NetAmountWidget;
+use App\Filament\Owner\Widgets\OccupancyRateWidget;
+use App\Filament\Owner\Widgets\PaymentStatusChartWidget;
+use App\Filament\Owner\Widgets\RevenueChartWidget;
+use App\Filament\Owner\Widgets\TopHotelsChartWidget;
+use App\Filament\Owner\Widgets\TotalBookingWidget;
+use App\Filament\Owner\Widgets\TotalDiscountWidget;
+use App\Filament\Owner\Widgets\TotalHotelWidget;
+use App\Filament\Owner\Widgets\TotalPropertyWidget;
+use App\Filament\Owner\Widgets\TotalRevenueWidget;
+use App\Filament\Owner\Widgets\TotalUsersWidget;
 use Filament\Http\Middleware\Authenticate;
-use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Navigation\UserMenuItem;
-use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Illuminate\Support\Facades\Auth;
-
 
 class OwnerPanelProvider extends PanelProvider
 {
@@ -29,18 +38,30 @@ class OwnerPanelProvider extends PanelProvider
         return $panel
             ->id('owner')
             ->path('owner')
-            ->login() // <— ini penting untuk form login!
+            ->login()
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->discoverResources(in: app_path('Filament/Owner/Resources'), for: 'App\\Filament\\Owner\\Resources')
-            ->discoverPages(in: app_path('Filament/Owner/Pages'), for: 'App\\Filament\\Owner\\Pages')                                 
-            ->discoverWidgets(in: app_path('Filament/Owner/Widgets'), for: 'App\\Filament\\Owner\\Widgets')
-            ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+            ->authGuard('web')
+            ->pages([
+                Dashboard::class,
+                HotelList::class,
             ])
-
+            ->widgets([
+                TotalRevenueWidget::class,
+                TotalHotelWidget::class,
+                TotalPropertyWidget::class,
+                TotalBookingWidget::class,
+                TotalUsersWidget::class,
+                OccupancyRateWidget::class,
+                RevenueChartWidget::class,
+                TopHotelsChartWidget::class,
+                MonthlyBookingTrendWidget::class,
+                PaymentStatusChartWidget::class,
+                GrossAmountWidget::class,
+                TotalDiscountWidget::class,
+                NetAmountWidget::class,
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -54,14 +75,6 @@ class OwnerPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ])
-
-            ->userMenuItems([
-                'profile' => UserMenuItem::make()
-                    ->label('Edit Profile')
-                    ->url(fn (): string => url('/owner/profile/' . Auth::id() . '/edit'))
-                    ->icon('heroicon-o-user'),
             ]);
-            
     }
 }

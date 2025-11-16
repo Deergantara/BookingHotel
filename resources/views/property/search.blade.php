@@ -600,141 +600,156 @@
 
   <div class="container">
     <!-- SIDEBAR FILTER -->
-<!-- SIDEBAR FILTER -->
-<div class="sidebar">
-    <div class="sidebar-header">
+    <div class="sidebar">
+      <div class="sidebar-header">
         <h3><i class="fas fa-sliders-h"></i> Filter Pencarian</h3>
         <a href="{{ route('property.search') }}" class="clear-btn">
-            <i class="fas fa-times"></i> Hapus Semua
+          <i class="fas fa-times"></i> Hapus Semua
         </a>
-    </div>
+      </div>
 
-    <form action="{{ route('property.search') }}" method="GET" id="filterForm">
+      <form action="{{ route('property.search') }}" method="GET" id="filterForm">
         <!-- Simpan parameter pencarian -->
         @if(request('search'))
-        <input type="hidden" name="search" value="{{ request('search') }}">
+          <input type="hidden" name="search" value="{{ request('search') }}">
         @endif
 
         <!-- FILTER HARGA -->
         <div class="filter-section">
-            <span class="filter-title"><i class="fas fa-tag"></i> Rentang Harga per Malam</span>
-            <div class="price-range">
-                <input type="range" class="price-slider" id="minPrice" name="min_price" 
-                       min="{{ $filterData['min_price_available'] }}" 
-                       max="{{ $filterData['max_price_available'] }}" 
-                       step="50000"
-                       value="{{ request('min_price', $filterData['min_price_available']) }}"
-                       oninput="updatePriceValues()">
-                <input type="range" class="price-slider" id="maxPrice" name="max_price" 
-                       min="{{ $filterData['min_price_available'] }}" 
-                       max="{{ $filterData['max_price_available'] }}" 
-                       step="50000"
-                       value="{{ request('max_price', $filterData['max_price_available']) }}"
-                       oninput="updatePriceValues()">
-                <div class="price-values">
-                    <span>Rp <span id="minPriceValue">{{ number_format(request('min_price', $filterData['min_price_available']), 0, ',', '.') }}</span></span>
-                    <span>Rp <span id="maxPriceValue">{{ number_format(request('max_price', $filterData['max_price_available']), 0, ',', '.') }}</span></span>
-                </div>
+          <span class="filter-title"><i class="fas fa-tag"></i> Rentang Harga per Malam</span>
+          <div class="price-range">
+            <input type="range" class="price-slider" id="minPrice" name="min_price"
+                   min="{{ $filterData['min_price_available'] }}"
+                   max="{{ $filterData['max_price_available'] }}"
+                   step="50000"
+                   value="{{ request('min_price', $filterData['min_price_available']) }}"
+                   oninput="updatePriceValues()">
+            <input type="range" class="price-slider" id="maxPrice" name="max_price"
+                   min="{{ $filterData['min_price_available'] }}"
+                   max="{{ $filterData['max_price_available'] }}"
+                   step="50000"
+                   value="{{ request('max_price', $filterData['max_price_available']) }}"
+                   oninput="updatePriceValues()">
+            <div class="price-values">
+              <span>Rp <span id="minPriceValue">{{ number_format(request('min_price', $filterData['min_price_available']), 0, ',', '.') }}</span></span>
+              <span>Rp <span id="maxPriceValue">{{ number_format(request('max_price', $filterData['max_price_available']), 0, ',', '.') }}</span></span>
             </div>
+          </div>
         </div>
 
         <!-- FILTER LOKASI -->
         <div class="filter-section">
-            <span class="filter-title"><i class="fas fa-map-marker-alt"></i> Lokasi</span>
-            <div class="filter-options">
-                @foreach($filterData['cities'] as $city)
-                <div class="filter-option">
-                    <input type="checkbox" id="city-{{ Str::slug($city) }}" name="cities[]" value="{{ $city }}" 
-                           {{ in_array($city, request('cities', [])) ? 'checked' : '' }}>
-                    <label for="city-{{ Str::slug($city) }}">{{ $city }}</label>
-                </div>
-                @endforeach
+          <span class="filter-title"><i class="fas fa-map-marker-alt"></i> Lokasi</span>
+          <div class="filter-options">
+            @foreach($filterData['cities'] as $city)
+            <div class="filter-option">
+              <input type="checkbox" id="city-{{ Str::slug($city) }}" name="cities[]" value="{{ $city }}"
+                     {{ in_array($city, request('cities', [])) ? 'checked' : '' }}
+                     class="auto-submit">
+              <label for="city-{{ Str::slug($city) }}">{{ $city }}</label>
             </div>
+            @endforeach
+          </div>
         </div>
 
         <!-- FILTER RATING -->
         <div class="filter-section">
-            <span class="filter-title"><i class="fas fa-star"></i> Rating Hotel</span>
-            <div class="filter-options">
-                @for($i = 5; $i >= 1; $i--)
-                <div class="filter-option">
-                    <input type="checkbox" id="rating-{{ $i }}" name="ratings[]" value="{{ $i }}" 
-                           {{ in_array($i, request('ratings', [])) ? 'checked' : '' }}>
-                    <label for="rating-{{ $i }}">
-                        @for($j = 1; $j <= 5; $j++)
-                            <i class="fas fa-star{{ $j <= $i ? '' : '-o' }}" style="color: {{ $j <= $i ? '#d4af37' : '#ccc' }}"></i>
-                        @endfor
-                        <span style="margin-left: 8px;">{{ $i }}+ bintang</span>
-                    </label>
-                </div>
+          <span class="filter-title"><i class="fas fa-star"></i> Rating Hotel</span>
+          <div class="filter-options">
+            @for($i = 5; $i >= 1; $i--)
+            <div class="filter-option">
+              <input type="checkbox" id="rating-{{ $i }}" name="ratings[]" value="{{ $i }}"
+                     {{ in_array($i, request('ratings', [])) ? 'checked' : '' }}
+                     class="auto-submit">
+              <label for="rating-{{ $i }}">
+                @for($j = 1; $j <= 5; $j++)
+                  <i class="fas fa-star{{ $j <= $i ? '' : '-o' }}" style="color: {{ $j <= $i ? '#d4af37' : '#ccc' }}"></i>
                 @endfor
+                <span style="margin-left: 8px;">{{ $i }}+ bintang</span>
+              </label>
             </div>
+            @endfor
+          </div>
         </div>
 
-        <!-- FILTER FASILITAS -->
+        <!-- FILTER FASILITAS - SIMPLE VERSION -->
         <div class="filter-section">
-            <span class="filter-title"><i class="fas fa-concierge-bell"></i> Fasilitas Hotel</span>
-            <div class="filter-options" id="facilityList">
-                @php
-                    $facilities = $filterData['facilities'];
-                    $selectedFacilities = request('facilities', []);
-                    $showMore = count($facilities) > 5;
-                @endphp
+          <span class="filter-title"><i class="fas fa-concierge-bell"></i> Fasilitas Hotel</span>
+          <div class="filter-options">
+            @php
+              $selectedFacilities = request('facilities', []);
+            @endphp
 
-                @foreach($facilities->take(5) as $index => $facility)
-                <div class="filter-option">
-                    <input type="checkbox" id="facility-{{ $index }}" name="facilities[]" value="{{ $facility }}" 
-                           {{ in_array($facility, $selectedFacilities) ? 'checked' : '' }}>
-                    <label for="facility-{{ $index }}">{{ $facility }}</label>
-                </div>
-                @endforeach
-
-                @if($showMore)
-                <div id="moreFacilities" style="display:none;">
-                    @foreach($facilities->skip(5) as $index => $facility)
-                    <div class="filter-option">
-                        <input type="checkbox" id="facility-{{ $index + 5 }}" name="facilities[]" value="{{ $facility }}" 
-                               {{ in_array($facility, $selectedFacilities) ? 'checked' : '' }}>
-                        <label for="facility-{{ $index + 5 }}">{{ $facility }}</label>
-                    </div>
-                    @endforeach
-                </div>
-
-                <span class="view-more" onclick="toggleFacilities()">
-                    <i class="fas fa-chevron-down" id="facilityIcon"></i>
-                    <span id="facilityText">Lihat Lebih Banyak</span>
-                </span>
+            @foreach($filterData['facilities'] as $facility)
+            <div class="filter-option">
+              <input type="checkbox" id="facility-{{ $facility->id }}"
+                     name="facilities[]" value="{{ $facility->id }}"
+                     {{ in_array($facility->id, $selectedFacilities) ? 'checked' : '' }}
+                     class="auto-submit">
+              <label for="facility-{{ $facility->id }}">
+                @if($facility->icon)
+                <i class="fas fa-{{ $facility->icon }} mr-2 text-gray-500"></i>
                 @endif
+                {{ $facility->nama }}
+                <span class="text-xs text-gray-400 ml-1">({{ $facility->properties_count }})</span>
+              </label>
             </div>
-        </div>
-
-        <!-- SORTING -->
-        <div class="filter-section">
-            <span class="filter-title"><i class="fas fa-sort"></i> Urutkan</span>
-            <select class="sort-select w-full p-3 border border-gray-300 rounded-lg" name="sort" onchange="document.getElementById('filterForm').submit()">
-                <option value="popular" {{ request('sort') == 'popular' ? 'selected' : '' }}>Populer</option>
-                <option value="price-low" {{ request('sort') == 'price-low' ? 'selected' : '' }}>Harga Terendah</option>
-                <option value="price-high" {{ request('sort') == 'price-high' ? 'selected' : '' }}>Harga Tertinggi</option>
-                <option value="rating" {{ request('sort') == 'rating' ? 'selected' : '' }}>Rating Tertinggi</option>
-            </select>
+            @endforeach
+          </div>
         </div>
 
         <button type="submit" class="apply-btn">
-            <i class="fas fa-filter"></i> Terapkan Filter
+          <i class="fas fa-filter"></i> Terapkan Filter
         </button>
-    </form>
-</div>
+      </form>
+    </div>
 
     <!-- HASIL PENCARIAN -->
     <div class="results">
+      <!-- RESULT HEADER DENGAN SORTING TERPISAH -->
       <div class="result-header">
-        <div class="result-count">{{ $properties->count() }} Properti Ditemukan</div>
-        <select class="sort-select">
-          <option>Urutkan: Populer</option>
-          <option>Harga Terendah</option>
-          <option>Harga Tertinggi</option>
-          <option>Rating Tertinggi</option>
-        </select>
+        <div class="result-count">{{ $properties->total() }} Properti Ditemukan</div>
+
+        <!-- FORM SORTING TERPISAH -->
+        <form action="{{ route('property.search') }}" method="GET" id="sortForm">
+          <!-- Simpan semua parameter filter kecuali sort -->
+          @if(request('search'))
+            <input type="hidden" name="search" value="{{ request('search') }}">
+          @endif
+
+          @if(request('cities'))
+            @foreach(request('cities') as $city)
+              <input type="hidden" name="cities[]" value="{{ $city }}">
+            @endforeach
+          @endif
+
+          @if(request('ratings'))
+            @foreach(request('ratings') as $rating)
+              <input type="hidden" name="ratings[]" value="{{ $rating }}">
+            @endforeach
+          @endif
+
+          @if(request('facilities'))
+            @foreach(request('facilities') as $facility)
+              <input type="hidden" name="facilities[]" value="{{ $facility }}">
+            @endforeach
+          @endif
+
+          @if(request('min_price'))
+            <input type="hidden" name="min_price" value="{{ request('min_price') }}">
+          @endif
+
+          @if(request('max_price'))
+            <input type="hidden" name="max_price" value="{{ request('max_price') }}">
+          @endif
+
+          <select name="sort" onchange="document.getElementById('sortForm').submit()" class="sort-select">
+            <option value="popular" {{ request('sort') == 'popular' ? 'selected' : '' }}>Urutkan: Populer</option>
+            <option value="price-low" {{ request('sort') == 'price-low' ? 'selected' : '' }}>Harga Terendah</option>
+            <option value="price-high" {{ request('sort') == 'price-high' ? 'selected' : '' }}>Harga Tertinggi</option>
+            <option value="rating" {{ request('sort') == 'rating' ? 'selected' : '' }}>Rating Tertinggi</option>
+          </select>
+        </form>
       </div>
 
       @forelse($properties as $property)
@@ -804,60 +819,100 @@
         <p>Tidak ada properti yang ditemukan.</p>
       </div>
       @endforelse
+
+      <!-- Pagination Links -->
+      @if($properties->hasPages())
+        <div class="mt-6">
+          {{ $properties->links() }}
+        </div>
+      @endif
     </div>
   </div>
 
   <script>
-// Toggle fasilitas
-function toggleFacilities() {
-    const more = document.getElementById("moreFacilities");
-    const text = document.getElementById("facilityText");
-    const icon = document.getElementById("facilityIcon");
+// SIMPLE AND CLEAN FILTER SYSTEM
+function handleFilterChange() {
+    console.log('🔧 Filter changed - Submitting form...');
 
-    if (more.style.display === "none") {
-        more.style.display = "block";
-        text.textContent = "Lihat Lebih Sedikit";
-        icon.className = "fas fa-chevron-up";
-    } else {
-        more.style.display = "none";
-        text.textContent = "Lihat Lebih Banyak";
-        icon.className = "fas fa-chevron-down";
+    // Show loading state
+    const submitBtn = document.querySelector('#filterForm .apply-btn');
+    if (submitBtn) {
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+        submitBtn.disabled = true;
+
+        // Restore button after 3 seconds (fallback)
+        setTimeout(function() {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }, 3000);
+    }
+
+    // Submit the form
+    document.getElementById('filterForm').submit();
+}
+
+function updatePriceValues() {
+    const minPrice = document.getElementById("minPrice");
+    const maxPrice = document.getElementById("maxPrice");
+
+    if (minPrice && maxPrice) {
+        document.getElementById("minPriceValue").textContent =
+            new Intl.NumberFormat('id-ID').format(minPrice.value);
+        document.getElementById("maxPriceValue").textContent =
+            new Intl.NumberFormat('id-ID').format(maxPrice.value);
     }
 }
 
-    // Update nilai harga
-function updatePriceValues() {
-    const minPrice = document.getElementById("minPrice").value;
-    const maxPrice = document.getElementById("maxPrice").value;
+// Initialize auto-submit for all filter elements
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Initializing filter system...');
 
-    document.getElementById("minPriceValue").textContent = 
-        new Intl.NumberFormat('id-ID').format(minPrice);
-    document.getElementById("maxPriceValue").textContent = 
-        new Intl.NumberFormat('id-ID').format(maxPrice);
-}
+    // Initialize price display
+    updatePriceValues();
 
-// Auto-submit form ketika filter berubah (opsional)
-function setupAutoFilter() {
-    const inputs = document.querySelectorAll('#filterForm input[type="checkbox"], #filterForm input[type="range"]');
-    inputs.forEach(input => {
-        input.addEventListener('change', function() {
-            // Untuk range slider, tunggu sedikit agar tidak terlalu sering submit
-            if (this.type === 'range') {
-                clearTimeout(window.sliderTimeout);
-                window.sliderTimeout = setTimeout(() => {
-                    document.getElementById('filterForm').submit();
-                }, 500);
-            } else {
-                document.getElementById('filterForm').submit();
-            }
+    // Auto-submit for checkboxes
+    const autoSubmitElements = document.querySelectorAll('.auto-submit');
+
+    autoSubmitElements.forEach(function(element) {
+        element.addEventListener('change', function() {
+            console.log('🔄 Auto-submit triggered for:', this.name, 'value:', this.value);
+            handleFilterChange();
         });
     });
-}
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-    updatePriceValues();
-    setupAutoFilter();
+    // Price slider auto-submit with delay
+    const priceSliders = document.querySelectorAll('.price-slider');
+    let priceTimeout;
+
+    priceSliders.forEach(function(slider) {
+        slider.addEventListener('change', function() {
+            clearTimeout(priceTimeout);
+            priceTimeout = setTimeout(function() {
+                console.log('💰 Price slider changed, submitting...');
+                handleFilterChange();
+            }, 800);
+        });
+    });
+
+    console.log('✅ Filter system initialized');
+});
+
+// Emergency fallback for facility checkboxes
+window.addEventListener('load', function() {
+    // Ensure facility checkboxes have event listeners
+    setTimeout(function() {
+        const facilityCheckboxes = document.querySelectorAll('input[name="facilities[]"]');
+        facilityCheckboxes.forEach(function(checkbox) {
+            if (!checkbox.hasAttribute('data-event-bound')) {
+                checkbox.setAttribute('data-event-bound', 'true');
+                checkbox.addEventListener('change', function() {
+                    console.log('🆘 Emergency event: Facility', this.value);
+                    handleFilterChange();
+                });
+            }
+        });
+    }, 500);
 });
   </script>
 

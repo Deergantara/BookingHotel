@@ -27,6 +27,13 @@ Route::get('/', function () {
 Route::get('/search', [PropertiesController::class, 'search'])->name('property.search');
 Route::get('/property/{property}', [PropertiesController::class, 'show'])->name('property.show');
 
+// Debug routes
+// Debug routes untuk troubleshooting filter fasilitas
+Route::get('/debug/facilities', [PropertiesController::class, 'debugFacilities']);
+Route::get('/debug/facilities-filter-test', [PropertiesController::class, 'testFacilitiesFilter']);
+Route::get('/debug/property/{id}/facilities', [PropertiesController::class, 'fixPropertyFacilities']);
+Route::get('/debug/pivot-table', [PropertiesController::class, 'debugPivotTable']);
+
 /*
 |--------------------------------------------------------------------------
 | BOOKING ROUTES - BISA TANPA LOGIN!
@@ -120,3 +127,4 @@ Route::middleware(['auth'])->group(function () {
 | FALLBACK ROUTE (404 Custom)
 |--------------------------------------------------------------------------
 */
+

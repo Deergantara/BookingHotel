@@ -16,9 +16,14 @@ class Booking extends Model
         'kamar_id',
         'payment_id',
         'review_id',
+        'coupon_id',
         'checkin_date',
         'checkout_date',
         'status',
+        'subtotal',           // ← TAMBAH INI
+        'pajak',              // ← TAMBAH INI
+        'total_harga',        // ← TAMBAH INI
+        'discount_amount',    // ← TAMBAH INI (optional, untuk tracking diskon)
         'created_by',
         'is_offline',
     ];

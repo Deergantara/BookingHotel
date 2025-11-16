@@ -21,7 +21,6 @@ class Property extends Model
         'kapasitas_tamu',
         'available_from',
         'available_to',
-        'fasilitas',
         'bintang',
         'is_active',
     ];
@@ -73,6 +72,23 @@ class Property extends Model
     public function bookings()
     {
         return $this->hasMany(Booking::class);
+    }
+
+    // Tambah relasi many-to-many dengan fasilitas
+   public function fasilitas()
+    {
+        return $this->belongsToMany(Fasilitas::class, 'property_fasilitas');
+    }
+
+    // Helper method untuk cek fasilitas
+    public function hasFasilitas($fasilitasId)
+    {
+        return $this->fasilitas->contains('id', $fasilitasId);
+    }
+
+    public function syncFasilitas($fasilitasIds)
+    {
+        return $this->fasilitas()->sync($fasilitasIds);
     }
 
     /**

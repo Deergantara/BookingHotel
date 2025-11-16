@@ -35,6 +35,7 @@ class UserSeeder extends Seeder
             'role' => 'owner system',
             'nomor_identitas' => 3174012345678902,
             'tanggal_lahir' => '1985-05-20',
+            'email_verified_at' => now(),
         ]);
 
         // 3. Customer/User Biasa

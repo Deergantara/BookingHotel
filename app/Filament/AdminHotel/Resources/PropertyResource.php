@@ -4,6 +4,7 @@ namespace App\Filament\AdminHotel\Resources;
 
 use App\Filament\AdminHotel\Resources\PropertyResource\pages;
 use App\Models\Property;
+use App\Models\Fasilitas; // ✅ JANGAN LUPA IMPORT
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -131,14 +132,46 @@ class PropertyResource extends Resource
                     ])
                     ->columns(2),
 
+                Forms\Components\Section::make('Fasilitas')
+                    ->schema([
+                        Forms\Components\Select::make('fasilitas')
+                            ->multiple()
+                            ->relationship('fasilitas', 'nama')
+                            ->preload()
+                            ->searchable()
+                            ->options(Fasilitas::active()->pluck('nama', 'id'))
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('nama')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\Select::make('kategori')
+                                    ->options([
+                                        'umum' => 'Umum',
+                                        'kamar' => 'Kamar',
+                                        'hotel' => 'Hotel',
+                                        'restoran' => 'Restoran',
+                                        'rekreasi' => 'Rekreasi',
+                                    ])
+                                    ->default('umum')
+                                    ->required(),
+                            ])
+                            ->createOptionUsing(function (array $data) {
+                                $fasilitas = Fasilitas::create($data);
+                                return $fasilitas->id;
+                            })
+                            ->helperText('Pilih fasilitas yang tersedia atau buat fasilitas baru')
+                            ->columnSpanFull(),
+                    ]),
+
                 Forms\Components\Section::make('Fasilitas & Media')
                     ->schema([
                         Forms\Components\Textarea::make('fasilitas')
-                            ->label('Fasilitas')
+                            ->label('Fasilitas (Lama)')
                             ->rows(3)
-                            ->placeholder('Contoh: WiFi, Pool, Gym, Restaurant, Spa')
-                            ->helperText('Pisahkan dengan koma (,)')
-                            ->columnSpanFull(),
+                            ->placeholder('Kolom ini akan dihapus setelah migrasi')
+                            ->helperText('⚠️ Kolom ini sudah tidak digunakan. Gunakan pilihan fasilitas di atas.')
+                            ->columnSpanFull()
+                            ->disabled(), // ✅ NONAKTIFKAN KOLOM LAMA
 
                         Forms\Components\FileUpload::make('foto')
                             ->label('Foto Property')
@@ -155,7 +188,7 @@ class PropertyResource extends Resource
                             ->default(true)
                             ->inline(false),
                     ]),
-            ]);
+            ]); // ✅ PASTIKAN INI TUTUP DENGAN BENAR
     }
 
     public static function table(Table $table): Table
@@ -196,6 +229,14 @@ class PropertyResource extends Resource
                     ->alignCenter()
                     ->badge()
                     ->color('info'),
+
+                 Tables\Columns\TextColumn::make('fasilitas.nama')
+                    ->label('Fasilitas')
+                    ->badge()
+                    ->separator(',')
+                    ->limitList(3)
+                    ->expandableLimitedList()
+                    ->color('primary'),
 
                 Tables\Columns\TextColumn::make('kapasitas_tamu')
                     ->label('Kapasitas')

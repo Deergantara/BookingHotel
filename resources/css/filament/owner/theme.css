@@ -1,0 +1,21 @@
+/* Custom styling untuk owner panel */
+.fi-wi-stats-overview-stat {
+    height: 100%;
+}
+
+.fi-section-content-ctn {
+    padding: 1rem;
+}
+
+/* Chart container */
+.fi-wi-chart {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+/* Dark mode support */
+.dark .fi-wi-chart {
+    background: rgb(17 24 39);
+}

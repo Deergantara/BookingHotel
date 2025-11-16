@@ -2,21 +2,16 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -34,6 +29,19 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function canAccessPanel(Panel $panel): bool
+    {
+        if ($panel->getId() === 'owner') {
+            return $this->isOwnerSystem();
+        }
+
+        if ($panel->getId() === 'admin') {
+            return $this->isAdminSystem() || $this->isAdminHotel() || $this->isAdminProperty();
+        }
+
+        return false;
+    }
+
     // relasi ke hotel
     public function hotel()
     {
@@ -47,76 +55,67 @@ class User extends Authenticatable
     }
 
     // relasi ke Bookings
-    public function Bookings()
+    public function bookings()
     {
         return $this->hasMany(Booking::class);
     }
 
-        public function isCustomer(): bool
-        {
-            return $this->role === 'user';
-        }
+    public function isCustomer(): bool
+    {
+        return $this->role === 'user';
+    }
 
-        // Helper method untuk cek role
-        public function isResepsionis(): bool
-        {
-            return $this->role === 'resepsionis';
-        }
-    
-        public function isAdminSystem(): bool
-        {
-            return $this->role === 'admin system';
-        }
-    
-        public function isOwnerHotel(): bool
-        {
-            return $this->role === 'owner hotel';
-        }
+    // Helper method untuk cek role
+    public function isResepsionis(): bool
+    {
+        return $this->role === 'resepsionis';
+    }
 
-        public function isAdminProperty(): bool
-        {
-            return $this->role === 'admin property';
-        }
+    public function isAdminSystem(): bool
+    {
+        return $this->role === 'admin system';
+    }
 
-        public function isAdminHotel(): bool
-        {
-            return $this->role === 'admin hotel';
-        }
-        public function isOwnerSystem(): bool
-        {
-            return $this->role === 'owner system';
-        }
+    public function isOwnerHotel(): bool
+    {
+        return $this->role === 'owner hotel';
+    }
 
-                public function getFormattedRoleAttribute(): string
-        {
-            return match($this->role) {
-                'admin system' => 'Admin System',
-                'owner system' => 'Owner System',
-                'admin hotel' => 'Admin Hotel',
-                'owner hotel' => 'Owner Hotel', 
-                'admin property' => 'Admin Property',
-                'resepsionis' => 'Resepsionis',
-                'user' => 'Customer',
-                default => ucfirst($this->role)
-            };
-        }
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
+    public function isAdminProperty(): bool
+    {
+        return $this->role === 'admin property';
+    }
 
+    public function isAdminHotel(): bool
+    {
+        return $this->role === 'admin hotel';
+    }
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    public function isOwnerSystem(): bool
+    {
+        return $this->role === 'owner system';
+    }
+
+    public function getFormattedRoleAttribute(): string
+    {
+        return match($this->role) {
+            'admin system' => 'Admin System',
+            'owner system' => 'Owner System',
+            'admin hotel' => 'Admin Hotel',
+            'owner hotel' => 'Owner Hotel',
+            'admin property' => 'Admin Property',
+            'resepsionis' => 'Resepsionis',
+            'user' => 'Customer',
+            default => ucfirst($this->role)
+        };
+    }
+
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'tanggal_lahir' => 'date',
         ];
     }
 }
